@@ -18389,3 +18389,267 @@ select {
     width: 100% !important;
   }
 }
+
+
+/* =====================================================================
+   FINAL SPACING REPAIR v3
+   Goal: remove double vertical/horizontal spacing between the global
+   navbar, app topbar, page headers, cards, grids and footer.
+===================================================================== */
+
+/* ---------- one predictable content rhythm ---------- */
+.candidate-content,
+.recruiter-content {
+  padding-top: 22px !important;
+  padding-bottom: 42px !important;
+}
+
+/* Dashboard: the page itself must NOT add another top inset.
+   candidate-content already provides the page gutter. */
+.candidate-content > .dashboard-page {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.dashboard-page {
+  padding: 0 !important;
+  margin: 0 auto !important;
+}
+
+/* Profile: same rule — exactly one content gutter. */
+.candidate-content > .profile-page {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.profile-page {
+  padding: 0 !important;
+  margin: 0 auto !important;
+}
+
+/* ---------- dashboard vertical rhythm ---------- */
+.dashboard-page > .profile-completion-card {
+  margin-top: 0 !important;
+  margin-bottom: 18px !important;
+}
+
+.dashboard-page > .dashboard-stats {
+  margin-top: 0 !important;
+  margin-bottom: 18px !important;
+}
+
+.dashboard-page > .dashboard-grid {
+  margin-top: 0 !important;
+}
+
+.dashboard-stats {
+  gap: 14px !important;
+}
+
+.dashboard-grid {
+  gap: 18px !important;
+}
+
+.dashboard-side-column {
+  gap: 18px !important;
+}
+
+.profile-completion-card {
+  padding: 20px 22px !important;
+}
+
+.dashboard-stat-card {
+  padding: 18px !important;
+}
+
+.panel-header {
+  padding: 19px 21px 16px !important;
+}
+
+/* ---------- profile vertical rhythm ---------- */
+.profile-page-header {
+  margin-top: 0 !important;
+  margin-bottom: 18px !important;
+}
+
+.profile-strength-card {
+  margin-top: 0 !important;
+  margin-bottom: 18px !important;
+}
+
+.profile-layout {
+  gap: 18px !important;
+}
+
+.profile-main-column,
+.profile-side-column {
+  gap: 16px !important;
+}
+
+.profile-card,
+.profile-side-card {
+  padding: 20px !important;
+}
+
+.profile-card-header {
+  margin-bottom: 17px !important;
+}
+
+/* ---------- all candidate/recruiter cards should not create
+   accidental outside spacing ---------- */
+.candidate-content section,
+.recruiter-content section {
+  max-width: 100%;
+}
+
+.candidate-content > :first-child,
+.recruiter-content > :first-child {
+  margin-top: 0 !important;
+}
+
+/* ---------- candidate/recruiter footer ----------
+   Footer belongs to the main column. Do not pull it sideways with
+   100vw or a negative sidebar offset. ---------- */
+.candidate-main > .global-footer,
+.recruiter-main > .global-footer {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.candidate-main > .global-footer .global-footer-container,
+.recruiter-main > .global-footer .global-footer-container {
+  width: min(calc(100% - 48px), 1320px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* ---------- footer has one clean top separation ---------- */
+.global-footer {
+  margin-top: 0 !important;
+}
+
+.global-footer-cta-wrap {
+  padding-top: 0 !important;
+}
+
+/* ---------- public pages: normalize section spacing without
+   changing the visual design of the hero ---------- */
+.jobs-page > section,
+.job-details-page > section,
+.about-page > section {
+  margin-top: 0;
+}
+
+.jobs-page .section-header,
+.job-details-page .section-header,
+.about-page .section-header {
+  margin-bottom: 18px !important;
+}
+
+/* ---------- navbar: one stable height, no accidental extra gap ---------- */
+.global-navbar {
+  height: var(--app-navbar-height) !important;
+  min-height: var(--app-navbar-height) !important;
+}
+
+.global-navbar-inner {
+  height: var(--app-navbar-height) !important;
+  min-height: var(--app-navbar-height) !important;
+}
+
+/* ---------- topbars: compact and directly connected to content ---------- */
+.candidate-topbar,
+.recruiter-topbar {
+  min-height: 70px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* ---------- desktop ---------- */
+@media (min-width: 1200px) {
+  .candidate-content,
+  .recruiter-content {
+    padding: 22px 28px 42px !important;
+  }
+
+  .dashboard-grid {
+    gap: 18px !important;
+  }
+}
+
+/* ---------- tablet ---------- */
+@media (max-width: 1100px) {
+  .candidate-content,
+  .recruiter-content {
+    padding: 20px 20px 38px !important;
+  }
+
+  .dashboard-grid,
+  .profile-layout {
+    gap: 16px !important;
+  }
+
+  .dashboard-stats {
+    gap: 12px !important;
+  }
+}
+
+/* ---------- mobile ---------- */
+@media (max-width: 800px) {
+  .candidate-content,
+  .recruiter-content {
+    padding: 18px 16px 32px !important;
+  }
+
+  .candidate-topbar,
+  .recruiter-topbar {
+    min-height: 62px !important;
+  }
+
+  .dashboard-grid,
+  .profile-layout {
+    gap: 14px !important;
+  }
+
+  .dashboard-side-column {
+    gap: 14px !important;
+  }
+
+  .dashboard-page > .profile-completion-card,
+  .dashboard-page > .dashboard-stats {
+    margin-bottom: 14px !important;
+  }
+
+  .profile-page-header {
+    margin-bottom: 15px !important;
+  }
+
+  .profile-strength-card {
+    margin-bottom: 15px !important;
+  }
+
+  .global-footer-container {
+    width: calc(100% - 32px) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .candidate-content,
+  .recruiter-content {
+    padding: 16px 13px 28px !important;
+  }
+
+  .profile-completion-card {
+    padding: 17px !important;
+  }
+
+  .dashboard-stat-card,
+  .profile-card,
+  .profile-side-card {
+    padding: 16px !important;
+  }
+}
+
+
