@@ -18653,3 +18653,989 @@ select {
 }
 
 
+
+/* ================================================================
+   FINAL COORDINATE FIX
+   - Removes duplicate sidebar "AI Job Portal" brand
+   - Removes excessive sidebar -> content horizontal gap
+   - Makes candidate/recruiter page roots fill the available column
+   - Fixes footer width/position
+   - Keeps the global navbar as the single top brand
+================================================================ */
+
+:root {
+  --app-navbar-height: 76px !important;
+  --candidate-sidebar-width: 255px !important;
+  --app-content-gutter: 20px !important;
+}
+
+/* GLOBAL NAVBAR */
+.global-navbar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: var(--app-navbar-height) !important;
+  min-height: var(--app-navbar-height) !important;
+  z-index: 10000 !important;
+}
+
+.global-navbar-inner {
+  width: min(calc(100% - 40px), 1360px) !important;
+  height: var(--app-navbar-height) !important;
+  min-height: var(--app-navbar-height) !important;
+  margin: 0 auto !important;
+}
+
+/* REMOVE THE SECOND AI JOB PORTAL BRAND INSIDE THE LEFT SIDEBAR */
+.candidate-sidebar > .sidebar-brand {
+  display: none !important;
+}
+
+.candidate-sidebar > .sidebar-profile {
+  margin-top: 20px !important;
+}
+
+/* CANDIDATE SHELL */
+.candidate-layout {
+  width: 100% !important;
+  min-height: calc(100vh - var(--app-navbar-height)) !important;
+  margin-top: var(--app-navbar-height) !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.candidate-sidebar {
+  position: fixed !important;
+  top: var(--app-navbar-height) !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: var(--candidate-sidebar-width) !important;
+  height: calc(100vh - var(--app-navbar-height)) !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  z-index: 9000 !important;
+}
+
+.candidate-main {
+  position: relative !important;
+  width: calc(100% - var(--candidate-sidebar-width)) !important;
+  max-width: none !important;
+  margin-left: var(--candidate-sidebar-width) !important;
+  margin-right: 0 !important;
+  padding: 0 !important;
+  min-width: 0 !important;
+  min-height: calc(100vh - var(--app-navbar-height)) !important;
+  box-sizing: border-box !important;
+}
+
+.candidate-topbar {
+  width: 100% !important;
+  min-height: 70px !important;
+  position: sticky !important;
+  top: var(--app-navbar-height) !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  z-index: 8000 !important;
+}
+
+.candidate-content {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 20px var(--app-content-gutter) 38px !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* PAGE ROOTS: DO NOT CENTER THEM INSIDE THE MAIN COLUMN */
+.candidate-content > .dashboard-page,
+.candidate-content > .profile-page,
+.candidate-content > .resume-page,
+.candidate-content > .applications-page,
+.candidate-content > .recommended-jobs-page,
+.candidate-content > .saved-jobs-page,
+.candidate-content > .settings-page {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.dashboard-page,
+.profile-page {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* DASHBOARD */
+.dashboard-grid,
+.dashboard-stats {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.dashboard-grid {
+  gap: 18px !important;
+}
+
+.dashboard-panel,
+.recommended-panel,
+.ai-match-card,
+.resume-card,
+.quick-actions {
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.dashboard-side-column {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+/* PROFILE */
+.profile-page-header,
+.profile-layout {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.profile-layout {
+  gap: 18px !important;
+}
+
+.profile-main-column,
+.profile-side-column {
+  min-width: 0 !important;
+}
+
+/* RECRUITER SHELL */
+.recruiter-layout {
+  width: 100% !important;
+  min-height: calc(100vh - var(--app-navbar-height)) !important;
+  margin-top: var(--app-navbar-height) !important;
+  padding: 0 !important;
+  display: flex !important;
+  box-sizing: border-box !important;
+}
+
+.recruiter-sidebar {
+  position: fixed !important;
+  top: var(--app-navbar-height) !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: var(--candidate-sidebar-width) !important;
+  height: calc(100vh - var(--app-navbar-height)) !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  z-index: 9000 !important;
+}
+
+.recruiter-main {
+  width: calc(100% - var(--candidate-sidebar-width)) !important;
+  max-width: none !important;
+  margin-left: var(--candidate-sidebar-width) !important;
+  margin-right: 0 !important;
+  padding: 0 !important;
+  min-width: 0 !important;
+  min-height: calc(100vh - var(--app-navbar-height)) !important;
+  box-sizing: border-box !important;
+}
+
+.recruiter-topbar {
+  width: 100% !important;
+  min-height: 70px !important;
+  position: sticky !important;
+  top: var(--app-navbar-height) !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  z-index: 8000 !important;
+}
+
+.recruiter-content {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 20px var(--app-content-gutter) 38px !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.recruiter-content > * {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* FOOTER: stays aligned to the main application column */
+.candidate-main > .global-footer,
+.recruiter-main > .global-footer {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  box-sizing: border-box !important;
+}
+
+.candidate-main > .global-footer .global-footer-container,
+.recruiter-main > .global-footer .global-footer-container {
+  width: min(calc(100% - 48px), 1320px) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.global-footer-main {
+  padding-top: 52px !important;
+}
+
+.global-footer-grid {
+  gap: 38px !important;
+  padding-bottom: 42px !important;
+}
+
+.global-footer-bottom {
+  min-height: 58px !important;
+}
+
+/* DESKTOP */
+@media (min-width: 1200px) {
+  :root {
+    --candidate-sidebar-width: 255px !important;
+    --app-content-gutter: 20px !important;
+  }
+
+  .candidate-content,
+  .recruiter-content {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 340px) !important;
+    gap: 18px !important;
+  }
+
+  .profile-layout {
+    gap: 18px !important;
+  }
+}
+
+/* TABLET */
+@media (max-width: 1100px) {
+  :root {
+    --candidate-sidebar-width: 230px !important;
+    --app-content-gutter: 18px !important;
+  }
+
+  .candidate-content,
+  .recruiter-content {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  .dashboard-grid {
+    gap: 16px !important;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 800px) {
+  :root {
+    --app-navbar-height: 70px !important;
+    --candidate-sidebar-width: 270px !important;
+    --app-content-gutter: 16px !important;
+  }
+
+  .candidate-sidebar,
+  .recruiter-sidebar {
+    top: var(--app-navbar-height) !important;
+    height: calc(100vh - var(--app-navbar-height)) !important;
+    width: 270px !important;
+    transform: translateX(-100%) !important;
+    transition: transform .25s ease !important;
+  }
+
+  .candidate-sidebar.mobile-open,
+  .recruiter-sidebar.mobile-open {
+    transform: translateX(0) !important;
+  }
+
+  .candidate-main,
+  .recruiter-main {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .candidate-topbar,
+  .recruiter-topbar {
+    top: var(--app-navbar-height) !important;
+    min-height: 64px !important;
+  }
+
+  .candidate-content,
+  .recruiter-content {
+    padding: 18px 16px 32px !important;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .profile-layout {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .candidate-main > .global-footer,
+  .recruiter-main > .global-footer {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .global-footer-container {
+    width: calc(100% - 32px) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --app-content-gutter: 13px !important;
+  }
+
+  .candidate-content,
+  .recruiter-content {
+    padding: 16px 13px 28px !important;
+  }
+
+  .global-footer-main {
+    padding-top: 42px !important;
+  }
+
+  .global-footer-container {
+    width: 100% !important;
+  }
+}
+
+/* =====================================================================
+   FINAL COORDINATE PASS — ALL CANDIDATE PAGES
+   This pass specifically fixes the remaining left/right column gap and
+   the footer clipping visible on the latest screenshots.
+===================================================================== */
+
+/* Every candidate page must consume the full main-column width. */
+.candidate-content > .applications-page,
+.candidate-content > .saved-jobs-page,
+.candidate-content > .recommended-jobs-page,
+.candidate-content > .resume-page,
+.candidate-content > .settings-page,
+.candidate-content > .profile-page,
+.candidate-content > .dashboard-page {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+  box-sizing: border-box !important;
+}
+
+/* Applications had its own max-width + 32px padding. Remove that extra
+   coordinate layer so it lines up with Dashboard/Profile. */
+.applications-page {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 18px !important;
+  box-sizing: border-box !important;
+}
+
+/* Keep the application header/cards on the same left coordinate. */
+.applications-header,
+.application-stats,
+.applications-toolbar,
+.applications-list {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Same treatment for the other candidate pages that may still have
+   their own max-width/padding. */
+.saved-jobs-page,
+.recommended-jobs-page,
+.resume-page,
+.settings-page,
+.profile-page {
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* The footer is INSIDE candidate-main. It must not be pulled left with
+   a negative sidebar offset or expanded to viewport width. */
+.candidate-main > .global-footer,
+.recruiter-main > .global-footer {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  transform: none !important;
+  box-sizing: border-box !important;
+}
+
+.candidate-main > .global-footer .global-footer-container,
+.recruiter-main > .global-footer .global-footer-container {
+  width: min(calc(100% - 36px), 1320px) !important;
+  max-width: 1320px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Footer never gets hidden underneath the fixed sidebar. */
+.candidate-sidebar,
+.recruiter-sidebar {
+  z-index: 9000 !important;
+}
+
+.candidate-main,
+.recruiter-main {
+  z-index: 1 !important;
+}
+
+.global-footer {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Desktop: intentionally small, consistent content gutter. */
+@media (min-width: 1200px) {
+  .candidate-content,
+  .recruiter-content {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .candidate-content > .applications-page,
+  .candidate-content > .saved-jobs-page,
+  .candidate-content > .recommended-jobs-page,
+  .candidate-content > .resume-page,
+  .candidate-content > .settings-page,
+  .candidate-content > .profile-page,
+  .candidate-content > .dashboard-page {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .applications-page {
+    padding: 12px !important;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+  .candidate-content,
+  .recruiter-content {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .candidate-content > .applications-page,
+  .candidate-content > .saved-jobs-page,
+  .candidate-content > .recommended-jobs-page,
+  .candidate-content > .resume-page,
+  .candidate-content > .settings-page,
+  .candidate-content > .profile-page,
+  .candidate-content > .dashboard-page {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+
+/* Mobile: sidebar becomes an overlay; no desktop gutter remains. */
+@media (max-width: 800px) {
+  .candidate-content,
+  .recruiter-content {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .candidate-content > .applications-page,
+  .candidate-content > .saved-jobs-page,
+  .candidate-content > .recommended-jobs-page,
+  .candidate-content > .resume-page,
+  .candidate-content > .settings-page,
+  .candidate-content > .profile-page,
+  .candidate-content > .dashboard-page {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .applications-page {
+    padding: 8px !important;
+  }
+}
+
+
+/* ==========================================================
+   ULTRA-TIGHT CANDIDATE CONTENT SPACING
+========================================================== */
+
+.candidate-content {
+  padding-left: 0 !important;
+  padding-right: 6px !important;
+}
+
+
+/* Remove all page-level horizontal spacing */
+.candidate-content > .applications-page,
+.candidate-content > .dashboard-page,
+.candidate-content > .profile-page,
+.candidate-content > .resume-page,
+.candidate-content > .recommended-jobs-page,
+.candidate-content > .saved-jobs-page,
+.candidate-content > .settings-page {
+  width: 100% !important;
+
+  max-width: none !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+
+/* Applications */
+.applications-page {
+  width: 100% !important;
+
+  max-width: none !important;
+
+  margin: 0 !important;
+
+  padding: 0 !important;
+}
+
+
+/* Application sections */
+.applications-header,
+.application-stats,
+.applications-toolbar,
+.applications-list {
+  width: 100% !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+
+/* Desktop — minimum possible gap */
+@media (min-width: 1200px) {
+  .candidate-content {
+    padding-left: 0 !important;
+    padding-right: 4px !important;
+  }
+
+  .applications-page,
+  .dashboard-page,
+  .profile-page,
+  .resume-page,
+  .recommended-jobs-page,
+  .saved-jobs-page,
+  .settings-page {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
+}
+
+
+/* Tablet */
+@media (max-width: 1100px) {
+  .candidate-content {
+    padding-left: 0 !important;
+    padding-right: 8px !important;
+  }
+}
+
+
+/* Mobile */
+@media (max-width: 800px) {
+  .candidate-content {
+    padding-left: 0 !important;
+    padding-right: 10px !important;
+  }
+}
+
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .candidate-content {
+    padding-left: 0 !important;
+    padding-right: 8px !important;
+  }
+}
+
+/* ==========================================================
+   SAVED JOBS — FINAL PAGE-ONLY UI FIX
+   Does NOT affect Job Details / Public pages
+========================================================== */
+
+
+/* ----------------------------------------------------------
+   1. SAVED JOBS PAGE — USE FULL AVAILABLE WIDTH
+---------------------------------------------------------- */
+
+.saved-jobs-page {
+  width: 100% !important;
+  max-width: none !important;
+
+  margin: 0 !important;
+
+  padding: 0 12px 40px 0 !important;
+
+  box-sizing: border-box !important;
+
+  overflow: visible !important;
+}
+
+
+/* ----------------------------------------------------------
+   2. REMOVE EXTRA TOP GAP
+---------------------------------------------------------- */
+
+.saved-jobs-page .page-header,
+.saved-jobs-page .saved-jobs-header {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.saved-jobs-page > *:first-child {
+  margin-top: 0 !important;
+}
+
+
+/* ----------------------------------------------------------
+   3. SAVED JOBS HEADER
+---------------------------------------------------------- */
+
+.saved-jobs-page .page-header,
+.saved-jobs-header {
+  width: 100% !important;
+
+  margin-bottom: 20px !important;
+
+  padding-bottom: 0 !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* ----------------------------------------------------------
+   4. SEARCH / FILTER BAR
+---------------------------------------------------------- */
+
+.saved-jobs-page .saved-jobs-toolbar,
+.saved-jobs-page .jobs-toolbar,
+.saved-jobs-page .search-toolbar {
+  width: 100% !important;
+
+  max-width: none !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* ----------------------------------------------------------
+   5. JOB LIST — NO HORIZONTAL OVERFLOW
+---------------------------------------------------------- */
+
+.saved-jobs-page .saved-jobs-list,
+.saved-jobs-page .jobs-list {
+  width: 100% !important;
+
+  max-width: none !important;
+
+  margin: 0 !important;
+
+  padding: 0 !important;
+
+  box-sizing: border-box !important;
+
+  overflow: visible !important;
+}
+
+
+/* ----------------------------------------------------------
+   6. JOB CARD
+---------------------------------------------------------- */
+
+.saved-jobs-page .job-card,
+.saved-jobs-page .saved-job-card {
+  width: 100% !important;
+
+  max-width: none !important;
+
+  min-width: 0 !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  box-sizing: border-box !important;
+
+  overflow: hidden !important;
+}
+
+
+/* ----------------------------------------------------------
+   7. JOB CARD INTERNAL GRID
+---------------------------------------------------------- */
+
+.saved-jobs-page .job-card-content,
+.saved-jobs-page .saved-job-content {
+  width: 100% !important;
+
+  min-width: 0 !important;
+
+  display: grid !important;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto !important;
+
+  gap: 24px !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* ----------------------------------------------------------
+   8. LEFT JOB INFORMATION
+---------------------------------------------------------- */
+
+.saved-jobs-page .job-info,
+.saved-jobs-page .saved-job-info {
+  min-width: 0 !important;
+
+  overflow: hidden !important;
+}
+
+
+/* Prevent long company/title text from pushing card */
+.saved-jobs-page .job-title,
+.saved-jobs-page .job-company,
+.saved-jobs-page h3 {
+  min-width: 0 !important;
+
+  max-width: 100% !important;
+
+  overflow: hidden !important;
+
+  text-overflow: ellipsis !important;
+
+  white-space: nowrap !important;
+}
+
+
+/* ----------------------------------------------------------
+   9. RIGHT SIDE — AI MATCH / SALARY / BUTTONS
+---------------------------------------------------------- */
+
+.saved-jobs-page .job-actions,
+.saved-jobs-page .saved-job-actions,
+.saved-jobs-page .job-right {
+  width: auto !important;
+
+  min-width: 180px !important;
+
+  max-width: 210px !important;
+
+  display: flex !important;
+
+  flex-direction: column !important;
+
+  align-items: stretch !important;
+
+  justify-content: center !important;
+
+  gap: 10px !important;
+
+  flex-shrink: 0 !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* Keep right-side content inside viewport */
+.saved-jobs-page .job-actions *,
+.saved-jobs-page .saved-job-actions * {
+  max-width: 100% !important;
+
+  box-sizing: border-box !important;
+}
+
+
+/* ----------------------------------------------------------
+   10. REMOVE EXCESSIVE CARD VERTICAL HEIGHT
+---------------------------------------------------------- */
+
+.saved-jobs-page .job-card {
+  min-height: 0 !important;
+
+  padding-top: 20px !important;
+
+  padding-bottom: 20px !important;
+}
+
+
+/* ----------------------------------------------------------
+   11. REDUCE GAP BETWEEN SAVED JOB CARDS
+---------------------------------------------------------- */
+
+.saved-jobs-page .job-card + .job-card,
+.saved-jobs-page .saved-job-card + .saved-job-card {
+  margin-top: 14px !important;
+}
+
+
+/* ==========================================================
+   DESKTOP — IMPORTANT
+========================================================== */
+
+@media (min-width: 1200px) {
+
+  .saved-jobs-page {
+    padding-left: 0 !important;
+
+    padding-right: 8px !important;
+  }
+
+  .saved-jobs-page .job-card-content,
+  .saved-jobs-page .saved-job-content {
+    grid-template-columns:
+      minmax(0, 1fr)
+      195px !important;
+
+    gap: 18px !important;
+  }
+
+  .saved-jobs-page .job-actions,
+  .saved-jobs-page .saved-job-actions,
+  .saved-jobs-page .job-right {
+    min-width: 195px !important;
+
+    max-width: 195px !important;
+  }
+}
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 1100px) {
+
+  .saved-jobs-page {
+    padding-right: 8px !important;
+  }
+
+  .saved-jobs-page .job-card-content,
+  .saved-jobs-page .saved-job-content {
+    grid-template-columns:
+      minmax(0, 1fr)
+      175px !important;
+
+    gap: 14px !important;
+  }
+
+  .saved-jobs-page .job-actions,
+  .saved-jobs-page .saved-job-actions,
+  .saved-jobs-page .job-right {
+    min-width: 175px !important;
+
+    max-width: 175px !important;
+  }
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 800px) {
+
+  .saved-jobs-page {
+    padding: 0 0 30px !important;
+
+    width: 100% !important;
+  }
+
+  .saved-jobs-page .job-card-content,
+  .saved-jobs-page .saved-job-content {
+    grid-template-columns: 1fr !important;
+
+    gap: 16px !important;
+  }
+
+  .saved-jobs-page .job-actions,
+  .saved-jobs-page .saved-job-actions,
+  .saved-jobs-page .job-right {
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    max-width: none !important;
+
+    display: grid !important;
+
+    grid-template-columns: 1fr 1fr !important;
+
+    gap: 10px !important;
+  }
+}
+
+
+/* ==========================================================
+   SMALL MOBILE
+========================================================== */
+
+@media (max-width: 480px) {
+
+  .saved-jobs-page {
+    padding-left: 0 !important;
+
+    padding-right: 0 !important;
+  }
+
+  .saved-jobs-page .job-actions,
+  .saved-jobs-page .saved-job-actions,
+  .saved-jobs-page .job-right {
+    grid-template-columns: 1fr !important;
+  }
+}
