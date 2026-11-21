@@ -10604,612 +10604,6 @@ img {
 
 
 
-
-
-
-/* =========================================================
-   CANDIDATE APP SHELL — FINAL UI FIX
-========================================================= */
-
-/* The public/global navbar sits above candidate pages */
-.candidate-layout {
-  min-height: calc(100vh - 90px);
-  width: 100%;
-  display: flex;
-  background: #f5f8fc;
-  color: #0f172a;
-}
-
-/* =========================================================
-   SIDEBAR
-========================================================= */
-
-.candidate-sidebar {
-  position: fixed;
-  top: 90px;
-  left: 0;
-  bottom: 0;
-
-  width: 255px;
-  min-height: calc(100vh - 90px);
-
-  display: flex;
-  flex-direction: column;
-
-  background: #ffffff;
-  border-right: 1px solid #e2e8f0;
-
-  z-index: 40;
-
-  box-sizing: border-box;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.candidate-sidebar::-webkit-scrollbar {
-  width: 5px;
-}
-
-.candidate-sidebar::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 999px;
-}
-
-/* =========================================================
-   SIDEBAR BRAND
-========================================================= */
-
-.sidebar-brand {
-  height: 76px;
-  min-height: 76px;
-
-  display: flex;
-  align-items: center;
-
-  padding: 0 25px;
-
-  border-bottom: 1px solid #edf2f7;
-  box-sizing: border-box;
-}
-
-.dashboard-logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-
-  color: #0f172a;
-  text-decoration: none;
-
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-.dashboard-logo-icon {
-  width: 38px;
-  height: 38px;
-  min-width: 38px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #ffffff;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-
-  border-radius: 11px;
-
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
-}
-
-.dashboard-logo-icon svg {
-  width: 20px;
-  height: 20px;
-}
-
-/* =========================================================
-   PROFILE BLOCK
-========================================================= */
-
-.sidebar-profile {
-  margin: 20px 18px 16px;
-  padding: 14px;
-
-  display: flex;
-  align-items: center;
-  gap: 11px;
-
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 13px;
-
-  box-sizing: border-box;
-}
-
-.profile-avatar {
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #1d4ed8;
-  background: #dbeafe;
-
-  border-radius: 11px;
-
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.sidebar-profile-info {
-  min-width: 0;
-
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.sidebar-profile-info strong {
-  overflow: hidden;
-
-  color: #0f172a;
-  font-size: 12px;
-  font-weight: 750;
-
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.sidebar-profile-info span {
-  color: #64748b;
-  font-size: 10px;
-}
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-.candidate-nav {
-  padding: 4px 14px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-
-  box-sizing: border-box;
-}
-
-.nav-section-title {
-  margin: 15px 10px 8px;
-
-  color: #94a3b8;
-
-  font-size: 9px;
-  line-height: 1;
-  font-weight: 800;
-
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.settings-title {
-  margin-top: 25px;
-}
-
-.candidate-nav-link {
-  position: relative;
-
-  width: 100%;
-  height: 43px;
-
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  padding: 0 12px;
-
-  color: #64748b;
-  background: transparent;
-
-  border-radius: 9px;
-
-  font-size: 12px;
-  font-weight: 650;
-
-  text-decoration: none;
-
-  box-sizing: border-box;
-
-  transition:
-    color 0.18s ease,
-    background 0.18s ease,
-    transform 0.18s ease;
-}
-
-.candidate-nav-link svg {
-  width: 18px;
-  height: 18px;
-  min-width: 18px;
-
-  color: #94a3b8;
-
-  stroke-width: 1.9;
-
-  transition: color 0.18s ease;
-}
-
-.candidate-nav-link:hover {
-  color: #2563eb;
-  background: #f8fafc;
-}
-
-.candidate-nav-link:hover svg {
-  color: #2563eb;
-}
-
-.candidate-nav-link.active {
-  color: #2563eb;
-  background: #eff6ff;
-
-  font-weight: 750;
-}
-
-.candidate-nav-link.active svg {
-  color: #2563eb;
-}
-
-/* Blue active indicator */
-
-.candidate-nav-link.active::before {
-  content: "";
-
-  position: absolute;
-  left: 0;
-  top: 50%;
-
-  width: 3px;
-  height: 20px;
-
-  transform: translateY(-50%);
-
-  background: #2563eb;
-
-  border-radius: 0 4px 4px 0;
-}
-
-/* =========================================================
-   SIDEBAR BOTTOM
-========================================================= */
-
-.sidebar-bottom {
-  margin-top: auto;
-
-  padding: 16px 18px 18px;
-
-  border-top: 1px solid #edf2f7;
-}
-
-.logout-button {
-  width: 100%;
-  height: 40px;
-
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  padding: 0 11px;
-
-  color: #64748b;
-  background: transparent;
-
-  border: 0;
-  border-radius: 9px;
-
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 650;
-
-  cursor: pointer;
-
-  transition:
-    color 0.18s ease,
-    background 0.18s ease;
-}
-
-.logout-button svg {
-  width: 17px;
-  height: 17px;
-}
-
-.logout-button:hover {
-  color: #dc2626;
-  background: #fef2f2;
-}
-
-.sidebar-version {
-  margin-top: 12px;
-  padding-left: 11px;
-
-  color: #cbd5e1;
-
-  font-size: 9px;
-}
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.candidate-main {
-  width: calc(100% - 255px);
-
-  margin-left: 255px;
-
-  min-width: 0;
-  min-height: calc(100vh - 90px);
-
-  box-sizing: border-box;
-}
-
-/* =========================================================
-   CANDIDATE TOPBAR
-========================================================= */
-
-.candidate-topbar {
-  position: sticky;
-  top: 90px;
-  z-index: 30;
-
-  min-height: 76px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 0 38px;
-
-  background: rgba(255, 255, 255, 0.96);
-
-  border-bottom: 1px solid #e2e8f0;
-
-  box-sizing: border-box;
-
-  backdrop-filter: blur(12px);
-}
-
-.dashboard-eyebrow {
-  margin: 0 0 5px;
-
-  color: #64748b;
-
-  font-size: 10px;
-  font-weight: 800;
-
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.candidate-topbar h1 {
-  margin: 0;
-
-  color: #0f172a;
-
-  font-size: 20px;
-  line-height: 1.2;
-  font-weight: 800;
-
-  letter-spacing: -0.025em;
-}
-
-.topbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.browse-jobs-button {
-  min-height: 39px;
-
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-
-  padding: 0 15px;
-
-  color: #ffffff;
-  background: #2563eb;
-
-  border-radius: 9px;
-
-  font-size: 11px;
-  font-weight: 750;
-
-  text-decoration: none;
-
-  box-shadow: 0 7px 18px rgba(37, 99, 235, 0.18);
-
-  transition:
-    background 0.18s ease,
-    transform 0.18s ease,
-    box-shadow 0.18s ease;
-}
-
-.browse-jobs-button:hover {
-  background: #1d4ed8;
-
-  transform: translateY(-1px);
-
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.24);
-}
-
-.topbar-avatar {
-  width: 38px;
-  height: 38px;
-  min-width: 38px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #1d4ed8;
-  background: #dbeafe;
-
-  border-radius: 50%;
-
-  font-size: 11px;
-  font-weight: 800;
-}
-
-/* =========================================================
-   CONTENT
-========================================================= */
-
-.candidate-content {
-  width: 100%;
-  max-width: 1500px;
-
-  padding: 34px 38px 60px;
-
-  box-sizing: border-box;
-}
-
-/* Prevent pages from touching viewport edges */
-
-.candidate-content > * {
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 900px) {
-  .candidate-sidebar {
-    width: 235px;
-  }
-
-  .candidate-main {
-    width: calc(100% - 235px);
-    margin-left: 235px;
-  }
-
-  .candidate-content {
-    padding: 28px 25px 50px;
-  }
-
-  .candidate-topbar {
-    padding: 0 25px;
-  }
-}
-
-@media (max-width: 768px) {
-  .candidate-layout {
-    min-height: calc(100vh - 76px);
-  }
-
-  .candidate-sidebar {
-    top: 76px;
-    bottom: 0;
-
-    width: 270px;
-    min-height: calc(100vh - 76px);
-
-    transform: translateX(-100%);
-
-    transition: transform 0.25s ease;
-
-    box-shadow: 15px 0 40px rgba(15, 23, 42, 0.12);
-  }
-
-  .candidate-sidebar.mobile-open {
-    transform: translateX(0);
-  }
-
-  .candidate-main {
-    width: 100%;
-    margin-left: 0;
-
-    min-height: calc(100vh - 76px);
-  }
-
-  .candidate-topbar {
-    top: 76px;
-
-    min-height: 64px;
-
-    padding: 0 16px;
-  }
-
-  .candidate-topbar h1 {
-    font-size: 16px;
-  }
-
-  .dashboard-eyebrow {
-    font-size: 9px;
-  }
-
-  .candidate-content {
-    padding: 24px 17px 45px;
-  }
-
-  .topbar-actions {
-    gap: 8px;
-  }
-
-  .browse-jobs-button {
-    display: none;
-  }
-
-  .candidate-sidebar-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 35;
-
-    display: block;
-
-    background: rgba(15, 23, 42, 0.42);
-
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-
-    transition:
-      opacity 0.25s ease,
-      visibility 0.25s ease;
-  }
-
-  .candidate-sidebar-overlay.active {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
-}
-
-@media (max-width: 480px) {
-  .candidate-content {
-    padding: 20px 13px 38px;
-  }
-
-  .candidate-topbar {
-    padding: 0 13px;
-  }
-
-  .candidate-topbar h1 {
-    font-size: 14px;
-  }
-
-  .topbar-avatar {
-    width: 34px;
-    height: 34px;
-    min-width: 34px;
-  }
-}
-
-
-
 /* =========================================================
    CANDIDATE DASHBOARD — ELITE ENTERPRISE UI
 ========================================================= */
@@ -17901,5 +17295,1097 @@ img {
 
   .global-footer-brand {
     grid-column: auto;
+  }
+}
+
+/* =====================================================================
+   AI JOB PORTAL — FINAL GLOBAL UI / COORDINATE SYSTEM
+   This override layer is intentionally appended to the existing CSS.
+   Existing page-specific styles are preserved.
+===================================================================== */
+
+:root {
+  --app-navbar-height: 76px;
+  --candidate-sidebar-width: 255px;
+  --app-bg: #f5f8fc;
+  --app-surface: #ffffff;
+  --app-border: #e2e8f0;
+  --app-text: #0f172a;
+  --app-muted: #64748b;
+  --app-blue: #2563eb;
+  --app-blue-dark: #1d4ed8;
+  --app-blue-soft: #eff6ff;
+}
+
+/* ------------------------------
+   GLOBAL RESET / COORDINATES
+------------------------------ */
+
+html {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* ------------------------------
+   PUBLIC GLOBAL NAVBAR
+------------------------------ */
+
+.global-navbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 5000 !important;
+  width: 100% !important;
+}
+
+.global-navbar-inner {
+  width: min(calc(100% - 48px), 1320px) !important;
+  min-height: var(--app-navbar-height) !important;
+  margin: 0 auto !important;
+}
+
+/* Public page containers */
+.home-container,
+.jobs-container,
+.job-details-container,
+.about-container {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* ==========================================================
+   CANDIDATE APP SHELL
+========================================================== */
+
+.candidate-layout {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - var(--app-navbar-height));
+  background: var(--app-bg);
+  color: var(--app-text);
+}
+
+/* Fixed sidebar lives BELOW the global navbar */
+.candidate-sidebar {
+  position: fixed !important;
+  top: var(--app-navbar-height) !important;
+  left: 0 !important;
+  bottom: 0 !important;
+
+  width: var(--candidate-sidebar-width) !important;
+  height: calc(100vh - var(--app-navbar-height)) !important;
+  min-height: 0 !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+
+  background: #fff !important;
+  border-right: 1px solid var(--app-border) !important;
+
+  z-index: 1000 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+
+  box-sizing: border-box !important;
+}
+
+.candidate-sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.candidate-sidebar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+.candidate-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Sidebar brand */
+.sidebar-brand {
+  height: 76px;
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.dashboard-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--app-text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.dashboard-logo-icon {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  border-radius: 11px;
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.20);
+}
+
+.dashboard-logo-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.dashboard-logo-text,
+.dashboard-logo span {
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Sidebar profile */
+.sidebar-profile {
+  margin: 18px 18px 16px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: #f8fafc;
+  border: 1px solid #e6edf5;
+  border-radius: 14px;
+}
+
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1d4ed8;
+  background: #dbeafe;
+  border-radius: 11px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.sidebar-profile-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sidebar-profile-info strong {
+  overflow: hidden;
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-profile-info span {
+  color: #94a3b8;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Navigation */
+.candidate-nav {
+  flex: 1;
+  padding: 0 12px;
+}
+
+.nav-section-title {
+  margin: 16px 10px 8px;
+  color: #94a3b8;
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.settings-title {
+  margin-top: 25px;
+}
+
+.candidate-nav-link {
+  position: relative;
+  width: 100%;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 12px;
+  margin-bottom: 3px;
+  color: #64748b;
+  background: transparent;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 650;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition:
+    color .18s ease,
+    background .18s ease,
+    transform .18s ease;
+}
+
+.candidate-nav-link svg {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  color: #94a3b8;
+  stroke-width: 1.9;
+}
+
+.candidate-nav-link:hover {
+  color: var(--app-blue);
+  background: #f8fafc;
+}
+
+.candidate-nav-link:hover svg {
+  color: var(--app-blue);
+}
+
+.candidate-nav-link.active {
+  color: var(--app-blue);
+  background: var(--app-blue-soft);
+  font-weight: 750;
+}
+
+.candidate-nav-link.active svg {
+  color: var(--app-blue);
+}
+
+.candidate-nav-link.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 3px;
+  height: 20px;
+  transform: translateY(-50%);
+  background: var(--app-blue);
+  border-radius: 0 4px 4px 0;
+}
+
+/* Sidebar bottom */
+.sidebar-bottom {
+  margin-top: auto;
+  padding: 15px 18px 18px;
+  border-top: 1px solid #edf2f7;
+}
+
+.logout-button {
+  width: 100%;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 11px;
+  color: #64748b;
+  background: transparent;
+  border: 0;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+.logout-button svg {
+  width: 17px;
+  height: 17px;
+}
+
+.sidebar-version {
+  margin-top: 11px;
+  padding-left: 11px;
+  color: #cbd5e1;
+  font-size: 9px;
+}
+
+/* Main coordinate */
+.candidate-main {
+  position: relative;
+  width: calc(100% - var(--candidate-sidebar-width));
+  min-width: 0;
+  min-height: calc(100vh - var(--app-navbar-height));
+  margin-left: var(--candidate-sidebar-width);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Candidate internal topbar */
+.candidate-topbar {
+  position: sticky !important;
+  top: var(--app-navbar-height) !important;
+  z-index: 900 !important;
+
+  width: 100% !important;
+  min-height: 76px !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 36px !important;
+
+  background: rgba(255,255,255,.96) !important;
+  border-bottom: 1px solid var(--app-border) !important;
+
+  box-sizing: border-box !important;
+  backdrop-filter: blur(14px);
+}
+
+.dashboard-eyebrow {
+  margin: 0 0 5px;
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.candidate-topbar h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -.025em;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.browse-jobs-button {
+  min-height: 39px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 15px;
+  color: #fff;
+  background: #2563eb;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 750;
+  text-decoration: none;
+  box-shadow: 0 7px 20px rgba(37,99,235,.18);
+  transition: transform .18s ease, background .18s ease;
+}
+
+.browse-jobs-button:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.topbar-avatar {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1d4ed8;
+  background: #dbeafe;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* Page content */
+.candidate-content {
+  width: 100%;
+  min-width: 0;
+  padding: 34px 36px 60px !important;
+  box-sizing: border-box;
+}
+
+.candidate-content > * {
+  min-width: 0;
+}
+
+/* Dashboard coordinate */
+.dashboard-page {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+/* Profile coordinate */
+.profile-page {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+.profile-page-header {
+  width: 100%;
+  min-width: 0;
+}
+
+.profile-layout {
+  width: 100%;
+  min-width: 0;
+}
+
+.profile-main-column,
+.profile-side-column {
+  min-width: 0;
+}
+
+/* Prevent cards/grids from creating horizontal overflow */
+.dashboard-grid,
+.dashboard-stats,
+.profile-layout,
+.profile-edit-grid,
+.profile-basic,
+.profile-card,
+.profile-side-card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.dashboard-panel,
+.profile-card,
+.profile-side-card,
+.profile-strength-card,
+.profile-completion-card {
+  box-sizing: border-box;
+}
+
+/* ==========================================================
+   PUBLIC PAGE COORDINATION
+========================================================== */
+
+.home-page,
+.jobs-page,
+.job-details-page,
+.about-page,
+.login-page,
+.register-page {
+  width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.home-container {
+  width: min(calc(100% - 48px), 1320px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.jobs-page .jobs-container,
+.job-details-page .job-details-container,
+.about-page .about-container {
+  width: min(calc(100% - 48px), 1320px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Login / register remain centered and never stretch awkwardly */
+.login-page,
+.register-page {
+  min-height: calc(100vh - var(--app-navbar-height));
+}
+
+/* ==========================================================
+   RECRUITER SHELL — SUPPORTING COORDINATE SYSTEM
+========================================================== */
+
+.recruiter-layout {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - var(--app-navbar-height));
+  background: var(--app-bg);
+}
+
+.recruiter-sidebar {
+  position: fixed !important;
+  top: var(--app-navbar-height) !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: var(--candidate-sidebar-width) !important;
+  height: calc(100vh - var(--app-navbar-height)) !important;
+  min-height: 0 !important;
+  background: #fff !important;
+  border-right: 1px solid var(--app-border) !important;
+  z-index: 1000 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.recruiter-main {
+  position: relative;
+  width: calc(100% - var(--candidate-sidebar-width));
+  min-width: 0;
+  margin-left: var(--candidate-sidebar-width);
+  min-height: calc(100vh - var(--app-navbar-height));
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.recruiter-topbar {
+  position: sticky !important;
+  top: var(--app-navbar-height) !important;
+  z-index: 900 !important;
+  width: 100% !important;
+  min-height: 76px !important;
+  box-sizing: border-box !important;
+}
+
+.recruiter-content {
+  width: 100%;
+  min-width: 0;
+  padding: 34px 36px 60px;
+  box-sizing: border-box;
+}
+
+.recruiter-dashboard,
+.manage-jobs-page,
+.post-job-page,
+.applicants-page,
+.candidate-details-page,
+.company-page {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 1100px) {
+  :root {
+    --candidate-sidebar-width: 230px;
+  }
+
+  .candidate-content,
+  .recruiter-content {
+    padding: 28px 26px 50px !important;
+  }
+
+  .home-container,
+  .jobs-page .jobs-container,
+  .job-details-page .job-details-container,
+  .about-page .about-container {
+    width: min(calc(100% - 40px), 1320px);
+  }
+}
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 800px) {
+  :root {
+    --app-navbar-height: 70px;
+  }
+
+  .global-navbar-inner {
+    min-height: 70px !important;
+    width: calc(100% - 28px) !important;
+  }
+
+  .candidate-sidebar,
+  .recruiter-sidebar {
+    top: var(--app-navbar-height) !important;
+    height: calc(100vh - var(--app-navbar-height)) !important;
+    width: 270px !important;
+    transform: translateX(-100%) !important;
+    transition: transform .25s ease !important;
+    box-shadow: 15px 0 40px rgba(15,23,42,.12);
+  }
+
+  .candidate-sidebar.mobile-open,
+  .recruiter-sidebar.mobile-open {
+    transform: translateX(0) !important;
+  }
+
+  .candidate-main,
+  .recruiter-main {
+    width: 100% !important;
+    margin-left: 0 !important;
+    min-height: calc(100vh - var(--app-navbar-height));
+  }
+
+  .candidate-topbar,
+  .recruiter-topbar {
+    top: var(--app-navbar-height) !important;
+    min-height: 64px !important;
+    padding: 0 20px !important;
+  }
+
+  .candidate-content,
+  .recruiter-content {
+    padding: 24px 20px 45px !important;
+  }
+
+  .candidate-topbar h1 {
+    font-size: 16px;
+  }
+
+  .browse-jobs-button {
+    display: none;
+  }
+
+  .topbar-actions {
+    gap: 8px;
+  }
+
+  .home-container,
+  .jobs-page .jobs-container,
+  .job-details-page .job-details-container,
+  .about-page .about-container {
+    width: calc(100% - 32px);
+  }
+}
+
+@media (max-width: 480px) {
+  .global-navbar-inner {
+    width: calc(100% - 22px) !important;
+  }
+
+  .candidate-content,
+  .recruiter-content {
+    padding: 20px 14px 40px !important;
+  }
+
+  .candidate-topbar,
+  .recruiter-topbar {
+    padding: 0 14px !important;
+  }
+
+  .home-container,
+  .jobs-page .jobs-container,
+  .job-details-page .job-details-container,
+  .about-page .about-container {
+    width: calc(100% - 26px);
+  }
+
+  .profile-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+/* ==========================================================
+   FINAL SAFETY — NO UNINTENTIONAL HORIZONTAL SCROLL
+========================================================== */
+
+.candidate-layout,
+.candidate-main,
+.candidate-content,
+.recruiter-layout,
+.recruiter-main,
+.recruiter-content,
+.dashboard-page,
+.profile-page,
+.profile-layout,
+.home-page,
+.jobs-page,
+.job-details-page,
+.about-page,
+.login-page,
+.register-page {
+  overflow-x: clip;
+}
+
+
+/* =====================================================================
+   FINAL UI REPAIR v2 — COORDINATED FULL APP LAYOUT
+   Fixes: fixed navbar, sidebar position, double padding, empty gutters,
+   scroll behavior, footer width, desktop/mobile alignment.
+===================================================================== */
+
+/* ---------- global navbar ---------- */
+.global-navbar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  min-height: var(--app-navbar-height) !important;
+  z-index: 10000 !important;
+}
+
+.global-navbar-inner {
+  width: min(calc(100% - 40px), 1360px) !important;
+  min-height: var(--app-navbar-height) !important;
+}
+
+/* Every app/page begins below the fixed global navbar */
+.candidate-layout,
+.recruiter-layout {
+  margin-top: var(--app-navbar-height) !important;
+}
+
+/* Public pages: keep their existing navbar space without changing
+   their internal design */
+.global-navbar + .home-page,
+.global-navbar + .jobs-page,
+.global-navbar + .job-details-page,
+.global-navbar + .about-page,
+.global-navbar + .login-page,
+.global-navbar + .register-page {
+  padding-top: 0 !important;
+}
+
+/* ---------- candidate shell ---------- */
+.candidate-sidebar {
+  position: fixed !important;
+  top: var(--app-navbar-height) !important;
+  left: 0 !important;
+  bottom: 0 !important;
+
+  width: var(--candidate-sidebar-width) !important;
+  height: calc(100vh - var(--app-navbar-height)) !important;
+
+  z-index: 9000 !important;
+}
+
+.candidate-main {
+  width: calc(100% - var(--candidate-sidebar-width)) !important;
+  margin-left: var(--candidate-sidebar-width) !important;
+  min-width: 0 !important;
+}
+
+.candidate-topbar {
+  position: sticky !important;
+  top: var(--app-navbar-height) !important;
+  z-index: 8000 !important;
+}
+
+/* ---------- IMPORTANT: remove double horizontal padding ---------- */
+.candidate-content {
+  width: 100% !important;
+  max-width: none !important;
+  padding: 28px 28px 48px !important;
+  margin: 0 !important;
+}
+
+/*
+  Dashboard/Profile already have their own spacing in the original CSS.
+  Do NOT add another large wrapper margin here.
+*/
+.candidate-content > .dashboard-page,
+.candidate-content > .profile-page {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Dashboard original CSS owns the visual spacing */
+.dashboard-page {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* Profile original CSS owns the visual spacing */
+.profile-page {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* ---------- dashboard grid should use available width ---------- */
+.dashboard-grid {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.dashboard-stats {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.dashboard-panel,
+.recommended-panel,
+.ai-match-card,
+.resume-card,
+.quick-actions {
+  min-width: 0 !important;
+}
+
+/* ---------- profile ---------- */
+.profile-page-header {
+  width: 100% !important;
+}
+
+.profile-layout,
+.profile-main-column,
+.profile-side-column {
+  min-width: 0 !important;
+}
+
+/* ---------- candidate footer ----------
+   If Footer is rendered inside candidate-main, make it span the full
+   viewport instead of leaving a 255px white/sidebar gutter. */
+.candidate-main > .global-footer {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin-left: calc(-1 * var(--candidate-sidebar-width)) !important;
+}
+
+.candidate-main > .global-footer .global-footer-container {
+  width: min(calc(100% - 48px), 1320px) !important;
+}
+
+/* ---------- recruiter shell ---------- */
+.recruiter-layout {
+  width: 100% !important;
+  min-height: calc(100vh - var(--app-navbar-height)) !important;
+}
+
+.recruiter-sidebar {
+  position: fixed !important;
+  top: var(--app-navbar-height) !important;
+  left: 0 !important;
+  bottom: 0 !important;
+
+  width: var(--candidate-sidebar-width) !important;
+  height: calc(100vh - var(--app-navbar-height)) !important;
+
+  z-index: 9000 !important;
+}
+
+.recruiter-main {
+  width: calc(100% - var(--candidate-sidebar-width)) !important;
+  margin-left: var(--candidate-sidebar-width) !important;
+  min-width: 0 !important;
+}
+
+.recruiter-topbar {
+  position: sticky !important;
+  top: var(--app-navbar-height) !important;
+  z-index: 8000 !important;
+}
+
+.recruiter-content {
+  width: 100% !important;
+  max-width: none !important;
+  padding: 28px 28px 48px !important;
+  margin: 0 !important;
+}
+
+.recruiter-content > * {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+}
+
+.recruiter-main > .global-footer {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin-left: calc(-1 * var(--candidate-sidebar-width)) !important;
+}
+
+/* ---------- footer cleanup ---------- */
+.global-footer {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.global-footer-main {
+  width: 100%;
+}
+
+.global-footer-container {
+  width: min(calc(100% - 48px), 1320px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------- public page spacing ---------- */
+.home-page,
+.jobs-page,
+.job-details-page,
+.about-page,
+.login-page,
+.register-page {
+  min-width: 0 !important;
+  overflow-x: hidden !important;
+}
+
+/* ---------- desktop gutters ---------- */
+@media (min-width: 1200px) {
+  .candidate-content,
+  .recruiter-content {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+  }
+
+  .dashboard-page,
+  .profile-page,
+  .recruiter-dashboard,
+  .manage-jobs-page,
+  .post-job-page,
+  .applicants-page,
+  .candidate-details-page,
+  .company-page {
+    max-width: none !important;
+  }
+}
+
+/* ---------- tablet ---------- */
+@media (max-width: 1100px) {
+  :root {
+    --candidate-sidebar-width: 230px;
+  }
+
+  .candidate-content,
+  .recruiter-content {
+    padding: 24px 22px 44px !important;
+  }
+
+  .candidate-main,
+  .recruiter-main {
+    width: calc(100% - var(--candidate-sidebar-width)) !important;
+    margin-left: var(--candidate-sidebar-width) !important;
+  }
+
+  .candidate-main > .global-footer,
+  .recruiter-main > .global-footer {
+    margin-left: calc(-1 * var(--candidate-sidebar-width)) !important;
+  }
+}
+
+/* ---------- mobile ---------- */
+@media (max-width: 800px) {
+  :root {
+    --app-navbar-height: 70px;
+    --candidate-sidebar-width: 270px;
+  }
+
+  .global-navbar-inner {
+    width: calc(100% - 24px) !important;
+  }
+
+  .candidate-layout,
+  .recruiter-layout {
+    margin-top: var(--app-navbar-height) !important;
+  }
+
+  .candidate-sidebar,
+  .recruiter-sidebar {
+    top: var(--app-navbar-height) !important;
+    height: calc(100vh - var(--app-navbar-height)) !important;
+    width: 270px !important;
+    transform: translateX(-100%) !important;
+    transition: transform .25s ease !important;
+  }
+
+  .candidate-sidebar.mobile-open,
+  .recruiter-sidebar.mobile-open {
+    transform: translateX(0) !important;
+  }
+
+  .candidate-main,
+  .recruiter-main {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .candidate-topbar,
+  .recruiter-topbar {
+    top: var(--app-navbar-height) !important;
+    min-height: 64px !important;
+  }
+
+  .candidate-content,
+  .recruiter-content {
+    padding: 20px 16px 38px !important;
+  }
+
+  .candidate-content > .dashboard-page,
+  .candidate-content > .profile-page {
+    padding: 0 !important;
+  }
+
+  .candidate-main > .global-footer,
+  .recruiter-main > .global-footer {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .global-footer-cta-wrap {
+    padding: 36px 16px 0 !important;
+  }
+
+  .global-footer-container {
+    width: calc(100% - 28px) !important;
+  }
+
+  .global-footer-grid {
+    gap: 28px !important;
+  }
+}
+
+/* ---------- small mobile ---------- */
+@media (max-width: 480px) {
+  .candidate-content,
+  .recruiter-content {
+    padding: 18px 13px 32px !important;
+  }
+
+  .global-footer-cta-wrap {
+    padding: 28px 13px 0 !important;
+  }
+
+  .global-footer-container {
+    width: 100% !important;
   }
 }
