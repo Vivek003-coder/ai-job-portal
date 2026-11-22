@@ -26,7 +26,7 @@ import Resume from "./pages/candidate/Resume";
 import RecommendedJobs from "./pages/candidate/RecommendedJobs";
 import Applications from "./pages/candidate/Applications";
 import SavedJobs from "./pages/candidate/SavedJobs";
-import Settings from "./pages/candidate/Settings";
+import CandidateSettings from "./pages/candidate/Settings";
 
 // =====================================================
 // RECRUITER
@@ -39,7 +39,8 @@ import PostJob from "./pages/recruiter/PostJob";
 import ManageJobs from "./pages/recruiter/ManageJobs";
 import Applicants from "./pages/recruiter/Applicants";
 import CandidateDetails from "./pages/recruiter/CandidateDetails";
-
+import Company from "./pages/recruiter/Company";
+import RecruiterSettings from "./pages/recruiter/Settings";
 
 function App() {
   return (
@@ -87,7 +88,6 @@ function App() {
           element={<About />}
         />
 
-
         {/* =================================================
             CANDIDATE ROUTES
         ================================================= */}
@@ -96,7 +96,6 @@ function App() {
           path="/candidate"
           element={<CandidateLayout />}
         >
-
           <Route
             path="dashboard"
             element={<Dashboard />}
@@ -129,11 +128,9 @@ function App() {
 
           <Route
             path="settings"
-            element={<Settings />}
+            element={<CandidateSettings />}
           />
-
         </Route>
-
 
         {/* =================================================
             RECRUITER ROUTES
@@ -143,7 +140,6 @@ function App() {
           path="/recruiter"
           element={<RecruiterLayout />}
         >
-
           <Route
             path="dashboard"
             element={<RecruiterDashboard />}
@@ -164,19 +160,27 @@ function App() {
             element={<Applicants />}
           />
 
-          {/* =================================================
+          {/* ===============================================
               CANDIDATE DETAILS
 
               Example:
               /recruiter/candidate/1
-              /recruiter/candidate/2
-          ================================================= */}
+          =============================================== */}
 
           <Route
             path="candidate/:id"
             element={<CandidateDetails />}
           />
 
+          <Route
+            path="company"
+            element={<Company />}
+          />
+
+          <Route
+            path="settings"
+            element={<RecruiterSettings />}
+          />
         </Route>
 
       </Routes>

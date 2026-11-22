@@ -1,0 +1,1078 @@
+/* =========================================================
+   COMPANY PROFILE
+   Enterprise Recruiter UI
+========================================================= */
+
+.company-page,
+.company-page * {
+  box-sizing: border-box;
+}
+
+.company-page {
+  width: 100%;
+  max-width: 1440px;
+  min-width: 0;
+
+  margin: 0 auto;
+
+  padding: 0 0 56px;
+
+  color: #0f172a;
+
+  overflow-x: clip;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.company-header {
+  width: 100%;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 28px;
+
+  margin: 0 0 24px;
+  padding: 0;
+}
+
+.company-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-bottom: 8px;
+
+  color: #2563eb;
+
+  font-size: 10px;
+  line-height: 1;
+
+  font-weight: 800;
+
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.company-eyebrow svg {
+  stroke-width: 2.3;
+}
+
+.company-header h1 {
+  margin: 0;
+  padding: 0;
+
+  color: #0f172a;
+
+  font-size: 30px;
+  line-height: 1.15;
+
+  font-weight: 800;
+
+  letter-spacing: -0.035em;
+}
+
+.company-header p {
+  margin: 8px 0 0;
+  padding: 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.company-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.company-edit-btn,
+.company-save-btn,
+.company-cancel-btn {
+  min-height: 42px;
+
+  padding: 0 16px;
+
+  border-radius: 9px;
+
+  font-family: inherit;
+
+  font-size: 12px;
+  font-weight: 750;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.company-edit-btn,
+.company-save-btn {
+  color: #fff;
+
+  border: 1px solid #2563eb;
+
+  background: #2563eb;
+
+  box-shadow:
+    0 5px 14px rgba(37, 99, 235, 0.16);
+}
+
+.company-edit-btn:hover,
+.company-save-btn:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+
+  box-shadow:
+    0 7px 18px rgba(37, 99, 235, 0.22);
+
+  transform: translateY(-1px);
+}
+
+.company-cancel-btn {
+  color: #475569;
+
+  border: 1px solid #dbe3ee;
+
+  background: #fff;
+}
+
+.company-cancel-btn:hover {
+  color: #0f172a;
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+.company-success {
+  width: 100%;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+
+  margin-bottom: 20px;
+  padding: 13px 15px;
+
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+
+  color: #166534;
+
+  background: #f0fdf4;
+}
+
+.company-success svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.company-success strong {
+  display: block;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.company-success span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #15803d;
+
+  font-size: 11px;
+}
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.company-layout {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    310px;
+
+  align-items: start;
+
+  gap: 22px;
+
+  margin: 0;
+  padding: 0;
+}
+
+.company-main {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+.company-side {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.company-card {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  padding: 23px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 13px;
+
+  background: #fff;
+
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.025);
+}
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.company-section-header {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 13px;
+
+  margin-bottom: 23px;
+}
+
+.company-section-icon {
+  width: 39px;
+  height: 39px;
+
+  flex: 0 0 39px;
+
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.company-section-icon.blue {
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+.company-section-icon.violet {
+  color: #7c3aed;
+  background: #f5f3ff;
+}
+
+.company-section-icon.green {
+  color: #059669;
+  background: #ecfdf5;
+}
+
+.company-section-header h2 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 15px;
+  line-height: 1.25;
+
+  font-weight: 800;
+}
+
+.company-section-header p {
+  margin: 4px 0 0;
+
+  color: #64748b;
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   COMPANY IDENTITY
+========================================================= */
+
+.company-identity {
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  padding-bottom: 23px;
+  margin-bottom: 23px;
+
+  border-bottom: 1px solid #eef2f7;
+}
+
+.company-logo-wrapper {
+  position: relative;
+
+  flex: 0 0 auto;
+}
+
+.company-logo {
+  width: 76px;
+  height: 76px;
+
+  border-radius: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb 0%,
+      #4f46e5 100%
+    );
+
+  box-shadow:
+    0 10px 24px rgba(37, 99, 235, 0.2);
+}
+
+.company-logo span {
+  font-size: 22px;
+  font-weight: 850;
+  letter-spacing: -0.04em;
+}
+
+.company-logo-camera {
+  position: absolute;
+
+  right: -6px;
+  bottom: -6px;
+
+  width: 29px;
+  height: 29px;
+
+  border: 3px solid #fff;
+  border-radius: 50%;
+
+  color: #fff;
+  background: #2563eb;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 10px rgba(37, 99, 235, 0.2);
+}
+
+.company-identity-copy {
+  min-width: 0;
+}
+
+.company-identity-copy h3 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 17px;
+  line-height: 1.2;
+
+  font-weight: 800;
+}
+
+.company-identity-copy p {
+  max-width: 620px;
+
+  margin: 6px 0 0;
+
+  color: #64748b;
+
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.company-logo-btn {
+  margin-top: 12px;
+
+  padding: 0;
+
+  border: 0;
+
+  color: #2563eb;
+  background: transparent;
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 750;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  cursor: pointer;
+}
+
+.company-logo-btn:hover {
+  color: #1d4ed8;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.company-form-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 18px;
+}
+
+.company-field {
+  min-width: 0;
+}
+
+.company-full-field {
+  grid-column: 1 / -1;
+}
+
+.company-field label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #334155;
+
+  font-size: 11px;
+  line-height: 1.2;
+
+  font-weight: 750;
+}
+
+.company-field input,
+.company-field select,
+.company-field textarea {
+  width: 100%;
+  max-width: 100%;
+
+  box-sizing: border-box;
+
+  border: 1px solid #dbe3ee;
+  border-radius: 8px;
+
+  outline: none;
+
+  color: #0f172a;
+  background: #fff;
+
+  font-family: inherit;
+  font-size: 12px;
+
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.company-field input,
+.company-field select {
+  height: 42px;
+
+  padding: 0 12px;
+}
+
+.company-field textarea {
+  min-height: 145px;
+
+  padding: 12px;
+
+  line-height: 1.65;
+
+  resize: vertical;
+}
+
+.company-field input:focus,
+.company-field select:focus,
+.company-field textarea:focus {
+  border-color: #60a5fa;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.07);
+}
+
+.company-field input:disabled,
+.company-field select:disabled,
+.company-field textarea:disabled {
+  color: #334155;
+
+  background: #f8fafc;
+
+  border-color: #e5eaf1;
+
+  cursor: default;
+}
+
+.company-input-icon {
+  position: relative;
+}
+
+.company-input-icon svg {
+  position: absolute;
+
+  left: 12px;
+  top: 50%;
+
+  z-index: 1;
+
+  color: #94a3b8;
+
+  transform: translateY(-50%);
+
+  pointer-events: none;
+}
+
+.company-input-icon input {
+  padding-left: 38px;
+}
+
+.company-character-count {
+  margin-top: 7px;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+
+  text-align: right;
+}
+
+/* =========================================================
+   STATUS CARD
+========================================================= */
+
+.company-status-card {
+  padding: 20px;
+}
+
+.company-status-top {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.company-status-icon {
+  width: 40px;
+  height: 40px;
+
+  flex: 0 0 40px;
+
+  border-radius: 10px;
+
+  color: #059669;
+  background: #ecfdf5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.company-status-label {
+  display: block;
+
+  color: #94a3b8;
+
+  font-size: 9px;
+  line-height: 1;
+
+  font-weight: 850;
+
+  letter-spacing: 0.13em;
+}
+
+.company-status-top h3 {
+  margin: 4px 0 0;
+
+  color: #0f172a;
+
+  font-size: 14px;
+
+  font-weight: 800;
+}
+
+.company-status-card > p {
+  margin: 15px 0 0;
+
+  color: #64748b;
+
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.company-status-divider {
+  height: 1px;
+
+  margin: 18px 0;
+
+  background: #eef2f7;
+}
+
+.company-profile-complete > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+.company-profile-complete span {
+  color: #64748b;
+
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.company-profile-complete strong {
+  color: #0f172a;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.company-progress {
+  width: 100%;
+  height: 6px;
+
+  margin-top: 9px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #e8edf4;
+}
+
+.company-progress span {
+  display: block;
+
+  width: 92%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb 0%,
+      #4f46e5 100%
+    );
+}
+
+/* =========================================================
+   PUBLIC PREVIEW
+========================================================= */
+
+.company-preview-card {
+  padding: 20px;
+}
+
+.company-preview-label {
+  margin-bottom: 18px;
+}
+
+.company-preview-label span {
+  color: #94a3b8;
+
+  font-size: 9px;
+  line-height: 1;
+
+  font-weight: 850;
+
+  letter-spacing: 0.13em;
+}
+
+.company-preview-logo {
+  width: 52px;
+  height: 52px;
+
+  margin-bottom: 13px;
+
+  border-radius: 13px;
+
+  color: #fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5
+    );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 15px;
+  font-weight: 850;
+}
+
+.company-preview-card h3 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 15px;
+
+  font-weight: 800;
+}
+
+.company-preview-card > p {
+  margin: 5px 0 15px;
+
+  color: #64748b;
+
+  font-size: 10px;
+}
+
+.company-preview-info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+
+  padding: 13px 0;
+
+  border-top: 1px solid #eef2f7;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.company-preview-info span {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  color: #64748b;
+
+  font-size: 10px;
+}
+
+.company-preview-info svg {
+  flex-shrink: 0;
+
+  color: #94a3b8;
+}
+
+.company-preview-btn {
+  width: 100%;
+  height: 39px;
+
+  margin-top: 15px;
+
+  border: 1px solid #dbe3ee;
+  border-radius: 8px;
+
+  color: #334155;
+  background: #fff;
+
+  font-family: inherit;
+
+  font-size: 10px;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.company-preview-btn:hover {
+  color: #2563eb;
+
+  border-color: #bfdbfe;
+
+  background: #eff6ff;
+}
+
+/* =========================================================
+   TIP
+========================================================= */
+
+.company-tip-card {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 11px;
+
+  padding: 16px;
+
+  background: #f8fafc;
+}
+
+.company-tip-icon {
+  width: 32px;
+  height: 32px;
+
+  flex: 0 0 32px;
+
+  border-radius: 8px;
+
+  color: #2563eb;
+  background: #eff6ff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.company-tip-card strong {
+  display: block;
+
+  color: #334155;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.company-tip-card p {
+  margin: 4px 0 0;
+
+  color: #64748b;
+
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+/* =========================================================
+   MOBILE ACTIONS
+========================================================= */
+
+.company-mobile-actions {
+  display: none;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+  .company-page {
+    max-width: none;
+  }
+
+  .company-layout {
+    grid-template-columns:
+      minmax(0, 1fr)
+      280px;
+  }
+
+  .company-card {
+    padding: 20px;
+  }
+}
+
+/* =========================================================
+   900px
+========================================================= */
+
+@media (max-width: 900px) {
+  .company-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .company-side {
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    align-items: start;
+  }
+
+  .company-tip-card {
+    grid-column: 1 / -1;
+  }
+}
+
+/* =========================================================
+   700px
+========================================================= */
+
+@media (max-width: 700px) {
+  .company-header {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 16px;
+  }
+
+  .company-header-actions {
+    width: 100%;
+  }
+
+  .company-header-actions > button {
+    flex: 1;
+  }
+
+  .company-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .company-full-field {
+    grid-column: auto;
+  }
+
+  .company-side {
+    grid-template-columns: 1fr;
+  }
+
+  .company-tip-card {
+    grid-column: auto;
+  }
+}
+
+/* =========================================================
+   560px
+========================================================= */
+
+@media (max-width: 560px) {
+  .company-page {
+    padding-bottom: 36px;
+  }
+
+  .company-header h1 {
+    font-size: 26px;
+  }
+
+  .company-header p {
+    font-size: 12px;
+  }
+
+  .company-header-actions {
+    display: none;
+  }
+
+  .company-mobile-actions {
+    display: flex;
+
+    width: 100%;
+
+    gap: 9px;
+  }
+
+  .company-mobile-actions button {
+    flex: 1;
+  }
+
+  .company-card {
+    padding: 17px;
+
+    border-radius: 11px;
+  }
+
+  .company-identity {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .company-field input,
+  .company-field select {
+    height: 44px;
+  }
+
+  .company-field textarea {
+    min-height: 125px;
+  }
+}
+
+/* =========================================================
+   420px
+========================================================= */
+
+@media (max-width: 420px) {
+  .company-header h1 {
+    font-size: 24px;
+  }
+
+  .company-card {
+    padding: 15px;
+  }
+
+  .company-section-icon {
+    width: 35px;
+    height: 35px;
+
+    flex-basis: 35px;
+  }
+
+  .company-logo {
+    width: 68px;
+    height: 68px;
+  }
+
+  .company-identity-copy h3 {
+    font-size: 16px;
+  }
+}
+
+/* =========================================================
+   FINAL SAFETY
+========================================================= */
+
+.company-page img {
+  max-width: 100%;
+}
+
+.company-page input,
+.company-page textarea,
+.company-page select,
+.company-page button {
+  max-width: 100%;
+}
