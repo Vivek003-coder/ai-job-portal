@@ -1,78 +1,148 @@
-.recruiter-shell {
-  min-height: 100vh;
-  background: #f5f7fb;
-  color: #111827;
-  display: flex;
+/* =========================================================
+   RECRUITER LAYOUT — FINAL UI FIX
+   Same blue theme + darker navy gradient sidebar
+========================================================= */
+
+:root {
+  --recruiter-sidebar-width: 258px;
+  --recruiter-topbar-height: 76px;
+
+  --recruiter-bg: #f5f7fb;
+  --recruiter-white: #ffffff;
+
+  --recruiter-blue: #2563eb;
+  --recruiter-blue-dark: #1d4ed8;
+  --recruiter-blue-soft: #eff6ff;
+
+  --recruiter-navy-1: #07152b;
+  --recruiter-navy-2: #0b1d38;
+  --recruiter-navy-3: #10294b;
+
+  --recruiter-text: #0f172a;
+  --recruiter-muted: #64748b;
+  --recruiter-border: #e5eaf1;
 }
 
+
 /* =========================================================
-   SIDEBAR
+   BASE
+========================================================= */
+
+.recruiter-shell,
+.recruiter-shell *,
+.recruiter-shell *::before,
+.recruiter-shell *::after {
+  box-sizing: border-box;
+}
+
+.recruiter-shell {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+
+  display: flex;
+
+  background: var(--recruiter-bg);
+
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   LEFT SIDEBAR
 ========================================================= */
 
 .recruiter-sidebar {
-  width: 258px;
-  min-width: 258px;
-  height: 100vh;
   position: fixed;
-  left: 0;
+
   top: 0;
-  z-index: 100;
+  left: 0;
+  bottom: 0;
+
+  width: var(--recruiter-sidebar-width);
+  height: 100vh;
+
   display: flex;
   flex-direction: column;
+
+  z-index: 2000;
 
   background:
     linear-gradient(
       180deg,
-      #0b1220 0%,
-      #0f172a 100%
+      var(--recruiter-navy-1) 0%,
+      var(--recruiter-navy-2) 48%,
+      var(--recruiter-navy-3) 100%
     );
 
-  color: #ffffff;
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+
+  box-shadow:
+    8px 0 30px rgba(15, 23, 42, 0.12);
+
+  overflow: hidden;
 }
+
 
 /* =========================================================
    BRAND
 ========================================================= */
 
 .recruiter-brand {
-  height: 82px;
-  padding: 0 22px;
+  height: var(--recruiter-topbar-height);
+  min-height: var(--recruiter-topbar-height);
+
+  padding: 0 20px;
+
   display: flex;
   align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+  gap: 11px;
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.07);
 }
 
 .recruiter-brand-mark {
-  width: 38px;
-  height: 38px;
-  border-radius: 11px;
+  width: 39px;
+  height: 39px;
+
+  flex: 0 0 auto;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: linear-gradient(
-    135deg,
-    #2563eb,
-    #7c3aed
-  );
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb 0%,
+      #4f46e5 100%
+    );
+
+  border-radius: 11px;
 
   box-shadow:
-    0 8px 24px rgba(37, 99, 235, 0.3);
+    0 8px 24px rgba(37, 99, 235, 0.32);
 }
 
 .recruiter-brand-text {
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
-  min-width: 0;
 }
 
 .recruiter-brand-name {
-  font-size: 18px;
-  line-height: 1;
+  color: #ffffff;
+
+  font-size: 17px;
   font-weight: 800;
+
+  line-height: 1;
+
   letter-spacing: -0.4px;
 }
 
@@ -82,12 +152,19 @@
 
 .recruiter-brand-subtitle {
   margin-top: 5px;
-  color: #64748b;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.7px;
+
+  color: #7f93b3;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  line-height: 1;
+
   text-transform: uppercase;
 }
+
 
 /* =========================================================
    NAVIGATION
@@ -95,42 +172,73 @@
 
 .recruiter-navigation {
   flex: 1;
-  padding: 24px 13px;
+
+  padding: 24px 12px 20px;
+
   overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    rgba(148, 163, 184, 0.22)
+    transparent;
 }
 
 .recruiter-nav-section {
-  margin-bottom: 26px;
+  margin-bottom: 23px;
+}
+
+.recruiter-nav-section:last-child {
+  margin-bottom: 0;
 }
 
 .recruiter-section-label {
-  padding: 0 12px;
-  margin-bottom: 9px;
+  margin: 0 0 9px;
 
-  color: #64748b;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.1px;
+  padding: 0 12px;
+
+  color: #7185a5;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  line-height: 1.2;
+
+  letter-spacing: 1px;
+
   text-transform: uppercase;
 }
 
+
+/* =========================================================
+   NAV LINKS
+========================================================= */
+
 .recruiter-nav-link {
-  min-height: 44px;
-  margin-bottom: 4px;
-  padding: 0 13px;
+  position: relative;
+
+  width: 100%;
+  min-height: 43px;
+
+  margin: 3px 0;
+
+  padding: 0 12px;
 
   display: flex;
   align-items: center;
-  gap: 12px;
 
-  color: #94a3b8;
-  text-decoration: none;
+  gap: 11px;
+
+  color: #9aabc5;
+
+  background: transparent;
 
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: 9px;
 
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 650;
 
   transition:
     color 0.18s ease,
@@ -140,85 +248,134 @@
 }
 
 .recruiter-nav-link svg {
-  flex-shrink: 0;
+  flex: 0 0 auto;
+
+  color: #8ea3c1;
 }
 
 .recruiter-nav-link:hover {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.055);
-  border-color: rgba(255, 255, 255, 0.06);
+
+  background:
+    rgba(255, 255, 255, 0.055);
+
+  border-color:
+    rgba(255, 255, 255, 0.045);
+
+  transform: translateX(1px);
+}
+
+.recruiter-nav-link:hover svg {
+  color: #93c5fd;
 }
 
 .recruiter-nav-link.active {
   color: #ffffff;
+
   background:
     linear-gradient(
       90deg,
-      rgba(37, 99, 235, 0.2),
-      rgba(124, 58, 237, 0.12)
+      rgba(37, 99, 235, 0.34) 0%,
+      rgba(59, 130, 246, 0.15) 100%
     );
 
-  border-color: rgba(96, 165, 250, 0.13);
+  border-color:
+    rgba(96, 165, 250, 0.18);
 
   box-shadow:
-    inset 3px 0 0 #3b82f6;
+    inset 3px 0 0 #3b82f6,
+    0 5px 18px rgba(37, 99, 235, 0.10);
 }
 
 .recruiter-nav-link.active svg {
   color: #60a5fa;
 }
 
+
 /* =========================================================
    SIDEBAR BOTTOM
 ========================================================= */
 
 .recruiter-sidebar-bottom {
-  padding: 16px 13px 18px;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  flex: 0 0 auto;
+
+  padding: 14px 12px 18px;
+
+  border-top:
+    1px solid rgba(255, 255, 255, 0.07);
 }
 
 .recruiter-profile-mini {
-  padding: 10px;
+  min-height: 48px;
+
+  padding: 7px 9px;
+
   display: flex;
   align-items: center;
-  gap: 10px;
 
-  border-radius: 11px;
+  gap: 9px;
+
+  border-radius: 9px;
+
+  transition:
+    background 0.18s ease;
 }
 
 .recruiter-profile-mini:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background:
+    rgba(255, 255, 255, 0.045);
 }
 
 .recruiter-profile-info {
   flex: 1;
+
   min-width: 0;
+
   display: flex;
   flex-direction: column;
 }
 
 .recruiter-profile-info strong {
   color: #f8fafc;
-  font-size: 12px;
-  font-weight: 700;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  line-height: 1.3;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .recruiter-profile-info span {
   margin-top: 3px;
-  color: #64748b;
-  font-size: 10px;
+
+  color: #7185a5;
+
+  font-size: 9px;
 }
 
+.recruiter-profile-mini > svg {
+  color: #7185a5;
+}
+
+
+/* =========================================================
+   AVATAR
+========================================================= */
+
 .recruiter-avatar {
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+
+  flex: 0 0 auto;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 10px;
+  color: #ffffff;
 
   background:
     linear-gradient(
@@ -227,352 +384,604 @@
       #4f46e5
     );
 
-  color: #ffffff;
-  font-size: 11px;
+  border-radius: 9px;
+
+  font-size: 10px;
   font-weight: 800;
+
+  box-shadow:
+    0 5px 15px rgba(37, 99, 235, 0.20);
 }
+
+.recruiter-avatar.small {
+  width: 34px;
+  height: 34px;
+
+  border-radius: 9px;
+
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
 
 .recruiter-logout {
   width: 100%;
-  margin-top: 7px;
-  padding: 10px 12px;
+  min-height: 36px;
+
+  margin-top: 5px;
+
+  padding: 0 10px;
 
   display: flex;
   align-items: center;
-  gap: 10px;
 
-  color: #94a3b8;
+  gap: 9px;
+
+  color: #9aabc5;
+
   background: transparent;
-  border: 0;
-  border-radius: 9px;
 
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 600;
+  border: 0;
+  border-radius: 8px;
+
+  font-size: 11px;
+  font-weight: 650;
 
   cursor: pointer;
-  transition: all 0.18s ease;
+
+  transition:
+    color 0.18s ease,
+    background 0.18s ease;
 }
 
 .recruiter-logout:hover {
   color: #fca5a5;
-  background: rgba(239, 68, 68, 0.08);
+
+  background:
+    rgba(239, 68, 68, 0.08);
 }
 
+
 /* =========================================================
-   MAIN
+   MAIN CONTENT AREA
 ========================================================= */
 
 .recruiter-main {
-  width: calc(100% - 258px);
+  width:
+    calc(100% - var(--recruiter-sidebar-width));
+
+  max-width:
+    calc(100% - var(--recruiter-sidebar-width));
+
+  min-width: 0;
+
   min-height: 100vh;
-  margin-left: 258px;
+
+  margin-left:
+    var(--recruiter-sidebar-width);
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--recruiter-bg);
+
+  overflow-x: hidden;
 }
+
 
 /* =========================================================
    TOPBAR
 ========================================================= */
 
 .recruiter-topbar {
-  height: 76px;
-  padding: 0 32px;
+  position: sticky;
+
+  top: 0;
+
+  width: 100%;
+  height: var(--recruiter-topbar-height);
+  min-height: var(--recruiter-topbar-height);
+
+  padding: 0 28px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  background: rgba(255, 255, 255, 0.94);
-  border-bottom: 1px solid #e9edf3;
+  z-index: 1500;
 
-  position: sticky;
-  top: 0;
-  z-index: 50;
+  background:
+    rgba(255, 255, 255, 0.98);
 
-  backdrop-filter: blur(18px);
+  border-bottom:
+    1px solid var(--recruiter-border);
+
+  box-shadow:
+    0 1px 10px rgba(15, 23, 42, 0.025);
+
+  backdrop-filter: blur(12px);
 }
 
 .recruiter-topbar-left,
 .recruiter-topbar-right {
+  min-width: 0;
+
   display: flex;
   align-items: center;
 }
 
 .recruiter-topbar-left {
-  gap: 18px;
+  gap: 14px;
 }
 
 .recruiter-topbar-right {
-  gap: 18px;
+  gap: 13px;
 }
 
-/* Search */
+
+/* =========================================================
+   SEARCH
+========================================================= */
 
 .recruiter-search {
-  width: 360px;
-  height: 42px;
-  padding: 0 12px;
+  width: 355px;
+  height: 40px;
+
+  padding: 0 11px;
 
   display: flex;
   align-items: center;
-  gap: 9px;
 
-  background: #f7f8fa;
-  border: 1px solid #e6eaf0;
-  border-radius: 10px;
+  gap: 9px;
 
   color: #94a3b8;
 
+  background: #f8fafc;
+
+  border:
+    1px solid #e2e8f0;
+
+  border-radius: 9px;
+
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
 }
 
 .recruiter-search:focus-within {
-  border-color: #93c5fd;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.07);
   background: #ffffff;
+
+  border-color: #93c5fd;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.07);
 }
 
 .recruiter-search input {
   flex: 1;
+
+  width: 100%;
   min-width: 0;
+
+  padding: 0;
+
+  color: #0f172a;
+
+  background: transparent;
 
   border: 0;
   outline: 0;
-  background: transparent;
 
-  color: #111827;
-
-  font-family: inherit;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .recruiter-search input::placeholder {
-  color: #9ca3af;
+  color: #94a3b8;
 }
 
 .search-shortcut {
-  padding: 3px 6px;
+  flex: 0 0 auto;
 
-  color: #9ca3af;
+  padding: 4px 6px;
+
+  color: #94a3b8;
+
   background: #ffffff;
-  border: 1px solid #e5e7eb;
+
+  border:
+    1px solid #e5e7eb;
+
   border-radius: 5px;
 
-  font-size: 9px;
-  font-weight: 700;
+  font-size: 8px;
+  font-weight: 800;
 }
 
-/* Notification */
+
+/* =========================================================
+   NOTIFICATION
+========================================================= */
 
 .recruiter-icon-button {
-  width: 40px;
-  height: 40px;
-
   position: relative;
+
+  width: 38px;
+  height: 38px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border: 1px solid #e7eaf0;
-  border-radius: 10px;
-
-  background: #ffffff;
   color: #64748b;
 
+  background: #ffffff;
+
+  border:
+    1px solid #e2e8f0;
+
+  border-radius: 9px;
+
   cursor: pointer;
-  transition: all 0.18s ease;
+
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
 }
 
 .recruiter-icon-button:hover {
-  color: #2563eb;
-  border-color: #bfdbfe;
+  color: var(--recruiter-blue);
+
   background: #f8fbff;
+
+  border-color: #bfdbfe;
 }
 
 .notification-dot {
   position: absolute;
-  top: 8px;
-  right: 9px;
+
+  top: 7px;
+  right: 8px;
 
   width: 6px;
   height: 6px;
 
-  border-radius: 50%;
   background: #ef4444;
 
   border: 2px solid #ffffff;
+
+  border-radius: 50%;
 }
 
-/* User */
+
+/* =========================================================
+   USER MENU
+========================================================= */
 
 .recruiter-user-menu {
   display: flex;
   align-items: center;
+
   gap: 9px;
 
-  cursor: pointer;
+  min-width: 0;
 }
 
 .recruiter-user-details {
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
 }
 
 .recruiter-user-details strong {
-  color: #111827;
-  font-size: 11px;
-  font-weight: 750;
+  color: #0f172a;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  white-space: nowrap;
 }
 
 .recruiter-user-details span {
   margin-top: 2px;
+
   color: #94a3b8;
-  font-size: 9px;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  white-space: nowrap;
 }
 
-.recruiter-avatar.small {
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  font-size: 10px;
+.recruiter-user-menu > svg {
+  color: #64748b;
 }
 
-/* Mobile */
+
+/* =========================================================
+   PAGE CONTENT
+========================================================= */
+
+.recruiter-content {
+  width: 100%;
+  max-width: 100%;
+
+  min-width: 0;
+
+  margin: 0;
+
+  padding:
+    28px 30px 40px;
+
+  background: var(--recruiter-bg);
+
+  overflow-x: hidden;
+}
+
+
+/* Prevent child pages from creating horizontal overflow */
+
+.recruiter-content > * {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin-left: 0;
+  margin-right: 0;
+}
+
+
+/* =========================================================
+   COMMON CHILD ELEMENT SAFETY
+========================================================= */
+
+.recruiter-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.recruiter-content table {
+  max-width: 100%;
+}
+
+.recruiter-content pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
 
 .recruiter-menu-button,
 .recruiter-mobile-close {
   display: none;
 }
 
-/* =========================================================
-   CONTENT
-========================================================= */
-
-.recruiter-content {
-  width: 100%;
-  max-width: 1700px;
-  margin: 0 auto;
-  padding: 32px;
+.recruiter-mobile-overlay {
+  display: none;
 }
 
+
 /* =========================================================
-   RESPONSIVE
+   TABLET
 ========================================================= */
 
 @media (max-width: 1100px) {
+
   .recruiter-search {
-    width: 280px;
+    width: 300px;
+  }
+
+  .recruiter-content {
+    padding:
+      24px 22px 34px;
   }
 
   .recruiter-user-details {
     display: none;
   }
-
-  .recruiter-content {
-    padding: 26px;
-  }
 }
 
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
 @media (max-width: 850px) {
+
   .recruiter-sidebar {
-    transform: translateX(-100%);
-    transition: transform 0.25s ease;
+    width: min(290px, 84vw);
+
+    transform:
+      translateX(-100%);
+
+    transition:
+      transform 0.24s ease;
   }
 
   .recruiter-sidebar.recruiter-sidebar-open {
-    transform: translateX(0);
+    transform:
+      translateX(0);
   }
 
   .recruiter-main {
     width: 100%;
+    max-width: 100%;
+
     margin-left: 0;
   }
 
-  .recruiter-topbar {
-    padding: 0 20px;
-  }
-
   .recruiter-menu-button {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border: 1px solid #e7eaf0;
-    border-radius: 9px;
-
-    background: #ffffff;
     color: #475569;
 
-    cursor: pointer;
-  }
+    background: #ffffff;
 
-  .recruiter-mobile-close {
-    margin-left: auto;
+    border:
+      1px solid #e2e8f0;
 
-    width: 34px;
-    height: 34px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: 0;
-    border-radius: 8px;
-
-    background: rgba(255, 255, 255, 0.05);
-    color: #94a3b8;
+    border-radius: 9px;
 
     cursor: pointer;
-  }
-
-  .recruiter-search {
-    width: min(360px, 50vw);
   }
 
   .recruiter-mobile-overlay {
     position: fixed;
-    inset: 0;
-    z-index: 90;
 
-    background: rgba(15, 23, 42, 0.48);
-    backdrop-filter: blur(3px);
+    inset: 0;
+
+    display: block;
+
+    z-index: 1900;
+
+    background:
+      rgba(15, 23, 42, 0.46);
+  }
+
+  .recruiter-mobile-close {
+    width: 34px;
+    height: 34px;
+
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #94a3b8;
+
+    background:
+      rgba(255, 255, 255, 0.04);
+
+    border: 0;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+  }
+
+  .recruiter-topbar {
+    height: 68px;
+    min-height: 68px;
+
+    padding: 0 20px;
+  }
+
+  .recruiter-search {
+    width: min(340px, 52vw);
+  }
+
+  .recruiter-content {
+    padding:
+      22px 18px 32px;
   }
 }
 
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
 @media (max-width: 620px) {
+
   .recruiter-topbar {
-    height: 68px;
+    height: 64px;
+    min-height: 64px;
+
     padding: 0 14px;
   }
 
   .recruiter-topbar-left {
-    gap: 10px;
     flex: 1;
+
+    gap: 9px;
   }
 
   .recruiter-search {
     flex: 1;
+
     width: auto;
+
+    height: 38px;
   }
 
   .search-shortcut {
     display: none;
   }
 
-  .recruiter-topbar-right {
-    gap: 8px;
-  }
-
   .recruiter-user-menu {
     display: none;
   }
 
+  .recruiter-topbar-right {
+    gap: 7px;
+  }
+
+  .recruiter-icon-button {
+    width: 36px;
+    height: 36px;
+  }
+
   .recruiter-content {
-    padding: 20px 14px;
+    padding:
+      18px 14px 28px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL DEVICES
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .recruiter-topbar {
+    padding: 0 11px;
+  }
+
+  .recruiter-content {
+    padding:
+      16px 12px 26px;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.recruiter-shell button:focus-visible,
+.recruiter-shell a:focus-visible,
+.recruiter-shell input:focus-visible {
+  outline:
+    3px solid rgba(37, 99, 235, 0.18);
+
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .recruiter-shell *,
+  .recruiter-shell *::before,
+  .recruiter-shell *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
