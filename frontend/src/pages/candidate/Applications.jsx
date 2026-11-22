@@ -9,6 +9,7 @@ import {
   FileText,
   MapPin,
   Search,
+  X,
   XCircle,
 } from "lucide-react";
 
@@ -80,22 +81,27 @@ const statusConfig = {
     className: "status-applied",
     icon: FileText,
   },
+
   "Under Review": {
     className: "status-review",
     icon: Clock3,
   },
+
   Shortlisted: {
     className: "status-shortlisted",
     icon: CheckCircle2,
   },
+
   Interview: {
     className: "status-interview",
     icon: CalendarDays,
   },
+
   Selected: {
     className: "status-selected",
     icon: CheckCircle2,
   },
+
   Rejected: {
     className: "status-rejected",
     icon: XCircle,
@@ -116,20 +122,42 @@ function Applications() {
     "Rejected",
   ];
 
+  /*
+   * Safe filtering:
+   * - Handles empty search
+   * - Avoids calling methods on undefined values
+   * - Searches across multiple application fields
+   */
   const filteredApplications = useMemo(() => {
+    const query = search.trim().toLowerCase();
+
     return applications.filter((application) => {
       const matchesTab =
         activeTab === "All" ||
         application.status === activeTab;
 
-      const query = search.toLowerCase();
+      if (!matchesTab) {
+        return false;
+      }
 
-      const matchesSearch =
-        application.jobTitle.toLowerCase().includes(query) ||
-        application.company.toLowerCase().includes(query) ||
-        application.location.toLowerCase().includes(query);
+      if (!query) {
+        return true;
+      }
 
-      return matchesTab && matchesSearch;
+      const searchableText = [
+        application.jobTitle,
+        application.company,
+        application.location,
+        application.type,
+        application.salary,
+        application.status,
+        application.nextStep,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return searchableText.includes(query);
     });
   }, [activeTab, search]);
 
@@ -138,10 +166,17 @@ function Applications() {
     return <Icon size={14} />;
   };
 
+  const clearFilters = () => {
+    setSearch("");
+    setActiveTab("All");
+  };
+
   return (
     <div className="applications-page">
 
-      {/* Header */}
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
       <div className="applications-header">
         <div>
           <span className="applications-eyebrow">
@@ -163,7 +198,10 @@ function Applications() {
         </div>
       </div>
 
-      {/* Statistics */}
+
+      {/* =====================================================
+          STATISTICS
+      ===================================================== */}
       <div className="application-stats">
 
         <div className="application-stat-card">
@@ -177,6 +215,7 @@ function Applications() {
           </div>
         </div>
 
+
         <div className="application-stat-card">
           <div className="application-stat-icon yellow">
             <Clock3 size={19} />
@@ -188,6 +227,7 @@ function Applications() {
           </div>
         </div>
 
+
         <div className="application-stat-card">
           <div className="application-stat-icon green">
             <CheckCircle2 size={19} />
@@ -198,6 +238,7 @@ function Applications() {
             <strong>1</strong>
           </div>
         </div>
+
 
         <div className="application-stat-card">
           <div className="application-stat-icon purple">
@@ -212,7 +253,10 @@ function Applications() {
 
       </div>
 
-      {/* Search */}
+
+      {/* =====================================================
+          SEARCH
+      ===================================================== */}
       <div className="applications-toolbar">
 
         <div className="applications-search">
@@ -223,12 +267,19 @@ function Applications() {
             placeholder="Search applications..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+              }
+            }}
+            autoComplete="off"
           />
 
           {search && (
             <button
               type="button"
               onClick={() => setSearch("")}
+              aria-label="Clear search"
             >
               <X size={15} />
             </button>
@@ -237,8 +288,12 @@ function Applications() {
 
       </div>
 
-      {/* Tabs */}
+
+      {/* =====================================================
+          TABS
+      ===================================================== */}
       <div className="application-tabs">
+
         {tabs.map((tab) => (
           <button
             type="button"
@@ -258,14 +313,21 @@ function Applications() {
             </span>
           </button>
         ))}
+
       </div>
 
-      {/* Application List */}
+
+      {/* =====================================================
+          APPLICATION LIST
+      ===================================================== */}
       <div className="applications-list">
 
         {filteredApplications.length > 0 ? (
+
           filteredApplications.map((application) => {
-            const status = statusConfig[application.status];
+            const status =
+              statusConfig[application.status] ||
+              statusConfig.Applied;
 
             return (
               <article
@@ -273,10 +335,13 @@ function Applications() {
                 key={application.id}
               >
 
+                {/* Company Logo */}
                 <div className="application-company-logo">
                   {application.company.charAt(0)}
                 </div>
 
+
+                {/* Main Application Information */}
                 <div className="application-main">
 
                   <div className="application-title-row">
@@ -289,6 +354,7 @@ function Applications() {
                       </p>
                     </div>
 
+
                     <div
                       className={`application-status ${status.className}`}
                     >
@@ -298,6 +364,8 @@ function Applications() {
 
                   </div>
 
+
+                  {/* Meta Information */}
                   <div className="application-meta">
 
                     <span>
@@ -317,17 +385,22 @@ function Applications() {
 
                   </div>
 
+
+                  {/* Bottom Information */}
                   <div className="application-bottom">
 
                     <div className="application-next-step">
                       <strong>Next step:</strong>
+
                       <span>
                         {application.nextStep}
                       </span>
                     </div>
 
+
                     <div className="application-match">
                       <span>AI Match</span>
+
                       <strong>
                         {application.match}%
                       </strong>
@@ -337,31 +410,31 @@ function Applications() {
 
                 </div>
 
+
+                {/* Actions */}
                 <div className="application-actions">
 
                   <span className="application-salary">
                     {application.salary}
                   </span>
 
+
                   <button
                     type="button"
                     onClick={() =>
-                      setSelectedApplication(
-                        application
-                      )
+                      setSelectedApplication(application)
                     }
                   >
                     <Eye size={15} />
                     Details
                   </button>
 
+
                   <button
                     type="button"
                     className="application-view-button"
                     onClick={() =>
-                      setSelectedApplication(
-                        application
-                      )
+                      setSelectedApplication(application)
                     }
                   >
                     View Application
@@ -373,7 +446,12 @@ function Applications() {
               </article>
             );
           })
+
         ) : (
+
+          /* =================================================
+             EMPTY SEARCH RESULT
+          ================================================= */
           <div className="applications-empty">
 
             <div className="applications-empty-icon">
@@ -388,20 +466,21 @@ function Applications() {
 
             <button
               type="button"
-              onClick={() => {
-                setSearch("");
-                setActiveTab("All");
-              }}
+              onClick={clearFilters}
             >
               Clear Filters
             </button>
 
           </div>
+
         )}
 
       </div>
 
-      {/* Hiring Timeline */}
+
+      {/* =====================================================
+          HIRING TIMELINE
+      ===================================================== */}
       <section className="application-process-card">
 
         <div className="process-header">
@@ -411,98 +490,125 @@ function Applications() {
           </div>
         </div>
 
+
         <div className="application-timeline">
 
           <div className="timeline-item completed">
+
             <div className="timeline-dot">
               <CheckCircle2 size={15} />
             </div>
 
             <div>
               <strong>Application Submitted</strong>
+
               <p>
                 Your application has been successfully submitted.
               </p>
             </div>
+
           </div>
+
 
           <div className="timeline-line" />
 
+
           <div className="timeline-item completed">
+
             <div className="timeline-dot">
               <CheckCircle2 size={15} />
             </div>
 
             <div>
               <strong>Application Review</strong>
+
               <p>
                 Recruiter reviews your profile and resume.
               </p>
             </div>
+
           </div>
+
 
           <div className="timeline-line" />
 
+
           <div className="timeline-item active">
+
             <div className="timeline-dot">
               <CalendarDays size={15} />
             </div>
 
             <div>
               <strong>Interview</strong>
+
               <p>
                 Selected candidates move to the interview stage.
               </p>
             </div>
+
           </div>
+
 
           <div className="timeline-line" />
 
+
           <div className="timeline-item">
+
             <div className="timeline-dot">
               <CheckCircle2 size={15} />
             </div>
 
             <div>
               <strong>Final Decision</strong>
+
               <p>
                 Final selection decision from the employer.
               </p>
             </div>
+
           </div>
 
         </div>
+
       </section>
 
-      {/* Modal */}
+
+      {/* =====================================================
+          APPLICATION DETAILS MODAL
+      ===================================================== */}
       {selectedApplication && (
         <div
           className="application-modal-overlay"
-          onClick={() =>
-            setSelectedApplication(null)
-          }
+          onClick={() => setSelectedApplication(null)}
         >
+
           <div
             className="application-modal"
             onClick={(e) => e.stopPropagation()}
           >
 
+            {/* Close Button */}
             <button
               type="button"
               className="application-modal-close"
               onClick={() =>
                 setSelectedApplication(null)
               }
+              aria-label="Close application details"
             >
               <X size={18} />
             </button>
 
+
+            {/* Status */}
             <div className="modal-application-status">
+
               <span
                 className={`application-status ${
                   statusConfig[
                     selectedApplication.status
-                  ].className
+                  ]?.className || "status-applied"
                 }`}
               >
                 {getStatusIcon(
@@ -511,41 +617,55 @@ function Applications() {
 
                 {selectedApplication.status}
               </span>
+
             </div>
 
+
+            {/* Job Title */}
             <h2>
               {selectedApplication.jobTitle}
             </h2>
 
+
+            {/* Company */}
             <p className="modal-company">
               {selectedApplication.company}
             </p>
 
+
+            {/* Application Details */}
             <div className="modal-application-details">
 
               <div>
                 <span>Location</span>
+
                 <strong>
                   {selectedApplication.location}
                 </strong>
               </div>
 
+
               <div>
                 <span>Job Type</span>
+
                 <strong>
                   {selectedApplication.type}
                 </strong>
               </div>
 
+
               <div>
                 <span>Salary</span>
+
                 <strong>
                   {selectedApplication.salary}
                 </strong>
               </div>
 
+
               <div>
                 <span>AI Match</span>
+
                 <strong className="modal-match-score">
                   {selectedApplication.match}%
                 </strong>
@@ -553,14 +673,20 @@ function Applications() {
 
             </div>
 
+
+            {/* Current Status */}
             <div className="modal-next-step">
+
               <span>Current status</span>
 
               <p>
                 {selectedApplication.nextStep}
               </p>
+
             </div>
 
+
+            {/* Modal Timeline */}
             <div className="modal-timeline">
 
               <div className="modal-timeline-step done">
@@ -568,10 +694,12 @@ function Applications() {
                 <span>Application submitted</span>
               </div>
 
+
               <div className="modal-timeline-step done">
                 <div />
                 <span>Recruiter review</span>
               </div>
+
 
               <div
                 className={
@@ -585,6 +713,7 @@ function Applications() {
                 <span>Interview stage</span>
               </div>
 
+
               <div className="modal-timeline-step">
                 <div />
                 <span>Final decision</span>
@@ -592,6 +721,8 @@ function Applications() {
 
             </div>
 
+
+            {/* Close */}
             <button
               type="button"
               className="close-modal-button"
@@ -603,6 +734,7 @@ function Applications() {
             </button>
 
           </div>
+
         </div>
       )}
 

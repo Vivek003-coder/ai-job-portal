@@ -59,7 +59,9 @@ function SavedJobs() {
   const showMessage = (text) => {
     setMessage(text);
 
-    setTimeout(() => {
+    window.clearTimeout(showMessage.timer);
+
+    showMessage.timer = window.setTimeout(() => {
       setMessage("");
     }, 2500);
   };
@@ -73,32 +75,54 @@ function SavedJobs() {
   };
 
   const clearAll = () => {
-    if (savedJobs.length === 0) return;
+    if (savedJobs.length === 0) {
+      return;
+    }
 
     setSavedJobs([]);
+    setSearch("");
+
     showMessage("All saved jobs have been removed.");
   };
 
-  const filteredJobs = useMemo(() => {
-    let result = savedJobs.filter((job) => {
-      const query = search.toLowerCase();
+  const clearSearch = () => {
+    setSearch("");
+  };
 
-      return (
-        job.title.toLowerCase().includes(query) ||
-        job.company.toLowerCase().includes(query) ||
-        job.location.toLowerCase().includes(query) ||
-        job.skills.some((skill) =>
-          skill.toLowerCase().includes(query)
-        )
-      );
+  const filteredJobs = useMemo(() => {
+    const query = search.trim().toLowerCase();
+
+    let result = savedJobs.filter((job) => {
+      if (!query) {
+        return true;
+      }
+
+      const searchableText = [
+        job.title,
+        job.company,
+        job.location,
+        job.type,
+        job.experience,
+        job.salary,
+        ...job.skills,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return searchableText.includes(query);
     });
 
     if (sort === "match") {
-      result.sort((a, b) => b.match - a.match);
+      result = [...result].sort(
+        (a, b) => b.match - a.match
+      );
     }
 
     if (sort === "recent") {
-      result.sort((a, b) => b.id - a.id);
+      result = [...result].sort(
+        (a, b) => b.id - a.id
+      );
     }
 
     return result;
@@ -107,15 +131,20 @@ function SavedJobs() {
   return (
     <div className="saved-jobs-page">
 
-      {/* Toast */}
+      {/* =====================================================
+          TOAST
+      ===================================================== */}
       {message && (
-        <div className="saved-jobs-toast">
+        <div className="saved-jobs-toast" role="status">
           <Star size={16} />
-          {message}
+          <span>{message}</span>
         </div>
       )}
 
-      {/* Header */}
+
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
       <div className="saved-jobs-header">
 
         <div>
@@ -132,6 +161,7 @@ function SavedJobs() {
           </p>
         </div>
 
+
         <div className="saved-jobs-count">
           <strong>{savedJobs.length}</strong>
           <span>Saved Jobs</span>
@@ -139,9 +169,13 @@ function SavedJobs() {
 
       </div>
 
-      {/* Toolbar */}
+
+      {/* =====================================================
+          TOOLBAR
+      ===================================================== */}
       <div className="saved-jobs-toolbar">
 
+        {/* Search */}
         <div className="saved-jobs-search">
           <Search size={17} />
 
@@ -149,19 +183,30 @@ function SavedJobs() {
             type="text"
             placeholder="Search saved jobs..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+              }
+            }}
+            autoComplete="off"
           />
 
           {search && (
             <button
               type="button"
-              onClick={() => setSearch("")}
+              onClick={clearSearch}
+              aria-label="Clear search"
             >
               <X size={15} />
             </button>
           )}
         </div>
 
+
+        {/* Right Toolbar */}
         <div className="saved-jobs-toolbar-right">
 
           <div className="saved-sort">
@@ -172,7 +217,9 @@ function SavedJobs() {
             <select
               id="savedSort"
               value={sort}
-              onChange={(e) => setSort(e.target.value)}
+              onChange={(e) =>
+                setSort(e.target.value)
+              }
             >
               <option value="match">
                 Best Match
@@ -183,6 +230,7 @@ function SavedJobs() {
               </option>
             </select>
           </div>
+
 
           {savedJobs.length > 0 && (
             <button
@@ -199,22 +247,31 @@ function SavedJobs() {
 
       </div>
 
-      {/* Results */}
+
+      {/* =====================================================
+          RESULTS
+      ===================================================== */}
       {filteredJobs.length > 0 ? (
+
         <div className="saved-jobs-list">
 
           {filteredJobs.map((job) => (
+
             <article
               className="saved-job-card"
               key={job.id}
             >
 
-              {/* Company */}
-              <div className="saved-company-logo">
+              {/* Company Logo */}
+              <div
+                className="saved-company-logo"
+                aria-hidden="true"
+              >
                 {job.company.charAt(0)}
               </div>
 
-              {/* Main */}
+
+              {/* Main Job Information */}
               <div className="saved-job-main">
 
                 <div className="saved-job-title-row">
@@ -225,16 +282,21 @@ function SavedJobs() {
                     <p>{job.company}</p>
                   </div>
 
+
                   <div className="saved-match">
                     <strong>
                       {job.match}%
                     </strong>
 
-                    <span>AI Match</span>
+                    <span>
+                      AI Match
+                    </span>
                   </div>
 
                 </div>
 
+
+                {/* Job Meta */}
                 <div className="saved-job-meta">
 
                   <span>
@@ -254,20 +316,29 @@ function SavedJobs() {
 
                 </div>
 
+
+                {/* Skills */}
                 <div className="saved-job-skills">
+
                   {job.skills.map((skill) => (
                     <span key={skill}>
                       {skill}
                     </span>
                   ))}
+
                 </div>
 
+
+                {/* Saved Date */}
                 <div className="saved-date">
                   <Star size={12} />
-                  Saved on {job.savedDate}
+                  <span>
+                    Saved on {job.savedDate}
+                  </span>
                 </div>
 
               </div>
+
 
               {/* Actions */}
               <div className="saved-job-actions">
@@ -276,16 +347,19 @@ function SavedJobs() {
                   {job.salary}
                 </strong>
 
+
                 <button
                   type="button"
                   className="remove-saved-button"
                   onClick={() =>
                     removeJob(job.id)
                   }
+                  aria-label={`Remove ${job.title} from saved jobs`}
                 >
                   <Trash2 size={15} />
                   Remove
                 </button>
+
 
                 <Link
                   to={`/jobs/${job.id}`}
@@ -298,15 +372,22 @@ function SavedJobs() {
               </div>
 
             </article>
+
           ))}
 
         </div>
+
       ) : (
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
         <div className="saved-empty">
 
           <div className="saved-empty-icon">
             <Star size={26} />
           </div>
+
 
           <h2>
             {search
@@ -314,36 +395,48 @@ function SavedJobs() {
               : "No saved jobs yet"}
           </h2>
 
+
           <p>
             {search
               ? "Try another search term."
               : "Save interesting jobs and they'll appear here."}
           </p>
 
+
           {search ? (
+
             <button
               type="button"
-              onClick={() => setSearch("")}
+              onClick={clearSearch}
             >
               Clear Search
             </button>
+
           ) : (
+
             <Link to="/jobs">
               Browse Jobs
               <ArrowRight size={15} />
             </Link>
+
           )}
 
         </div>
+
       )}
 
-      {/* Bottom CTA */}
+
+      {/* =====================================================
+          BOTTOM CTA
+      ===================================================== */}
       {savedJobs.length > 0 && (
+
         <section className="saved-jobs-cta">
 
           <div className="saved-cta-icon">
             <Briefcase size={20} />
           </div>
+
 
           <div>
             <h3>
@@ -356,12 +449,14 @@ function SavedJobs() {
             </p>
           </div>
 
+
           <Link to="/candidate/recommended-jobs">
             View Recommended Jobs
             <ArrowRight size={15} />
           </Link>
 
         </section>
+
       )}
 
     </div>

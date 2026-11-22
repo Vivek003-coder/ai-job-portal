@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+
 import {
   User,
   Bell,
@@ -16,6 +17,8 @@ import {
   Camera,
   X,
   KeyRound,
+  Info,
+  Check,
 } from "lucide-react";
 
 import "./Settings.css";
@@ -114,7 +117,9 @@ const Settings = () => {
       text,
     });
 
-    setTimeout(() => {
+    window.clearTimeout(showMessage.timer);
+
+    showMessage.timer = window.setTimeout(() => {
       setMessage({
         type: "",
         text: "",
@@ -123,7 +128,7 @@ const Settings = () => {
   };
 
   // =========================================================
-  // ACCOUNT HANDLER
+  // ACCOUNT
   // =========================================================
 
   const handleAccountChange = (event) => {
@@ -186,7 +191,11 @@ const Settings = () => {
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      showMessage("error", "Please select a valid image file.");
+      showMessage(
+        "error",
+        "Please select a valid image file."
+      );
+
       event.target.value = "";
       return;
     }
@@ -196,13 +205,20 @@ const Settings = () => {
         "error",
         "Profile photo must be smaller than 5 MB."
       );
+
       event.target.value = "";
       return;
     }
 
     const imageUrl = URL.createObjectURL(file);
 
-    setProfilePhoto(imageUrl);
+    setProfilePhoto((previous) => {
+      if (previous) {
+        URL.revokeObjectURL(previous);
+      }
+
+      return imageUrl;
+    });
 
     showMessage(
       "success",
@@ -213,7 +229,13 @@ const Settings = () => {
   };
 
   const removePhoto = () => {
-    setProfilePhoto(null);
+    setProfilePhoto((previous) => {
+      if (previous) {
+        URL.revokeObjectURL(previous);
+      }
+
+      return null;
+    });
 
     showMessage(
       "success",
@@ -305,9 +327,12 @@ const Settings = () => {
 
     /*
       Frontend validation is complete.
-      Connect this function to the Spring Boot
-      change-password API when the backend endpoint
-      is ready.
+
+      Later connect this function to your Spring Boot API:
+      PUT /api/users/change-password
+
+      The backend should verify the current password
+      and update the new password securely.
     */
 
     setTimeout(() => {
@@ -315,7 +340,7 @@ const Settings = () => {
 
       showMessage(
         "success",
-        "Password validated successfully. Connect the backend API to save it permanently."
+        "Password validated successfully. Backend API integration is pending."
       );
 
       setPassword({
@@ -410,21 +435,25 @@ const Settings = () => {
     {
       id: "account",
       label: "Account",
+      description: "Personal information",
       icon: User,
     },
     {
       id: "notifications",
       label: "Notifications",
+      description: "Alerts and updates",
       icon: Bell,
     },
     {
       id: "security",
       label: "Security",
+      description: "Password and protection",
       icon: Lock,
     },
     {
       id: "privacy",
       label: "Privacy",
+      description: "Profile visibility",
       icon: Shield,
     },
   ];
@@ -443,6 +472,8 @@ const Settings = () => {
               ? "error"
               : "success"
           }`}
+          role="status"
+          aria-live="polite"
         >
           {message.type === "success" ? (
             <CheckCircle size={18} />
@@ -459,16 +490,25 @@ const Settings = () => {
       ===================================================== */}
 
       <header className="settings-header">
-        <span className="settings-eyebrow">
-          ACCOUNT MANAGEMENT
-        </span>
 
-        <h1>Settings</h1>
+        <div className="settings-header-copy">
+          <span className="settings-eyebrow">
+            ACCOUNT MANAGEMENT
+          </span>
 
-        <p>
-          Manage your account, notifications,
-          privacy, and security preferences.
-        </p>
+          <h1>Settings</h1>
+
+          <p>
+            Manage your account, notifications, privacy,
+            and security preferences from one place.
+          </p>
+        </div>
+
+        <div className="settings-header-status">
+          <span className="status-dot" />
+          Account active
+        </div>
+
       </header>
 
       {/* =====================================================
@@ -498,12 +538,19 @@ const Settings = () => {
 
             <div className="settings-profile-info">
               <h3>{account.fullName}</h3>
-              <p>Candidate</p>
+              <p>Candidate account</p>
             </div>
 
           </div>
 
-          <nav className="settings-nav">
+          <nav
+            className="settings-nav"
+            aria-label="Settings navigation"
+          >
+
+            <p className="settings-nav-label">
+              SETTINGS
+            </p>
 
             {tabs.map((tab) => {
               const Icon = tab.icon;
@@ -520,14 +567,36 @@ const Settings = () => {
                   onClick={() =>
                     setActiveTab(tab.id)
                   }
+                  aria-current={
+                    activeTab === tab.id
+                      ? "page"
+                      : undefined
+                  }
                 >
-                  <Icon size={18} />
-                  <span>{tab.label}</span>
+                  <span className="settings-nav-icon">
+                    <Icon size={17} />
+                  </span>
+
+                  <span className="settings-nav-copy">
+                    <strong>{tab.label}</strong>
+                    <small>{tab.description}</small>
+                  </span>
                 </button>
               );
             })}
 
           </nav>
+
+          <div className="settings-sidebar-footer">
+            <div className="settings-secure-mini">
+              <Shield size={15} />
+              <span>Your account is protected</span>
+            </div>
+
+            <span className="settings-version">
+              AI Job Portal · v1.0
+            </span>
+          </div>
 
         </aside>
 
@@ -545,7 +614,7 @@ const Settings = () => {
             <section className="settings-section">
 
               <SectionTitle
-                icon={<User size={22} />}
+                icon={<User size={21} />}
                 title="Account Information"
                 description="Update the personal information associated with your account."
               />
@@ -555,7 +624,7 @@ const Settings = () => {
                 onSubmit={saveAccount}
               >
 
-                {/* PROFILE */}
+                {/* PROFILE PHOTO */}
 
                 <div className="avatar-section">
 
@@ -574,12 +643,21 @@ const Settings = () => {
 
                   <div className="avatar-info">
 
-                    <h3>Profile Photo</h3>
+                    <div className="avatar-title-row">
+                      <div>
+                        <h3>Profile Photo</h3>
 
-                    <p>
-                      Upload a professional photo
-                      recruiters can recognize.
-                    </p>
+                        <p>
+                          Add a professional photo so recruiters
+                          can recognize you easily.
+                        </p>
+                      </div>
+
+                      <span className="photo-status">
+                        <Check size={13} />
+                        Profile
+                      </span>
+                    </div>
 
                     <div className="photo-actions">
 
@@ -597,6 +675,7 @@ const Settings = () => {
                         onClick={openPhotoPicker}
                       >
                         <Camera size={15} />
+
                         {profilePhoto
                           ? "Change Photo"
                           : "Upload Photo"}
@@ -616,7 +695,7 @@ const Settings = () => {
                     </div>
 
                     <span className="file-help">
-                      JPG, PNG or WEBP • Maximum 5 MB
+                      JPG, PNG or WEBP · Maximum 5 MB
                     </span>
 
                   </div>
@@ -680,6 +759,7 @@ const Settings = () => {
                 </div>
 
                 <FormActions>
+
                   <button
                     type="submit"
                     className="primary-btn"
@@ -687,6 +767,7 @@ const Settings = () => {
                     <Save size={17} />
                     Save Changes
                   </button>
+
                 </FormActions>
 
               </form>
@@ -702,7 +783,7 @@ const Settings = () => {
             <section className="settings-section">
 
               <SectionTitle
-                icon={<Bell size={22} />}
+                icon={<Bell size={21} />}
                 title="Notification Preferences"
                 description="Choose which updates and alerts you want to receive."
               />
@@ -746,7 +827,7 @@ const Settings = () => {
 
                 <ToggleRow
                   title="Recommended Jobs"
-                  description="Receive personalized job recommendations."
+                  description="Receive personalized job recommendations based on your profile."
                   enabled={
                     notifications.recommendedJobs
                   }
@@ -759,18 +840,15 @@ const Settings = () => {
 
                 <ToggleRow
                   title="Marketing Emails"
-                  description="Receive product news, tips, and promotional emails."
-                  enabled={
-                    notifications.marketing
-                  }
+                  description="Receive product news, career tips, and promotional emails."
+                  enabled={notifications.marketing}
                   onChange={() =>
-                    toggleNotification(
-                      "marketing"
-                    )
+                    toggleNotification("marketing")
                   }
                 />
 
                 <FormActions>
+
                   <button
                     type="button"
                     className="primary-btn"
@@ -779,6 +857,7 @@ const Settings = () => {
                     <Save size={17} />
                     Save Preferences
                   </button>
+
                 </FormActions>
 
               </div>
@@ -794,7 +873,7 @@ const Settings = () => {
             <section className="settings-section">
 
               <SectionTitle
-                icon={<Lock size={22} />}
+                icon={<Lock size={21} />}
                 title="Security"
                 description="Manage your password and account security."
               />
@@ -815,12 +894,13 @@ const Settings = () => {
                     <h3>Account Security</h3>
 
                     <p>
-                      Keep your account protected
-                      with a strong password.
+                      Keep your account protected with
+                      a strong, unique password.
                     </p>
                   </div>
 
                   <span className="secure-badge">
+                    <Check size={12} />
                     Secure
                   </span>
 
@@ -828,9 +908,18 @@ const Settings = () => {
 
                 <div className="settings-divider" />
 
-                <h3 className="sub-heading">
-                  Change Password
-                </h3>
+                <div className="security-form-heading">
+                  <div>
+                    <h3 className="sub-heading">
+                      Change Password
+                    </h3>
+
+                    <p>
+                      Update your password regularly to
+                      keep your account secure.
+                    </p>
+                  </div>
+                </div>
 
                 <div className="password-form">
 
@@ -894,16 +983,13 @@ const Settings = () => {
                 </div>
 
                 <div className="password-tip">
-
-                  <Shield size={16} />
+                  <Info size={16} />
 
                   <span>
-                    Use at least 8 characters.
-                    For better security, use
-                    uppercase letters, numbers,
-                    and symbols.
+                    Use at least 8 characters. For
+                    stronger security, combine uppercase
+                    letters, numbers, and symbols.
                   </span>
-
                 </div>
 
                 <FormActions>
@@ -945,8 +1031,9 @@ const Settings = () => {
                   <h3>Danger Zone</h3>
 
                   <p>
-                    Permanently delete your account
-                    and associated data.
+                    Permanently delete your account and
+                    associated data. This action cannot
+                    be undone.
                   </p>
 
                   <button
@@ -973,9 +1060,9 @@ const Settings = () => {
             <section className="settings-section">
 
               <SectionTitle
-                icon={<Shield size={22} />}
+                icon={<Shield size={21} />}
                 title="Privacy"
-                description="Control how recruiters can interact with your profile."
+                description="Control how recruiters can discover and interact with your profile."
               />
 
               <div className="settings-card">
@@ -995,7 +1082,7 @@ const Settings = () => {
 
                 <ToggleRow
                   title="Recruiter Contact"
-                  description="Allow verified recruiters to contact you."
+                  description="Allow verified recruiters to contact you about relevant opportunities."
                   enabled={
                     privacy.recruiterContact
                   }
@@ -1038,6 +1125,7 @@ const Settings = () => {
           )}
 
         </main>
+
       </div>
 
       {/* =====================================================
@@ -1057,20 +1145,41 @@ const Settings = () => {
             }
           >
 
+            <button
+              type="button"
+              className="settings-modal-close"
+              onClick={closeDeleteModal}
+              aria-label="Close"
+            >
+              <X size={18} />
+            </button>
+
             <div className="settings-modal-icon">
               <AlertTriangle size={24} />
             </div>
+
+            <span className="modal-eyebrow">
+              ACCOUNT ACTION
+            </span>
 
             <h2>
               Delete Account?
             </h2>
 
             <p>
-              This action cannot be undone.
-              Your profile, applications,
-              saved jobs, and associated data
-              may be permanently deleted.
+              This action cannot be undone. Your
+              profile, applications, saved jobs,
+              and associated data may be permanently
+              deleted.
             </p>
+
+            <div className="delete-warning">
+              <AlertTriangle size={16} />
+              <span>
+                Account deletion will require backend
+                confirmation when the API is connected.
+              </span>
+            </div>
 
             <div className="settings-modal-actions">
 
@@ -1085,9 +1194,7 @@ const Settings = () => {
               <button
                 type="button"
                 className="danger-btn"
-                onClick={
-                  confirmDeleteAccount
-                }
+                onClick={confirmDeleteAccount}
               >
                 <Trash2 size={15} />
                 Confirm Delete
@@ -1104,7 +1211,6 @@ const Settings = () => {
   );
 };
 
-
 // =========================================================
 // SECTION TITLE
 // =========================================================
@@ -1117,17 +1223,21 @@ const SectionTitle = ({
   return (
     <div className="section-title">
 
-      <div>
-        <h2>{title}</h2>
-        <p>{description}</p>
-      </div>
+      <div className="section-title-copy">
+        <div className="section-title-icon">
+          {icon}
+        </div>
 
-      {icon}
+        <div>
+          <h2>{title}</h2>
+
+          <p>{description}</p>
+        </div>
+      </div>
 
     </div>
   );
 };
-
 
 // =========================================================
 // FORM INPUT
@@ -1153,7 +1263,9 @@ const FormInput = ({
 
       <div className="input-wrapper">
 
-        {icon}
+        <span className="field-icon">
+          {icon}
+        </span>
 
         <input
           id={id}
@@ -1170,7 +1282,6 @@ const FormInput = ({
     </div>
   );
 };
-
 
 // =========================================================
 // PASSWORD FIELD
@@ -1193,13 +1304,11 @@ const PasswordField = ({
 
       <div className="password-wrapper">
 
-        {/* Lock Icon */}
         <Lock
-          size={18}
+          size={17}
           className="password-lock-icon"
         />
 
-        {/* Password Input */}
         <input
           id={name}
           name={name}
@@ -1214,7 +1323,6 @@ const PasswordField = ({
           }
         />
 
-        {/* Show / Hide Password */}
         <button
           type="button"
           className="password-eye"
@@ -1253,7 +1361,17 @@ const ToggleRow = ({
 
       <div className="toggle-info">
 
-        <h3>{title}</h3>
+        <div className="toggle-title-line">
+          <h3>{title}</h3>
+
+          <span
+            className={`toggle-state ${
+              enabled ? "on" : "off"
+            }`}
+          >
+            {enabled ? "On" : "Off"}
+          </span>
+        </div>
 
         <p>{description}</p>
 
@@ -1274,7 +1392,6 @@ const ToggleRow = ({
     </div>
   );
 };
-
 
 // =========================================================
 // FORM ACTIONS
