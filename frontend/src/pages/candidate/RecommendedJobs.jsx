@@ -24,10 +24,13 @@ const jobs = [
     type: "Full Time",
     experience: "0-2 Years",
     salary: "₹6 - ₹10 LPA",
+    salaryValue: 10,
     match: 94,
     skills: ["Java", "Spring Boot", "MySQL", "REST API"],
-    reason: "Strong match for your Java and Spring Boot skills.",
+    reason:
+      "Strong match for your Java and Spring Boot skills.",
     posted: "2 days ago",
+    postedDays: 2,
   },
   {
     id: 2,
@@ -37,10 +40,13 @@ const jobs = [
     type: "Full Time",
     experience: "0-2 Years",
     salary: "₹7 - ₹12 LPA",
+    salaryValue: 12,
     match: 91,
     skills: ["Java", "Spring Boot", "React", "SQL"],
-    reason: "Your Java backend and React experience closely match this role.",
+    reason:
+      "Your Java backend and React experience closely match this role.",
     posted: "1 day ago",
+    postedDays: 1,
   },
   {
     id: 3,
@@ -50,10 +56,13 @@ const jobs = [
     type: "Full Time",
     experience: "0-1 Years",
     salary: "₹5 - ₹9 LPA",
+    salaryValue: 9,
     match: 87,
     skills: ["Java", "DSA", "Git", "SQL"],
-    reason: "Good alignment with your Java, DSA and database background.",
+    reason:
+      "Good alignment with your Java, DSA and database background.",
     posted: "3 days ago",
+    postedDays: 3,
   },
   {
     id: 4,
@@ -63,10 +72,18 @@ const jobs = [
     type: "Full Time",
     experience: "1-3 Years",
     salary: "₹8 - ₹13 LPA",
+    salaryValue: 13,
     match: 84,
-    skills: ["Spring Boot", "Java", "Microservices", "PostgreSQL"],
-    reason: "Your backend profile matches most of the required technologies.",
+    skills: [
+      "Spring Boot",
+      "Java",
+      "Microservices",
+      "PostgreSQL",
+    ],
+    reason:
+      "Your backend profile matches most of the required technologies.",
     posted: "4 days ago",
+    postedDays: 4,
   },
 ];
 
@@ -75,19 +92,41 @@ function RecommendedJobs() {
   const [sort, setSort] = useState("match");
   const [selectedJob, setSelectedJob] = useState(null);
   const [savedJobs, setSavedJobs] = useState([]);
+  const [toast, setToast] = useState("");
+
+  const showToast = (message) => {
+    setToast(message);
+
+    window.clearTimeout(showToast.timer);
+
+    showToast.timer = window.setTimeout(() => {
+      setToast("");
+    }, 2200);
+  };
+
+  const clearSearch = () => {
+    setSearch("");
+  };
 
   const filteredJobs = useMemo(() => {
-    let result = jobs.filter((job) => {
-      const query = search.toLowerCase();
+    const query = search.trim().toLowerCase();
 
-      return (
-        job.title.toLowerCase().includes(query) ||
-        job.company.toLowerCase().includes(query) ||
-        job.location.toLowerCase().includes(query) ||
-        job.skills.some((skill) =>
-          skill.toLowerCase().includes(query)
-        )
-      );
+    let result = jobs.filter((job) => {
+      if (!query) return true;
+
+      const searchableText = [
+        job.title,
+        job.company,
+        job.location,
+        job.type,
+        job.experience,
+        job.salary,
+        ...job.skills,
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return searchableText.includes(query);
     });
 
     if (sort === "match") {
@@ -95,30 +134,50 @@ function RecommendedJobs() {
     }
 
     if (sort === "recent") {
-      result.sort((a, b) => a.id - b.id);
+      result.sort((a, b) => a.postedDays - b.postedDays);
     }
 
     if (sort === "salary") {
-      result.sort((a, b) => b.match - a.match);
+      result.sort((a, b) => b.salaryValue - a.salaryValue);
     }
 
     return result;
   }, [search, sort]);
 
   const toggleSave = (jobId) => {
+    const isSaved = savedJobs.includes(jobId);
+
     setSavedJobs((prev) =>
-      prev.includes(jobId)
+      isSaved
         ? prev.filter((id) => id !== jobId)
         : [...prev, jobId]
     );
+
+    showToast(
+      isSaved
+        ? "Job removed from saved jobs."
+        : "Job saved successfully."
+    );
+  };
+
+  const closeModal = () => {
+    setSelectedJob(null);
   };
 
   return (
     <div className="recommended-page">
 
+      {/* Toast */}
+      {toast && (
+        <div className="recommended-toast">
+          <CheckCircle2 size={16} />
+          <span>{toast}</span>
+        </div>
+      )}
+
       {/* Header */}
       <div className="recommended-header">
-        <div>
+        <div className="recommended-header-content">
           <span className="recommended-eyebrow">
             <Sparkles size={14} />
             AI POWERED
@@ -137,7 +196,7 @@ function RecommendedJobs() {
             <Brain size={19} />
           </div>
 
-          <div>
+          <div className="ai-status-copy">
             <span>Profile Match Engine</span>
             <strong>Active</strong>
           </div>
@@ -153,8 +212,9 @@ function RecommendedJobs() {
             <Brain size={24} />
           </div>
 
-          <div>
+          <div className="summary-content">
             <span>Your AI profile score</span>
+
             <div className="summary-score">
               <strong>91%</strong>
               <span>Excellent match profile</span>
@@ -190,17 +250,26 @@ function RecommendedJobs() {
 
         <div className="recommended-search">
           <Search size={18} />
+
           <input
             type="text"
             placeholder="Search recommended jobs..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+              }
+            }}
+            autoComplete="off"
           />
 
           {search && (
             <button
               type="button"
-              onClick={() => setSearch("")}
+              className="recommended-search-clear"
+              onClick={clearSearch}
+              aria-label="Clear search"
             >
               <X size={15} />
             </button>
@@ -214,10 +283,11 @@ function RecommendedJobs() {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
+              aria-label="Sort recommended jobs"
             >
               <option value="match">Best Match</option>
               <option value="recent">Most Recent</option>
-              <option value="salary">Top Match</option>
+              <option value="salary">Highest Salary</option>
             </select>
 
             <ChevronDown size={15} />
@@ -225,11 +295,12 @@ function RecommendedJobs() {
         </div>
       </div>
 
-      {/* Results */}
+      {/* Results Header */}
       <div className="recommended-results-header">
         <div>
           <h2>
-            {filteredJobs.length} jobs found
+            {filteredJobs.length}{" "}
+            {filteredJobs.length === 1 ? "job" : "jobs"} found
           </h2>
 
           <p>
@@ -237,7 +308,10 @@ function RecommendedJobs() {
           </p>
         </div>
 
-        <Link to="/jobs" className="browse-all-link">
+        <Link
+          to="/jobs"
+          className="browse-all-link"
+        >
           Browse all jobs
           <ArrowRight size={15} />
         </Link>
@@ -247,132 +321,140 @@ function RecommendedJobs() {
       <div className="recommended-job-list">
 
         {filteredJobs.length > 0 ? (
-          filteredJobs.map((job) => (
-            <article className="recommended-job-card" key={job.id}>
+          filteredJobs.map((job) => {
+            const isSaved = savedJobs.includes(job.id);
 
-              {/* Match Score */}
-              <div className="job-match-column">
-                <div
-                  className={`match-score ${
-                    job.match >= 90
-                      ? "excellent"
+            return (
+              <article
+                className="recommended-job-card"
+                key={job.id}
+              >
+
+                {/* Match Score */}
+                <div className="job-match-column">
+                  <div
+                    className={`match-score ${
+                      job.match >= 90
+                        ? "excellent"
+                        : job.match >= 80
+                          ? "good"
+                          : "average"
+                    }`}
+                  >
+                    <strong>{job.match}%</strong>
+                    <span>Match</span>
+                  </div>
+
+                  <div className="match-label">
+                    <TrendingUp size={13} />
+
+                    {job.match >= 90
+                      ? "Excellent"
                       : job.match >= 80
-                        ? "good"
-                        : "average"
-                  }`}
-                >
-                  <strong>{job.match}%</strong>
-                  <span>Match</span>
+                        ? "Strong"
+                        : "Good"}
+                  </div>
                 </div>
 
-                <div className="match-label">
-                  <TrendingUp size={13} />
-                  {job.match >= 90
-                    ? "Excellent"
-                    : "Strong"}
-                </div>
-              </div>
+                {/* Main Information */}
+                <div className="recommended-job-main">
 
-              {/* Main Info */}
-              <div className="recommended-job-main">
+                  <div className="recommended-job-title-row">
+                    <div className="company-logo">
+                      {job.company.charAt(0)}
+                    </div>
 
-                <div className="recommended-job-title-row">
-
-                  <div className="company-logo">
-                    {job.company.charAt(0)}
+                    <div className="recommended-title-content">
+                      <h3>{job.title}</h3>
+                      <p>{job.company}</p>
+                    </div>
                   </div>
 
-                  <div>
-                    <h3>{job.title}</h3>
-                    <p>{job.company}</p>
-                  </div>
-
-                </div>
-
-                <div className="job-meta">
-                  <span>
-                    <MapPin size={14} />
-                    {job.location}
-                  </span>
-
-                  <span>
-                    <Briefcase size={14} />
-                    {job.type}
-                  </span>
-
-                  <span>
-                    <Clock3 size={14} />
-                    {job.experience}
-                  </span>
-                </div>
-
-                <div className="job-skills">
-                  {job.skills.map((skill) => (
-                    <span key={skill}>
-                      {skill}
+                  {/* Metadata */}
+                  <div className="job-meta">
+                    <span>
+                      <MapPin size={14} />
+                      {job.location}
                     </span>
-                  ))}
+
+                    <span>
+                      <Briefcase size={14} />
+                      {job.type}
+                    </span>
+
+                    <span>
+                      <Clock3 size={14} />
+                      {job.experience}
+                    </span>
+                  </div>
+
+                  {/* Skills */}
+                  <div className="job-skills">
+                    {job.skills.map((skill) => (
+                      <span key={skill}>
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Match Reason */}
+                  <div className="match-reason">
+                    <Sparkles size={14} />
+
+                    <span>
+                      <strong>Why this matches:</strong>{" "}
+                      {job.reason}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="match-reason">
-                  <Sparkles size={14} />
+                {/* Actions */}
+                <div className="recommended-job-actions">
 
-                  <span>
-                    <strong>Why this matches:</strong>{" "}
-                    {job.reason}
-                  </span>
+                  <div className="salary">
+                    <strong>{job.salary}</strong>
+                    <span>{job.posted}</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    className={`save-job-button ${
+                      isSaved ? "saved" : ""
+                    }`}
+                    onClick={() => toggleSave(job.id)}
+                  >
+                    <Star
+                      size={17}
+                      fill={
+                        isSaved
+                          ? "currentColor"
+                          : "none"
+                      }
+                    />
+
+                    {isSaved ? "Saved" : "Save"}
+                  </button>
+
+                  <button
+                    type="button"
+                    className="view-match-button"
+                    onClick={() => setSelectedJob(job)}
+                  >
+                    View Job
+                    <ArrowRight size={15} />
+                  </button>
                 </div>
-
-              </div>
-
-              {/* Actions */}
-              <div className="recommended-job-actions">
-
-                <div className="salary">
-                  <strong>{job.salary}</strong>
-                  <span>{job.posted}</span>
-                </div>
-
-                <button
-                  type="button"
-                  className={`save-job-button ${
-                    savedJobs.includes(job.id)
-                      ? "saved"
-                      : ""
-                  }`}
-                  onClick={() => toggleSave(job.id)}
-                >
-                  <Star
-                    size={17}
-                    fill={
-                      savedJobs.includes(job.id)
-                        ? "currentColor"
-                        : "none"
-                    }
-                  />
-
-                  {savedJobs.includes(job.id)
-                    ? "Saved"
-                    : "Save"}
-                </button>
-
-                <button
-                  type="button"
-                  className="view-match-button"
-                  onClick={() => setSelectedJob(job)}
-                >
-                  View Job
-                  <ArrowRight size={15} />
-                </button>
-
-              </div>
-
-            </article>
-          ))
+              </article>
+            );
+          })
         ) : (
           <div className="no-recommended-jobs">
-            <Search size={30} />
+            <div className="no-jobs-icon">
+              <Search size={28} />
+            </div>
+
             <h3>No matching jobs found</h3>
+
             <p>
               Try searching with another job title,
               company or skill.
@@ -380,13 +462,12 @@ function RecommendedJobs() {
 
             <button
               type="button"
-              onClick={() => setSearch("")}
+              onClick={clearSearch}
             >
               Clear Search
             </button>
           </div>
         )}
-
       </div>
 
       {/* AI Explanation */}
@@ -395,7 +476,7 @@ function RecommendedJobs() {
           <Brain size={22} />
         </div>
 
-        <div>
+        <div className="explanation-content">
           <h3>How your AI matching works</h3>
 
           <p>
@@ -427,16 +508,18 @@ function RecommendedJobs() {
       {selectedJob && (
         <div
           className="job-modal-overlay"
-          onClick={() => setSelectedJob(null)}
+          onClick={closeModal}
         >
           <div
             className="job-modal"
             onClick={(e) => e.stopPropagation()}
           >
+
             <button
               type="button"
               className="modal-close"
-              onClick={() => setSelectedJob(null)}
+              onClick={closeModal}
+              aria-label="Close job details"
             >
               <X size={18} />
             </button>
@@ -446,9 +529,7 @@ function RecommendedJobs() {
                 {selectedJob.match}%
               </div>
 
-              <span>
-                AI Match Score
-              </span>
+              <span>AI Match Score</span>
             </div>
 
             <h2>{selectedJob.title}</h2>
@@ -494,6 +575,11 @@ function RecommendedJobs() {
               </div>
             </div>
 
+            <div className="modal-salary">
+              <span>Estimated salary</span>
+              <strong>{selectedJob.salary}</strong>
+            </div>
+
             <div className="modal-actions">
               <button
                 type="button"
@@ -505,7 +591,9 @@ function RecommendedJobs() {
                 <Star
                   size={16}
                   fill={
-                    savedJobs.includes(selectedJob.id)
+                    savedJobs.includes(
+                      selectedJob.id
+                    )
                       ? "currentColor"
                       : "none"
                   }
@@ -527,7 +615,6 @@ function RecommendedJobs() {
           </div>
         </div>
       )}
-
     </div>
   );
 }
