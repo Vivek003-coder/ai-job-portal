@@ -1121,3 +1121,80 @@
   outline: 3px solid rgba(37, 99, 235, 0.14);
   outline-offset: 1px;
 }
+
+/* =========================================================
+   FIX: RECRUITER TOPBAR OVERLAP
+   Settings content must start below the fixed/sticky header
+========================================================= */
+
+.recruiter-settings-page {
+  position: relative;
+  width: 100%;
+  max-width: 1240px;
+
+  /* IMPORTANT:
+     prevent the page from sitting underneath
+     the recruiter topbar */
+  margin: 0 auto;
+  padding: 24px 0 50px;
+
+  box-sizing: border-box;
+}
+
+/* Make sure the settings header has breathing room */
+.settings-page-header {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+}
+
+/* Keep the whole settings area below the recruiter header */
+.recruiter-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Prevent any child from visually escaping upward */
+.recruiter-settings-page,
+.recruiter-settings-page * {
+  max-width: 100%;
+}
+
+/* Sidebar should stay below the recruiter topbar */
+.settings-sidebar {
+  top: 96px;
+}
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width: 851px) {
+  .recruiter-settings-page {
+    padding-top: 24px;
+  }
+
+  .settings-layout {
+    align-items: start;
+  }
+}
+
+/* =========================================================
+   TABLET / MOBILE
+========================================================= */
+
+@media (max-width: 850px) {
+  .recruiter-settings-page {
+    padding: 20px 0 40px;
+  }
+
+  .settings-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 620px) {
+  .recruiter-settings-page {
+    padding: 18px 0 32px;
+  }
+}
