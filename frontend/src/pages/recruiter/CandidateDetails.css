@@ -10,8 +10,10 @@
   --cd-border-soft: #edf1f5;
   --cd-bg: #f8fafc;
   --cd-white: #ffffff;
+
   --cd-blue: #2563eb;
   --cd-blue-dark: #1d4ed8;
+
   --cd-green: #16a34a;
   --cd-orange: #ea580c;
   --cd-violet: #7c3aed;
@@ -20,9 +22,11 @@
   max-width: 1440px;
   margin: 0 auto;
   min-width: 0;
+
   color: var(--cd-text);
 }
 
+.candidate-details-page,
 .candidate-details-page *,
 .candidate-details-page *::before,
 .candidate-details-page *::after {
@@ -38,29 +42,39 @@
   cursor: pointer;
 }
 
+
 /* ==========================================================
    HEADER
 ========================================================== */
 
 .candidate-details-header {
   min-height: 48px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 16px;
+
   margin-bottom: 18px;
 }
 
 .back-button {
   border: 0;
   background: transparent;
+
   color: #475569;
+
   display: inline-flex;
   align-items: center;
+
   gap: 8px;
+
   padding: 7px 0;
+
   font-size: 13px;
   font-weight: 700;
+
   transition:
     color 0.18s ease,
     transform 0.18s ease;
@@ -74,21 +88,29 @@
 .candidate-header-actions {
   display: flex;
   align-items: center;
+
   gap: 9px;
 }
 
 .candidate-secondary-button {
   min-height: 38px;
+
   padding: 0 14px;
+
   border: 1px solid var(--cd-border);
   border-radius: 9px;
+
   background: #fff;
   color: #334155;
+
   display: inline-flex;
   align-items: center;
+
   gap: 7px;
+
   font-size: 12px;
   font-weight: 750;
+
   transition:
     border-color 0.18s ease,
     background 0.18s ease,
@@ -104,12 +126,16 @@
 .candidate-icon-button {
   width: 38px;
   height: 38px;
+
   border: 1px solid var(--cd-border);
   border-radius: 9px;
+
   background: #fff;
   color: #64748b;
+
   display: grid;
   place-items: center;
+
   transition:
     border-color 0.18s ease,
     color 0.18s ease,
@@ -129,29 +155,45 @@
 
 .candidate-more-menu {
   position: absolute;
+
   right: 0;
   top: calc(100% + 8px);
+
   width: 190px;
+
   padding: 6px;
+
   background: #fff;
+
   border: 1px solid var(--cd-border);
   border-radius: 11px;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+
+  box-shadow:
+    0 16px 40px rgba(15, 23, 42, 0.12);
+
   z-index: 100;
 }
 
 .candidate-more-menu button {
   width: 100%;
   min-height: 36px;
+
   padding: 0 10px;
+
   border: 0;
   background: transparent;
+
   border-radius: 7px;
+
   color: #475569;
+
   display: flex;
   align-items: center;
+
   gap: 9px;
+
   text-align: left;
+
   font-size: 12px;
   font-weight: 650;
 }
@@ -161,40 +203,60 @@
   color: var(--cd-blue);
 }
 
+
 /* ==========================================================
    PROFILE HERO
 ========================================================== */
 
 .candidate-profile-hero {
   background: #fff;
+
   border: 1px solid var(--cd-border);
   border-radius: 14px;
+
   padding: 24px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 26px;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.025);
+
+  box-shadow:
+    0 4px 16px rgba(15, 23, 42, 0.025);
 }
 
 .candidate-profile-main {
   display: flex;
   align-items: center;
+
   gap: 18px;
+
   min-width: 0;
 }
 
 .candidate-large-avatar {
   width: 78px;
   height: 78px;
+
   flex: 0 0 78px;
+
   border-radius: 20px;
+
   background:
-    linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    linear-gradient(
+      135deg,
+      #dbeafe 0%,
+      #bfdbfe 100%
+    );
+
   border: 1px solid #bfdbfe;
+
   color: #1d4ed8;
+
   display: grid;
   place-items: center;
+
   font-size: 22px;
   font-weight: 850;
 }
@@ -206,33 +268,51 @@
 .candidate-name-line {
   display: flex;
   align-items: center;
+
   flex-wrap: wrap;
+
   gap: 10px;
 }
 
 .candidate-name-line h1 {
   margin: 0;
+
   color: var(--cd-text);
+
   font-size: 24px;
   line-height: 1.15;
+
   letter-spacing: -0.035em;
+
   font-weight: 850;
 }
 
 .candidate-role {
   margin: 6px 0 11px;
+
   color: #475569;
+
   font-size: 14px;
   font-weight: 600;
 }
 
+
+/* ==========================================================
+   STATUS BADGES
+========================================================== */
+
 .candidate-status-badge {
   min-height: 25px;
+
   padding: 0 9px;
+
   border-radius: 999px;
+
   display: inline-flex;
   align-items: center;
+
   gap: 5px;
+
   font-size: 10px;
   font-weight: 850;
 }
@@ -261,11 +341,18 @@
   border: 1px solid #fecaca;
 }
 
+
+/* ==========================================================
+   META / CONTACT
+========================================================== */
+
 .candidate-meta-row,
 .candidate-contact-row {
   display: flex;
   align-items: center;
+
   flex-wrap: wrap;
+
   gap: 13px;
 }
 
@@ -273,10 +360,14 @@
 .candidate-contact-row a {
   display: inline-flex;
   align-items: center;
+
   gap: 5px;
+
   color: #64748b;
+
   font-size: 11px;
   font-weight: 600;
+
   text-decoration: none;
 }
 
@@ -294,23 +385,37 @@
   color: var(--cd-blue);
 }
 
+
+/* ==========================================================
+   HERO ACTIONS
+========================================================== */
+
 .candidate-hero-actions {
   display: flex;
   align-items: center;
+
   gap: 9px;
+
   flex: 0 0 auto;
 }
 
 .status-control {
   min-height: 39px;
+
   padding: 0 12px;
+
   border-radius: 9px;
+
   display: inline-flex;
   align-items: center;
+
   gap: 7px;
+
   font-size: 11px;
   font-weight: 800;
+
   border: 1px solid var(--cd-border);
+
   background: #fff;
 }
 
@@ -336,36 +441,55 @@
 
 .status-chevron {
   margin-left: 2px;
+
   font-size: 13px;
+
   color: #94a3b8;
 }
 
 .status-dropdown {
   position: absolute;
+
   top: calc(100% + 8px);
   right: 0;
+
   width: 160px;
+
   padding: 6px;
+
   background: #fff;
+
   border: 1px solid var(--cd-border);
   border-radius: 11px;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+
+  box-shadow:
+    0 16px 40px rgba(15, 23, 42, 0.12);
+
   z-index: 100;
 }
 
 .status-dropdown button {
   width: 100%;
+
   min-height: 35px;
+
   border: 0;
   background: transparent;
+
   border-radius: 7px;
+
   display: flex;
   align-items: center;
+
   gap: 8px;
+
   padding: 0 9px;
+
   color: #64748b;
+
   font-size: 11px;
   font-weight: 700;
+
   text-align: left;
 }
 
@@ -377,18 +501,27 @@
 
 .primary-action {
   min-height: 39px;
+
   padding: 0 14px;
+
   border: 0;
   border-radius: 9px;
+
   background: var(--cd-blue);
   color: #fff;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   gap: 7px;
+
   font-size: 11px;
   font-weight: 800;
-  box-shadow: 0 7px 18px rgba(37, 99, 235, 0.18);
+
+  box-shadow:
+    0 7px 18px rgba(37, 99, 235, 0.18);
+
   transition:
     background 0.18s ease,
     transform 0.18s ease,
@@ -397,9 +530,13 @@
 
 .primary-action:hover {
   background: var(--cd-blue-dark);
+
   transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.24);
+
+  box-shadow:
+    0 10px 22px rgba(37, 99, 235, 0.24);
 }
+
 
 /* ==========================================================
    METRICS
@@ -407,28 +544,40 @@
 
 .candidate-metrics {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
   gap: 12px;
+
   margin-top: 14px;
 }
 
 .candidate-metric-card {
   min-width: 0;
   min-height: 86px;
+
   padding: 15px;
+
   border: 1px solid var(--cd-border);
   border-radius: 12px;
+
   background: #fff;
+
   display: flex;
   align-items: center;
+
   gap: 11px;
 }
 
 .metric-icon {
   width: 35px;
   height: 35px;
+
   flex: 0 0 35px;
+
   border-radius: 9px;
+
   display: grid;
   place-items: center;
 }
@@ -455,30 +604,40 @@
 
 .candidate-metric-card > div:nth-child(2) {
   min-width: 0;
+
   display: flex;
   flex-direction: column;
+
   gap: 2px;
 }
 
 .candidate-metric-card span {
   color: #94a3b8;
+
   font-size: 9px;
   font-weight: 850;
+
   letter-spacing: 0.08em;
+
   text-transform: uppercase;
 }
 
 .candidate-metric-card strong {
   color: #0f172a;
+
   font-size: 15px;
   line-height: 1.2;
+
   font-weight: 850;
 }
 
 .metric-trend {
   margin-left: auto;
+
   white-space: nowrap;
+
   color: #15803d;
+
   font-size: 9px;
   font-weight: 800;
 }
@@ -487,25 +646,34 @@
   color: #64748b;
 }
 
+
 /* ==========================================================
    TABS
 ========================================================== */
 
 .candidate-detail-tabs {
   margin-top: 18px;
+
   border-bottom: 1px solid var(--cd-border);
+
   display: flex;
   align-items: center;
+
   gap: 24px;
 }
 
 .candidate-detail-tabs button {
   position: relative;
+
   min-height: 43px;
+
   padding: 0;
+
   border: 0;
   background: transparent;
+
   color: #94a3b8;
+
   font-size: 11px;
   font-weight: 800;
 }
@@ -520,14 +688,20 @@
 
 .candidate-detail-tabs button.active::after {
   content: "";
+
   position: absolute;
+
   left: 0;
   right: 0;
   bottom: -1px;
+
   height: 2px;
+
   border-radius: 2px 2px 0 0;
+
   background: var(--cd-blue);
 }
+
 
 /* ==========================================================
    MAIN GRID
@@ -535,9 +709,14 @@
 
 .candidate-details-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
+
+  grid-template-columns:
+    minmax(0, 1fr) 340px;
+
   gap: 16px;
+
   align-items: start;
+
   margin-top: 18px;
 }
 
@@ -549,14 +728,17 @@
 .candidate-details-main {
   display: flex;
   flex-direction: column;
+
   gap: 14px;
 }
 
 .candidate-details-sidebar {
   display: flex;
   flex-direction: column;
+
   gap: 14px;
 }
+
 
 /* ==========================================================
    CARDS
@@ -565,40 +747,57 @@
 .details-card,
 .side-card {
   background: #fff;
+
   border: 1px solid var(--cd-border);
   border-radius: 13px;
+
   padding: 21px;
-  box-shadow: 0 3px 14px rgba(15, 23, 42, 0.02);
+
+  box-shadow:
+    0 3px 14px rgba(15, 23, 42, 0.02);
 }
 
 .details-card-header,
 .side-card-header {
   display: flex;
   align-items: flex-start;
+
   justify-content: space-between;
+
   gap: 15px;
+
   margin-bottom: 17px;
 }
 
 .section-kicker {
   display: block;
+
   margin-bottom: 5px;
+
   color: #94a3b8;
+
   font-size: 9px;
   font-weight: 850;
+
   letter-spacing: 0.1em;
+
   text-transform: uppercase;
 }
 
 .details-card-header h2,
 .side-card-header h3 {
   margin: 0;
+
   color: #0f172a;
+
   font-size: 15px;
   line-height: 1.25;
+
   font-weight: 850;
+
   letter-spacing: -0.015em;
 }
+
 
 /* ==========================================================
    ABOUT
@@ -606,11 +805,16 @@
 
 .candidate-summary {
   margin: 0;
+
   max-width: 920px;
+
   color: #64748b;
+
   font-size: 12px;
+
   line-height: 1.85;
 }
+
 
 /* ==========================================================
    SKILLS
@@ -619,13 +823,17 @@
 .skills-section {
   display: flex;
   flex-direction: column;
+
   gap: 18px;
 }
 
 .skills-label {
   display: block;
+
   margin-bottom: 9px;
+
   color: #475569;
+
   font-size: 10px;
   font-weight: 800;
 }
@@ -633,30 +841,40 @@
 .details-skill-list {
   display: flex;
   flex-wrap: wrap;
+
   gap: 7px;
 }
 
 .details-skill {
   min-height: 28px;
+
   padding: 0 10px;
+
   border: 1px solid #dbe4ef;
   border-radius: 7px;
+
   background: #f8fafc;
   color: #475569;
+
   display: inline-flex;
   align-items: center;
+
   font-size: 10px;
   font-weight: 750;
 }
 
 .skill-match-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap: 10px;
 }
 
 .skill-match-box {
   border-radius: 10px;
+
   padding: 13px;
 }
 
@@ -673,8 +891,11 @@
 .skill-match-title {
   display: flex;
   align-items: center;
+
   gap: 6px;
+
   margin-bottom: 10px;
+
   font-size: 10px;
   font-weight: 850;
 }
@@ -690,17 +911,23 @@
 .skill-match-list {
   display: flex;
   flex-wrap: wrap;
+
   gap: 6px;
 }
 
 .skill-match-list span {
   padding: 5px 8px;
+
   border-radius: 6px;
+
   background: rgba(255, 255, 255, 0.7);
+
   color: #475569;
+
   font-size: 9px;
   font-weight: 700;
 }
+
 
 /* ==========================================================
    EDUCATION
@@ -708,39 +935,51 @@
 
 .education-item {
   display: flex;
+
   gap: 13px;
+
   align-items: flex-start;
 }
 
 .timeline-icon {
   width: 38px;
   height: 38px;
+
   flex: 0 0 38px;
+
   border-radius: 10px;
+
   background: #eff6ff;
   color: var(--cd-blue);
+
   display: grid;
   place-items: center;
 }
 
 .education-item h3 {
   margin: 1px 0 4px;
+
   color: #0f172a;
+
   font-size: 12px;
   font-weight: 800;
 }
 
 .education-item p {
   margin: 0 0 4px;
+
   color: #64748b;
+
   font-size: 11px;
 }
 
 .education-item span {
   color: #94a3b8;
+
   font-size: 9px;
   font-weight: 700;
 }
+
 
 /* ==========================================================
    LINKS
@@ -748,23 +987,34 @@
 
 .profile-links {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap: 9px;
 }
 
 .profile-links a {
   min-height: 42px;
+
   padding: 0 11px;
+
   border: 1px solid var(--cd-border);
   border-radius: 8px;
+
   background: #fff;
   color: #475569;
+
   display: flex;
   align-items: center;
+
   gap: 8px;
+
   text-decoration: none;
+
   font-size: 10px;
   font-weight: 800;
+
   transition:
     border-color 0.18s ease,
     color 0.18s ease,
@@ -773,14 +1023,18 @@
 
 .profile-links a svg:last-child {
   margin-left: auto;
+
   color: #94a3b8;
 }
 
 .profile-links a:hover {
   border-color: #bfdbfe;
+
   background: #f8fbff;
+
   color: var(--cd-blue);
 }
+
 
 /* ==========================================================
    EXPERIENCE
@@ -793,8 +1047,11 @@
 
 .experience-item {
   position: relative;
+
   display: flex;
+
   gap: 13px;
+
   padding-bottom: 24px;
 }
 
@@ -804,66 +1061,92 @@
 
 .experience-item:not(:last-child)::after {
   content: "";
+
   position: absolute;
+
   left: 18px;
+
   top: 38px;
+
   bottom: 0;
+
   width: 1px;
+
   background: #e2e8f0;
 }
 
 .experience-marker {
   width: 37px;
   height: 37px;
+
   flex: 0 0 37px;
+
   border-radius: 10px;
+
   background: #eff6ff;
   color: var(--cd-blue);
+
   display: grid;
   place-items: center;
+
   position: relative;
+
   z-index: 1;
 }
 
 .experience-content {
   flex: 1;
+
   min-width: 0;
 }
 
 .experience-top {
   display: flex;
+
   align-items: flex-start;
+
   justify-content: space-between;
+
   gap: 15px;
 }
 
 .experience-top h3 {
   margin: 0 0 4px;
+
   color: #0f172a;
+
   font-size: 12px;
   font-weight: 850;
 }
 
 .experience-top p {
   margin: 0;
+
   color: #64748b;
+
   font-size: 10px;
   font-weight: 650;
 }
 
 .experience-top > span {
   color: #94a3b8;
+
   font-size: 9px;
   font-weight: 750;
+
   white-space: nowrap;
 }
 
 .experience-description {
   margin: 10px 0 0;
+
   color: #64748b;
+
   font-size: 10px;
+
   line-height: 1.75;
 }
+
 
 /* ==========================================================
    PROJECTS
@@ -872,25 +1155,34 @@
 .project-list {
   display: flex;
   flex-direction: column;
+
   gap: 10px;
 }
 
 .project-card {
   padding: 14px;
+
   border: 1px solid var(--cd-border-soft);
   border-radius: 10px;
+
   background: #fafbfd;
+
   display: flex;
+
   gap: 12px;
 }
 
 .project-icon {
   width: 37px;
   height: 37px;
+
   flex: 0 0 37px;
+
   border-radius: 9px;
+
   background: #eef2ff;
   color: #6366f1;
+
   display: grid;
   place-items: center;
 }
@@ -901,33 +1193,45 @@
 
 .project-content h3 {
   margin: 0 0 5px;
+
   color: #0f172a;
+
   font-size: 12px;
   font-weight: 850;
 }
 
 .project-content p {
   margin: 0 0 10px;
+
   color: #64748b;
+
   font-size: 10px;
+
   line-height: 1.65;
 }
 
 .project-tech {
   display: flex;
   flex-wrap: wrap;
+
   gap: 5px;
 }
 
 .project-tech span {
   padding: 4px 7px;
+
   border-radius: 5px;
+
   background: #fff;
+
   border: 1px solid #e2e8f0;
+
   color: #64748b;
+
   font-size: 8px;
   font-weight: 750;
 }
+
 
 /* ==========================================================
    RESUME
@@ -935,84 +1239,114 @@
 
 .download-button {
   min-height: 34px;
+
   padding: 0 11px;
+
   border: 1px solid var(--cd-border);
   border-radius: 7px;
+
   background: #fff;
   color: #475569;
+
   display: inline-flex;
   align-items: center;
+
   gap: 6px;
+
   font-size: 10px;
   font-weight: 800;
 }
 
 .download-button:hover {
   border-color: #bfdbfe;
+
   color: var(--cd-blue);
+
   background: #f8fbff;
 }
 
 .resume-preview {
   min-height: 86px;
+
   padding: 15px;
+
   border: 1px solid var(--cd-border-soft);
   border-radius: 10px;
+
   background: #fafbfd;
+
   display: flex;
   align-items: center;
+
   gap: 13px;
 }
 
 .resume-preview-icon {
   width: 40px;
   height: 40px;
+
   flex: 0 0 40px;
+
   border-radius: 10px;
+
   background: #eff6ff;
   color: var(--cd-blue);
+
   display: grid;
   place-items: center;
 }
 
 .resume-preview > div:nth-child(2) {
   min-width: 0;
+
   flex: 1;
 }
 
 .resume-preview h3 {
   margin: 0 0 4px;
+
   color: #0f172a;
+
   font-size: 11px;
   font-weight: 850;
 }
 
 .resume-preview p {
   margin: 0 0 3px;
+
   color: #64748b;
+
   font-size: 9px;
 }
 
 .resume-preview span {
   color: #94a3b8;
+
   font-size: 8px;
 }
 
 .resume-preview > button {
   width: 34px;
   height: 34px;
+
+  flex: 0 0 34px;
+
   border: 1px solid var(--cd-border);
   border-radius: 7px;
+
   background: #fff;
   color: #64748b;
+
   display: grid;
   place-items: center;
 }
 
 .resume-preview > button:hover {
   color: var(--cd-blue);
+
   border-color: #bfdbfe;
 }
+
 
 /* ==========================================================
    AI MATCH CARD
@@ -1020,106 +1354,156 @@
 
 .ai-match-detail-card {
   position: relative;
+
   overflow: hidden;
+
   border-radius: 14px;
+
   padding: 20px;
+
   color: #fff;
+
   background:
-    linear-gradient(145deg, #0f172a 0%, #172554 100%);
-  border: 1px solid rgba(59, 130, 246, 0.25);
-  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.14);
+    linear-gradient(
+      145deg,
+      #0f172a 0%,
+      #172554 100%
+    );
+
+  border: 1px solid
+    rgba(59, 130, 246, 0.25);
+
+  box-shadow:
+    0 14px 35px
+    rgba(15, 23, 42, 0.14);
 }
 
 .ai-match-detail-card::before {
   content: "";
+
   position: absolute;
+
   width: 180px;
   height: 180px;
+
   right: -90px;
   top: -100px;
+
   border-radius: 50%;
-  background: rgba(59, 130, 246, 0.18);
+
+  background:
+    rgba(59, 130, 246, 0.18);
+
   filter: blur(2px);
 }
 
 .ai-card-top {
   position: relative;
+
   display: flex;
   align-items: center;
+
   gap: 10px;
 }
 
 .ai-card-icon {
   width: 35px;
   height: 35px;
+
   border-radius: 9px;
-  background: rgba(59, 130, 246, 0.18);
+
+  background:
+    rgba(59, 130, 246, 0.18);
+
   color: #93c5fd;
+
   display: grid;
   place-items: center;
 }
 
 .ai-card-top span {
   display: block;
+
   margin-bottom: 3px;
+
   color: #93c5fd;
+
   font-size: 8px;
   font-weight: 850;
+
   letter-spacing: 0.1em;
 }
 
 .ai-card-top h3 {
   margin: 0;
+
   color: #fff;
+
   font-size: 13px;
   font-weight: 850;
 }
 
 .large-match-score {
   position: relative;
+
   margin-top: 20px;
+
   display: flex;
   align-items: center;
+
   gap: 13px;
 }
 
 .score-ring {
   --score: 0%;
+
   width: 88px;
   height: 88px;
+
   flex: 0 0 88px;
+
   border-radius: 50%;
+
   background:
     conic-gradient(
       #60a5fa var(--score),
       rgba(148, 163, 184, 0.18) 0
     );
+
   display: grid;
   place-items: center;
-  transform: rotate(0deg);
 }
 
 .score-ring-inner {
   width: 68px;
   height: 68px;
+
   border-radius: 50%;
+
   background: #101b35;
+
   display: flex;
   align-items: baseline;
   justify-content: center;
+
   padding-top: 22px;
 }
 
 .score-ring-inner strong {
   color: #fff;
+
   font-size: 23px;
+
   line-height: 1;
+
   font-weight: 900;
 }
 
 .score-ring-inner span {
   color: #93c5fd;
+
   font-size: 10px;
+
   font-weight: 800;
 }
 
@@ -1129,61 +1513,89 @@
 
 .score-copy strong {
   display: block;
+
   margin-bottom: 5px;
+
   color: #fff;
+
   font-size: 11px;
   font-weight: 850;
 }
 
 .score-copy p {
   margin: 0;
+
   color: #a8b6cf;
+
   font-size: 9px;
+
   line-height: 1.6;
 }
 
 .ai-breakdown {
   position: relative;
+
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
   gap: 7px;
+
   margin-top: 18px;
 }
 
 .ai-breakdown > div {
   padding: 9px 8px;
-  border: 1px solid rgba(148, 163, 184, 0.14);
+
+  border: 1px solid
+    rgba(148, 163, 184, 0.14);
+
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.04);
+
+  background:
+    rgba(255, 255, 255, 0.04);
 }
 
 .ai-breakdown span {
   display: block;
+
   margin-bottom: 3px;
+
   color: #94a3b8;
+
   font-size: 8px;
   font-weight: 700;
 }
 
 .ai-breakdown strong {
   color: #fff;
+
   font-size: 10px;
+
   font-weight: 850;
 }
 
 .verified-match {
   position: relative;
+
   margin-top: 12px;
+
   display: flex;
   align-items: center;
+
   gap: 5px;
+
   color: #86efac;
+
   font-size: 8px;
+
   font-weight: 800;
 }
 
+
 /* ==========================================================
-   SIDE CARD
+   APPLICATION SIDE CARD
 ========================================================== */
 
 .application-info {
@@ -1194,8 +1606,11 @@
 .application-info > div {
   display: flex;
   flex-direction: column;
+
   gap: 3px;
+
   padding: 10px 0;
+
   border-bottom: 1px solid #f1f5f9;
 }
 
@@ -1205,21 +1620,28 @@
 
 .application-info > div:last-child {
   padding-bottom: 0;
+
   border-bottom: 0;
 }
 
 .application-info span {
   color: #94a3b8;
+
   font-size: 8px;
   font-weight: 850;
+
   text-transform: uppercase;
+
   letter-spacing: 0.07em;
 }
 
 .application-info strong {
   color: #334155;
+
   font-size: 10px;
+
   line-height: 1.4;
+
   font-weight: 800;
 }
 
@@ -1227,20 +1649,32 @@
   color: #166534 !important;
 }
 
+
+/* ==========================================================
+   LANGUAGES
+========================================================== */
+
 .language-list {
   display: flex;
   flex-direction: column;
+
   gap: 8px;
 }
 
 .language-list > div {
   min-height: 36px;
+
   padding: 0 9px;
+
   border: 1px solid var(--cd-border-soft);
+
   border-radius: 7px;
+
   background: #fafbfd;
+
   display: flex;
   align-items: center;
+
   gap: 7px;
 }
 
@@ -1250,15 +1684,20 @@
 
 .language-list span {
   color: #475569;
+
   font-size: 10px;
+
   font-weight: 750;
 }
 
 .language-list small {
   margin-left: auto;
+
   color: #94a3b8;
+
   font-size: 8px;
 }
+
 
 /* ==========================================================
    RECRUITER ACTION CARD
@@ -1266,8 +1705,11 @@
 
 .recruiter-action-card {
   padding: 19px;
+
   border-radius: 13px;
+
   border: 1px solid #dbeafe;
+
   background:
     linear-gradient(
       145deg,
@@ -1279,46 +1721,67 @@
 .recruiter-action-icon {
   width: 34px;
   height: 34px;
+
   margin-bottom: 11px;
+
   border-radius: 9px;
+
   background: #dbeafe;
   color: var(--cd-blue);
+
   display: grid;
   place-items: center;
 }
 
 .recruiter-action-card h3 {
   margin: 0 0 5px;
+
   color: #0f172a;
+
   font-size: 12px;
   font-weight: 850;
 }
 
 .recruiter-action-card p {
   margin: 0 0 13px;
+
   color: #64748b;
+
   font-size: 9px;
+
   line-height: 1.6;
 }
 
 .recruiter-action-card button {
   width: 100%;
+
   min-height: 35px;
+
   border: 0;
   border-radius: 7px;
+
   background: var(--cd-blue);
   color: #fff;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 6px;
+
   font-size: 9px;
   font-weight: 850;
+
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
 }
 
 .recruiter-action-card button:hover {
   background: var(--cd-blue-dark);
+  transform: translateY(-1px);
 }
+
 
 /* ==========================================================
    MESSAGE MODAL
@@ -1326,95 +1789,143 @@
 
 .candidate-modal-overlay {
   position: fixed;
+
   inset: 0;
+
   z-index: 11000;
+
   padding: 20px;
-  background: rgba(15, 23, 42, 0.46);
+
+  background:
+    rgba(15, 23, 42, 0.46);
+
   display: grid;
   place-items: center;
+
   backdrop-filter: blur(3px);
 }
 
 .message-modal {
   width: min(420px, 100%);
+
   padding: 25px;
+
   border-radius: 14px;
+
   background: #fff;
+
   border: 1px solid var(--cd-border);
-  box-shadow: 0 25px 70px rgba(15, 23, 42, 0.2);
+
+  box-shadow:
+    0 25px 70px
+    rgba(15, 23, 42, 0.2);
+
   text-align: center;
 }
 
 .message-modal-icon {
   width: 42px;
   height: 42px;
+
   margin: 0 auto 12px;
+
   border-radius: 11px;
+
   background: #eff6ff;
   color: var(--cd-blue);
+
   display: grid;
   place-items: center;
 }
 
 .message-modal h2 {
   margin: 0 0 6px;
+
   color: #0f172a;
+
   font-size: 16px;
   font-weight: 850;
 }
 
 .message-modal p {
   margin: 0 auto 20px;
+
   max-width: 320px;
+
   color: #64748b;
+
   font-size: 10px;
+
   line-height: 1.7;
 }
 
 .message-modal-actions {
   display: flex;
+
   justify-content: center;
+
   gap: 8px;
 }
 
 .modal-cancel,
 .modal-primary {
   min-height: 36px;
+
   padding: 0 14px;
+
   border-radius: 8px;
+
   font-size: 10px;
+
   font-weight: 800;
 }
 
 .modal-cancel {
   border: 1px solid var(--cd-border);
+
   background: #fff;
+
   color: #64748b;
 }
 
 .modal-primary {
   border: 0;
+
   background: var(--cd-blue);
+
   color: #fff;
 }
 
+.modal-primary:hover {
+  background: var(--cd-blue-dark);
+}
+
+
 /* ==========================================================
-   RESPONSIVE
+   RESPONSIVE — 1180px
 ========================================================== */
 
 @media (max-width: 1180px) {
   .candidate-details-grid {
-    grid-template-columns: minmax(0, 1fr) 310px;
+    grid-template-columns:
+      minmax(0, 1fr) 310px;
   }
 
   .candidate-metrics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 }
+
+
+/* ==========================================================
+   RESPONSIVE — 980px
+========================================================== */
 
 @media (max-width: 980px) {
   .candidate-profile-hero {
     align-items: flex-start;
+
     flex-direction: column;
   }
 
@@ -1428,18 +1939,23 @@
 
   .candidate-details-sidebar {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+
+    grid-template-columns:
+      1fr 1fr;
+
     align-items: start;
   }
 
-  .ai-match-detail-card {
-    grid-column: 1 / -1;
-  }
-
+  .ai-match-detail-card,
   .recruiter-action-card {
     grid-column: 1 / -1;
   }
 }
+
+
+/* ==========================================================
+   RESPONSIVE — 760px
+========================================================== */
 
 @media (max-width: 760px) {
   .candidate-details-header {
@@ -1457,8 +1973,11 @@
   .candidate-large-avatar {
     width: 62px;
     height: 62px;
+
     flex-basis: 62px;
+
     border-radius: 16px;
+
     font-size: 18px;
   }
 
@@ -1505,9 +2024,15 @@
 
   .experience-top {
     flex-direction: column;
+
     gap: 6px;
   }
 }
+
+
+/* ==========================================================
+   RESPONSIVE — 520px
+========================================================== */
 
 @media (max-width: 520px) {
   .candidate-details-page {
@@ -1520,13 +2045,17 @@
 
   .candidate-secondary-button {
     width: 36px;
+
     padding: 0;
+
     justify-content: center;
+
     font-size: 0;
   }
 
   .candidate-profile-hero {
     padding: 15px;
+
     border-radius: 11px;
   }
 
@@ -1537,8 +2066,11 @@
   .candidate-large-avatar {
     width: 54px;
     height: 54px;
+
     flex-basis: 54px;
+
     border-radius: 14px;
+
     font-size: 16px;
   }
 
@@ -1552,6 +2084,7 @@
 
   .candidate-contact-row {
     flex-direction: column;
+
     align-items: flex-start;
   }
 
@@ -1563,6 +2096,7 @@
   .status-control,
   .primary-action {
     width: 100%;
+
     flex: none;
   }
 
@@ -1572,7 +2106,9 @@
 
   .candidate-detail-tabs {
     gap: 18px;
+
     overflow-x: auto;
+
     scrollbar-width: none;
   }
 
@@ -1587,6 +2123,7 @@
   .details-card,
   .side-card {
     padding: 16px;
+
     border-radius: 11px;
   }
 
@@ -1605,12 +2142,14 @@
   .score-ring {
     width: 78px;
     height: 78px;
+
     flex-basis: 78px;
   }
 
   .score-ring-inner {
     width: 60px;
     height: 60px;
+
     padding-top: 19px;
   }
 
@@ -1626,6 +2165,7 @@
     align-items: flex-start;
   }
 }
+
 
 /* ==========================================================
    FINAL OVERFLOW PROTECTION

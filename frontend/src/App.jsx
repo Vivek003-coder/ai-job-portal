@@ -3,7 +3,10 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
 
-// Public Pages
+// =====================================================
+// PUBLIC PAGES
+// =====================================================
+
 import Home from "./pages/public/Home";
 import Jobs from "./pages/public/Jobs";
 import JobDetails from "./pages/public/JobDetails";
@@ -11,8 +14,12 @@ import Login from "./pages/public/Login";
 import Register from "./pages/public/Register";
 import About from "./pages/public/About";
 
-// Candidate
+// =====================================================
+// CANDIDATE
+// =====================================================
+
 import CandidateLayout from "./layouts/CandidateLayout";
+
 import Dashboard from "./pages/candidate/Dashboard";
 import Profile from "./pages/candidate/Profile";
 import Resume from "./pages/candidate/Resume";
@@ -21,24 +28,39 @@ import Applications from "./pages/candidate/Applications";
 import SavedJobs from "./pages/candidate/SavedJobs";
 import Settings from "./pages/candidate/Settings";
 
-// Recruiter
+// =====================================================
+// RECRUITER
+// =====================================================
+
 import RecruiterLayout from "./layouts/RecruiterLayout";
+
 import RecruiterDashboard from "./pages/recruiter/Dashboard";
 import PostJob from "./pages/recruiter/PostJob";
 import ManageJobs from "./pages/recruiter/ManageJobs";
 import Applicants from "./pages/recruiter/Applicants";
+import CandidateDetails from "./pages/recruiter/CandidateDetails";
+
 
 function App() {
   return (
     <div className="app">
 
+      {/* ===================================================
+          GLOBAL NAVBAR
+      =================================================== */}
+
       <Navbar />
 
       <Routes>
 
-        {/* ================= PUBLIC ================= */}
+        {/* =================================================
+            PUBLIC ROUTES
+        ================================================= */}
 
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={<Home />}
+        />
 
         <Route
           path="/jobs"
@@ -66,12 +88,15 @@ function App() {
         />
 
 
-        {/* ================= CANDIDATE ================= */}
+        {/* =================================================
+            CANDIDATE ROUTES
+        ================================================= */}
 
         <Route
           path="/candidate"
           element={<CandidateLayout />}
         >
+
           <Route
             path="dashboard"
             element={<Dashboard />}
@@ -106,15 +131,19 @@ function App() {
             path="settings"
             element={<Settings />}
           />
+
         </Route>
 
 
-        {/* ================= RECRUITER ================= */}
+        {/* =================================================
+            RECRUITER ROUTES
+        ================================================= */}
 
         <Route
           path="/recruiter"
           element={<RecruiterLayout />}
         >
+
           <Route
             path="dashboard"
             element={<RecruiterDashboard />}
@@ -134,9 +163,27 @@ function App() {
             path="applicants"
             element={<Applicants />}
           />
+
+          {/* =================================================
+              CANDIDATE DETAILS
+
+              Example:
+              /recruiter/candidate/1
+              /recruiter/candidate/2
+          ================================================= */}
+
+          <Route
+            path="candidate/:id"
+            element={<CandidateDetails />}
+          />
+
         </Route>
 
       </Routes>
+
+      {/* ===================================================
+          GLOBAL FOOTER
+      =================================================== */}
 
       <Footer />
 
