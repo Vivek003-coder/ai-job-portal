@@ -1,6 +1,27 @@
+/* =========================================================
+   RECRUITER DASHBOARD — ENTERPRISE UI
+   Clean • Professional • Responsive • Overflow Safe
+========================================================= */
+
+
+/* =========================================================
+   ROOT
+========================================================= */
+
 .recruiter-dashboard {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  color: #0f172a;
+  box-sizing: border-box;
 }
+
+.recruiter-dashboard *,
+.recruiter-dashboard *::before,
+.recruiter-dashboard *::after {
+  box-sizing: border-box;
+}
+
 
 /* =========================================================
    HEADER
@@ -10,19 +31,29 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+
   gap: 24px;
+
   margin-bottom: 28px;
+}
+
+.dashboard-header-main {
+  min-width: 0;
 }
 
 .dashboard-eyebrow {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 9px;
+
+  margin: 0 0 9px;
 
   color: #64748b;
+
   font-size: 10px;
+  line-height: 1.2;
   font-weight: 800;
+
   letter-spacing: 0.8px;
   text-transform: uppercase;
 }
@@ -30,23 +61,33 @@
 .live-dot {
   width: 7px;
   height: 7px;
+
+  flex: 0 0 7px;
+
   border-radius: 50%;
+
   background: #22c55e;
-  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
+
+  box-shadow:
+    0 0 0 4px rgba(34, 197, 94, 0.1);
 }
 
 .dashboard-header h1 {
   margin: 0;
 
   color: #0f172a;
+
   font-size: clamp(26px, 3vw, 34px);
   line-height: 1.1;
+
   letter-spacing: -1.1px;
+
   font-weight: 800;
 }
 
 .dashboard-header h1 span {
   display: inline-block;
+
   margin-left: 8px;
 }
 
@@ -54,6 +95,7 @@
   margin: 9px 0 0;
 
   color: #64748b;
+
   font-size: 13px;
   line-height: 1.6;
 }
@@ -61,51 +103,92 @@
 .dashboard-header-actions {
   display: flex;
   align-items: center;
+
   gap: 10px;
+
+  flex: 0 0 auto;
 }
+
+
+/* =========================================================
+   HEADER BUTTONS
+========================================================= */
 
 .dashboard-secondary-btn,
 .dashboard-primary-btn {
   min-height: 40px;
+
   padding: 0 14px;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   gap: 8px;
 
   border-radius: 9px;
 
   font-family: inherit;
   font-size: 11px;
+  line-height: 1;
+
   font-weight: 700;
 
   cursor: pointer;
-  transition: all 0.18s ease;
+
+  white-space: nowrap;
+
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
 }
 
 .dashboard-secondary-btn {
   color: #475569;
+
   background: #ffffff;
+
   border: 1px solid #e2e8f0;
 }
 
 .dashboard-secondary-btn:hover {
+  color: #334155;
+
   border-color: #cbd5e1;
+
   background: #f8fafc;
 }
 
 .dashboard-primary-btn {
   color: #ffffff;
+
   background: #2563eb;
+
   border: 1px solid #2563eb;
-  box-shadow: 0 7px 18px rgba(37, 99, 235, 0.18);
+
+  box-shadow:
+    0 7px 18px rgba(37, 99, 235, 0.18);
 }
 
 .dashboard-primary-btn:hover {
   background: #1d4ed8;
+
+  border-color: #1d4ed8;
+
   transform: translateY(-1px);
+
+  box-shadow:
+    0 10px 24px rgba(37, 99, 235, 0.22);
 }
+
+.dashboard-primary-btn:active,
+.dashboard-secondary-btn:active {
+  transform: translateY(0);
+}
+
 
 /* =========================================================
    STATS
@@ -113,17 +196,24 @@
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
   gap: 16px;
+
   margin-bottom: 18px;
 }
 
 .stat-card {
   min-width: 0;
+
   padding: 20px;
 
   background: #ffffff;
+
   border: 1px solid #e8edf3;
+
   border-radius: 14px;
 
   box-shadow:
@@ -131,11 +221,14 @@
 
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .stat-card:hover {
   transform: translateY(-2px);
+
+  border-color: #dce5f0;
 
   box-shadow:
     0 12px 30px rgba(15, 23, 42, 0.07);
@@ -145,11 +238,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  gap: 10px;
 }
 
 .stat-icon {
   width: 38px;
   height: 38px;
+
+  flex: 0 0 38px;
 
   display: flex;
   align-items: center;
@@ -182,20 +279,30 @@
   width: 28px;
   height: 28px;
 
+  flex: 0 0 28px;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
   color: #94a3b8;
+
   background: transparent;
+
   border: 0;
+
   border-radius: 7px;
 
   cursor: pointer;
+
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease;
 }
 
 .stat-more:hover {
   color: #475569;
+
   background: #f8fafc;
 }
 
@@ -203,9 +310,12 @@
   margin-top: 17px;
 
   color: #0f172a;
+
   font-size: 28px;
   line-height: 1;
+
   font-weight: 800;
+
   letter-spacing: -0.8px;
 }
 
@@ -215,30 +325,44 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 8px;
 }
 
 .stat-title {
   color: #64748b;
+
   font-size: 11px;
+  line-height: 1.3;
+
   font-weight: 600;
 }
 
 .stat-change {
   display: inline-flex;
   align-items: center;
+
   gap: 3px;
 
   color: #059669;
+
   font-size: 10px;
+  line-height: 1;
+
   font-weight: 800;
+
+  white-space: nowrap;
 }
 
 .stat-description {
   margin-top: 4px;
+
   color: #94a3b8;
+
   font-size: 9px;
+  line-height: 1.4;
 }
+
 
 /* =========================================================
    MAIN GRID
@@ -246,40 +370,64 @@
 
 .dashboard-main-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.8fr);
+
+  grid-template-columns:
+    minmax(0, 1.65fr)
+    minmax(300px, 0.8fr);
+
   gap: 18px;
+
   margin-bottom: 18px;
 }
 
 .dashboard-panel {
   min-width: 0;
 
+  overflow: hidden;
+
   background: #ffffff;
+
   border: 1px solid #e8edf3;
+
   border-radius: 14px;
 
   box-shadow:
     0 2px 10px rgba(15, 23, 42, 0.025);
 }
 
+
+/* =========================================================
+   PANEL HEADER
+========================================================= */
+
 .panel-header {
   min-height: 76px;
+
   padding: 18px 20px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 16px;
 
   border-bottom: 1px solid #eef2f6;
+}
+
+.panel-header > div {
+  min-width: 0;
 }
 
 .panel-header h2 {
   margin: 0;
 
   color: #111827;
+
   font-size: 14px;
+  line-height: 1.3;
+
   font-weight: 800;
+
   letter-spacing: -0.2px;
 }
 
@@ -287,30 +435,42 @@
   margin: 5px 0 0;
 
   color: #94a3b8;
+
   font-size: 10px;
+  line-height: 1.4;
 }
 
 .panel-menu {
   width: 32px;
   height: 32px;
 
+  flex: 0 0 32px;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
   border: 0;
+
   border-radius: 8px;
 
   color: #94a3b8;
+
   background: transparent;
 
   cursor: pointer;
+
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease;
 }
 
 .panel-menu:hover {
   color: #475569;
+
   background: #f8fafc;
 }
+
 
 /* =========================================================
    CHART
@@ -318,14 +478,21 @@
 
 .chart-container {
   height: 260px;
+
   padding: 22px 20px 0;
 
   display: flex;
+
   gap: 12px;
+
+  overflow: hidden;
 }
 
 .chart-y-axis {
   width: 25px;
+
+  flex: 0 0 25px;
+
   padding-bottom: 27px;
 
   display: flex;
@@ -333,21 +500,31 @@
   justify-content: space-between;
 
   color: #a1aab8;
+
   font-size: 8px;
+  line-height: 1;
+
   text-align: right;
 }
 
 .chart-area {
   position: relative;
+
   flex: 1;
+
   min-width: 0;
+
+  height: 100%;
 }
 
 .chart-grid-line {
   position: absolute;
+
   left: 0;
   right: 0;
+
   height: 1px;
+
   background: #eef2f6;
 }
 
@@ -373,9 +550,11 @@
 
 .chart-svg {
   position: absolute;
+
   left: 0;
   right: 0;
   top: 0;
+
   width: 100%;
   height: calc(100% - 28px);
 
@@ -384,6 +563,7 @@
 
 .chart-labels {
   position: absolute;
+
   left: 0;
   right: 0;
   bottom: 0;
@@ -391,40 +571,65 @@
   display: flex;
   justify-content: space-between;
 
+  gap: 5px;
+
   color: #a1aab8;
+
   font-size: 8px;
+  line-height: 1;
+
+  white-space: nowrap;
 }
+
+
+/* =========================================================
+   CHART SUMMARY
+========================================================= */
 
 .chart-summary {
   margin: 0 20px;
+
   padding: 15px 0;
 
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
 
   border-top: 1px solid #eef2f6;
 }
 
 .chart-summary div {
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
+
   gap: 5px;
 }
 
 .chart-summary div + div {
   padding-left: 18px;
+
   border-left: 1px solid #eef2f6;
 }
 
 .chart-summary span {
   color: #94a3b8;
+
   font-size: 9px;
+  line-height: 1.3;
 }
 
 .chart-summary strong {
   color: #111827;
+
   font-size: 13px;
+  line-height: 1.2;
+
+  font-weight: 800;
 }
+
 
 /* =========================================================
    AI PANEL
@@ -432,6 +637,7 @@
 
 .ai-panel {
   position: relative;
+
   overflow: hidden;
 
   background:
@@ -443,11 +649,13 @@
     );
 
   border-color: #17233d;
+
   color: #ffffff;
 }
 
 .ai-panel-glow {
   position: absolute;
+
   width: 250px;
   height: 250px;
 
@@ -456,14 +664,19 @@
 
   border-radius: 50%;
 
-  background: rgba(37, 99, 235, 0.2);
+  background:
+    rgba(37, 99, 235, 0.2);
 
   filter: blur(25px);
+
+  pointer-events: none;
 }
 
 .ai-content {
   position: relative;
+
   z-index: 2;
+
   padding: 26px;
 }
 
@@ -478,18 +691,28 @@
   border-radius: 11px;
 
   color: #bfdbfe;
-  background: rgba(59, 130, 246, 0.14);
-  border: 1px solid rgba(147, 197, 253, 0.13);
+
+  background:
+    rgba(59, 130, 246, 0.14);
+
+  border:
+    1px solid rgba(147, 197, 253, 0.13);
 }
 
 .ai-label {
   display: block;
+
   margin-top: 18px;
 
   color: #60a5fa;
+
   font-size: 9px;
+  line-height: 1.2;
+
   font-weight: 800;
+
   letter-spacing: 1px;
+
   text-transform: uppercase;
 }
 
@@ -497,9 +720,12 @@
   margin: 10px 0 0;
 
   color: #ffffff;
+
   font-size: 21px;
   line-height: 1.25;
+
   letter-spacing: -0.5px;
+
   font-weight: 800;
 }
 
@@ -507,6 +733,7 @@
   margin: 14px 0 0;
 
   color: #94a3b8;
+
   font-size: 10px;
   line-height: 1.7;
 }
@@ -517,72 +744,106 @@
 
 .ai-stat {
   margin-top: 23px;
+
   padding: 14px;
 
   display: flex;
   align-items: center;
+
   gap: 12px;
 
-  border: 1px solid rgba(148, 163, 184, 0.12);
+  border:
+    1px solid rgba(148, 163, 184, 0.12);
+
   border-radius: 10px;
 
-  background: rgba(255, 255, 255, 0.035);
+  background:
+    rgba(255, 255, 255, 0.035);
 }
 
 .ai-stat-number {
   color: #ffffff;
+
   font-size: 26px;
+  line-height: 1;
+
   font-weight: 850;
 }
 
 .ai-stat div:last-child {
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
+
   gap: 4px;
 }
 
 .ai-stat span {
   color: #cbd5e1;
+
   font-size: 9px;
+  line-height: 1.3;
 }
 
 .ai-stat small {
   color: #4ade80;
+
   font-size: 8px;
+  line-height: 1.2;
+
   font-weight: 700;
 }
 
 .ai-action {
   width: 100%;
+
   min-height: 40px;
+
   margin-top: 18px;
+
+  padding: 0 14px;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 8px;
 
   color: #ffffff;
+
   background: #2563eb;
 
   border: 1px solid #2563eb;
+
   border-radius: 9px;
 
   font-family: inherit;
   font-size: 10px;
+  line-height: 1;
+
   font-weight: 800;
 
   cursor: pointer;
 
   transition:
-    background 0.18s ease,
-    transform 0.18s ease;
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 .ai-action:hover {
   background: #1d4ed8;
+
+  border-color: #1d4ed8;
+
   transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 22px rgba(37, 99, 235, 0.2);
 }
+
 
 /* =========================================================
    LOWER GRID
@@ -590,10 +851,16 @@
 
 .dashboard-lower-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.8fr);
+
+  grid-template-columns:
+    minmax(0, 1.65fr)
+    minmax(300px, 0.8fr);
+
   gap: 18px;
+
   margin-bottom: 18px;
 }
+
 
 /* =========================================================
    APPLICANTS
@@ -605,11 +872,20 @@
 
 .applicant-row {
   min-height: 88px;
+
   padding: 14px 0;
 
   display: grid;
-  grid-template-columns: 38px minmax(170px, 1fr) minmax(180px, 0.8fr) 58px 24px;
+
+  grid-template-columns:
+    38px
+    minmax(150px, 1fr)
+    minmax(150px, 0.8fr)
+    58px
+    24px;
+
   align-items: center;
+
   gap: 13px;
 
   border-bottom: 1px solid #eef2f6;
@@ -623,6 +899,8 @@
   width: 36px;
   height: 36px;
 
+  flex: 0 0 36px;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -630,9 +908,12 @@
   border-radius: 10px;
 
   color: #1d4ed8;
+
   background: #eff6ff;
 
   font-size: 10px;
+  line-height: 1;
+
   font-weight: 800;
 }
 
@@ -642,7 +923,10 @@
 
 .candidate-name {
   color: #111827;
+
   font-size: 11px;
+  line-height: 1.3;
+
   font-weight: 800;
 }
 
@@ -650,10 +934,14 @@
   margin-top: 4px;
 
   color: #64748b;
+
   font-size: 9px;
+  line-height: 1.3;
 
   white-space: nowrap;
+
   overflow: hidden;
+
   text-overflow: ellipsis;
 }
 
@@ -662,40 +950,63 @@
 
   display: flex;
   align-items: center;
+
   gap: 12px;
 
   color: #94a3b8;
+
   font-size: 8px;
+  line-height: 1.2;
 }
 
 .candidate-meta span {
   display: inline-flex;
   align-items: center;
+
   gap: 3px;
+
+  min-width: 0;
 }
 
 .candidate-skills {
+  min-width: 0;
+
   display: flex;
   flex-wrap: wrap;
+
   gap: 5px;
 }
 
 .candidate-skills span {
+  max-width: 100%;
+
   padding: 4px 6px;
 
   color: #64748b;
+
   background: #f8fafc;
+
   border: 1px solid #edf1f5;
+
   border-radius: 5px;
 
   font-size: 7px;
+  line-height: 1.1;
+
   font-weight: 700;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
 }
 
 .match-score {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   gap: 3px;
 }
 
@@ -710,16 +1021,22 @@
   border-radius: 50%;
 
   color: #047857;
+
   background: #ecfdf5;
+
   border: 3px solid #a7f3d0;
 
   font-size: 8px;
+  line-height: 1;
+
   font-weight: 850;
 }
 
 .match-score span {
   color: #94a3b8;
+
   font-size: 7px;
+  line-height: 1;
 }
 
 .candidate-arrow {
@@ -731,17 +1048,26 @@
   justify-content: center;
 
   color: #94a3b8;
+
   background: transparent;
+
   border: 0;
+
   border-radius: 6px;
 
   cursor: pointer;
+
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease;
 }
 
 .candidate-arrow:hover {
   color: #2563eb;
+
   background: #eff6ff;
 }
+
 
 /* =========================================================
    JOBS
@@ -753,10 +1079,16 @@
 
 .job-row {
   min-height: 96px;
+
   padding: 15px 0;
 
   display: grid;
-  grid-template-columns: 38px 1fr auto;
+
+  grid-template-columns:
+    38px
+    minmax(0, 1fr)
+    auto;
+
   gap: 12px;
 
   border-bottom: 1px solid #eef2f6;
@@ -775,7 +1107,9 @@
   justify-content: center;
 
   color: #2563eb;
+
   background: #eff6ff;
+
   border-radius: 10px;
 }
 
@@ -787,9 +1121,17 @@
   margin: 0;
 
   color: #111827;
+
   font-size: 10px;
   line-height: 1.35;
+
   font-weight: 800;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
 }
 
 .job-meta {
@@ -797,16 +1139,24 @@
 
   display: flex;
   align-items: center;
+
   gap: 10px;
 
   color: #94a3b8;
+
   font-size: 8px;
+  line-height: 1.2;
+
+  flex-wrap: wrap;
 }
 
 .job-meta span {
   display: inline-flex;
   align-items: center;
+
   gap: 3px;
+
+  min-width: 0;
 }
 
 .job-bottom {
@@ -815,18 +1165,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 8px;
 
   color: #94a3b8;
+
   font-size: 7px;
+  line-height: 1.2;
 }
 
 .job-bottom span:first-child {
   display: inline-flex;
   align-items: center;
+
   gap: 4px;
 
   color: #64748b;
+
   font-weight: 700;
 }
 
@@ -835,18 +1190,25 @@
 
   display: inline-flex;
   align-items: center;
+
   gap: 4px;
 
   padding: 5px 7px;
 
   color: #047857;
+
   background: #ecfdf5;
 
   border-radius: 5px;
 
   font-size: 7px;
+  line-height: 1;
+
   font-weight: 800;
+
+  white-space: nowrap;
 }
+
 
 /* =========================================================
    VIEW ALL
@@ -857,22 +1219,31 @@
 
   display: inline-flex;
   align-items: center;
+
   gap: 4px;
 
   color: #2563eb;
+
   background: transparent;
+
   border: 0;
 
   font-family: inherit;
+
   font-size: 9px;
+  line-height: 1;
+
   font-weight: 800;
 
   cursor: pointer;
+
+  white-space: nowrap;
 }
 
 .view-all-btn:hover {
   color: #1d4ed8;
 }
+
 
 /* =========================================================
    QUICK ACTIONS
@@ -880,11 +1251,13 @@
 
 .quick-actions {
   min-height: 76px;
+
   padding: 14px 18px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 20px;
 
   background:
@@ -895,12 +1268,19 @@
     );
 
   border: 1px solid #e3ebf7;
+
   border-radius: 14px;
+
+  box-shadow:
+    0 2px 10px rgba(15, 23, 42, 0.02);
 }
 
 .quick-action-intro {
+  min-width: 0;
+
   display: flex;
   align-items: center;
+
   gap: 11px;
 }
 
@@ -908,20 +1288,31 @@
   width: 34px;
   height: 34px;
 
+  flex: 0 0 34px;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
   color: #2563eb;
+
   background: #eff6ff;
+
   border-radius: 9px;
+}
+
+.quick-action-intro > div {
+  min-width: 0;
 }
 
 .quick-action-intro h3 {
   margin: 0;
 
   color: #111827;
+
   font-size: 11px;
+  line-height: 1.3;
+
   font-weight: 800;
 }
 
@@ -929,50 +1320,76 @@
   margin: 3px 0 0;
 
   color: #94a3b8;
+
   font-size: 8px;
+  line-height: 1.4;
 }
 
 .quick-action-buttons {
   display: flex;
   align-items: center;
+
   gap: 8px;
+
+  flex: 0 0 auto;
 }
 
 .quick-action-buttons button {
   min-height: 34px;
+
   padding: 0 11px;
 
   display: inline-flex;
   align-items: center;
+
   gap: 6px;
 
   color: #475569;
+
   background: #ffffff;
 
   border: 1px solid #e2e8f0;
+
   border-radius: 8px;
 
   font-family: inherit;
+
   font-size: 8px;
+  line-height: 1;
+
   font-weight: 750;
 
   cursor: pointer;
-  transition: all 0.18s ease;
+
+  white-space: nowrap;
+
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    transform 0.18s ease;
 }
 
 .quick-action-buttons button:hover {
   color: #2563eb;
+
   border-color: #bfdbfe;
+
   background: #f8fbff;
+
+  transform: translateY(-1px);
 }
 
+
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE — 1200px
 ========================================================= */
 
 @media (max-width: 1200px) {
+
   .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 
   .dashboard-main-grid,
@@ -985,10 +1402,51 @@
   }
 }
 
+
+/* =========================================================
+   RESPONSIVE — 1000px
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .dashboard-header {
+    gap: 18px;
+  }
+
+  .stats-grid {
+    gap: 14px;
+  }
+
+  .dashboard-main-grid,
+  .dashboard-lower-grid {
+    gap: 16px;
+  }
+
+  .applicant-row {
+    grid-template-columns:
+      38px
+      minmax(130px, 1fr)
+      minmax(130px, 0.8fr)
+      54px
+      24px;
+
+    gap: 10px;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — 850px
+========================================================= */
+
 @media (max-width: 850px) {
+
   .dashboard-header {
     align-items: flex-start;
+
     flex-direction: column;
+
+    margin-bottom: 22px;
   }
 
   .dashboard-header-actions {
@@ -1001,54 +1459,241 @@
   }
 
   .applicant-row {
-    grid-template-columns: 38px minmax(150px, 1fr) 50px 24px;
+    grid-template-columns:
+      38px
+      minmax(150px, 1fr)
+      52px
+      24px;
   }
 
   .candidate-skills {
     display: none;
   }
+
+  .dashboard-main-grid,
+  .dashboard-lower-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-@media (max-width: 620px) {
+
+/* =========================================================
+   RESPONSIVE — 700px
+========================================================= */
+
+@media (max-width: 700px) {
+
   .stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .stat-card {
+    padding: 17px;
+  }
+
+  .stat-value {
+    font-size: 25px;
+  }
+
+  .chart-container {
+    height: 245px;
+  }
+
+  .applicant-row {
+    grid-template-columns:
+      36px
+      minmax(0, 1fr)
+      48px;
+
+    gap: 9px;
+  }
+
+  .candidate-arrow {
+    display: none;
+  }
+
+  .candidate-meta {
+    gap: 8px;
+  }
+
+  .match-circle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .job-row {
+    grid-template-columns:
+      36px
+      minmax(0, 1fr)
+      auto;
+  }
+
+  .quick-actions {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 15px;
+  }
+
+  .quick-action-buttons {
+    width: 100%;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — 620px
+========================================================= */
+
+@media (max-width: 620px) {
+
+  .dashboard-header {
+    gap: 17px;
+
+    margin-bottom: 19px;
+  }
+
+  .dashboard-eyebrow {
+    font-size: 9px;
   }
 
   .dashboard-header h1 {
     font-size: 27px;
+
+    letter-spacing: -0.8px;
+  }
+
+  .dashboard-header p {
+    max-width: 100%;
+
+    font-size: 12px;
   }
 
   .dashboard-header-actions {
     flex-direction: column;
+
+    gap: 8px;
   }
 
   .dashboard-secondary-btn,
   .dashboard-primary-btn {
     width: 100%;
+
+    min-height: 42px;
+
+    flex: none;
+  }
+
+
+  /* Stats */
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+
+    gap: 11px;
+
+    margin-bottom: 14px;
+  }
+
+  .stat-card {
+    padding: 17px;
+
+    border-radius: 12px;
+  }
+
+  .stat-value {
+    margin-top: 14px;
+
+    font-size: 26px;
+  }
+
+
+  /* Panels */
+
+  .dashboard-main-grid,
+  .dashboard-lower-grid {
+    gap: 14px;
+
+    margin-bottom: 14px;
+  }
+
+  .dashboard-panel {
+    border-radius: 12px;
   }
 
   .panel-header {
-    padding: 16px;
+    min-height: 68px;
+
+    padding: 15px 16px;
   }
+
+  .panel-header h2 {
+    font-size: 13px;
+  }
+
+
+  /* Chart */
 
   .chart-container {
     height: 230px;
-    padding: 18px 14px 0;
+
+    padding:
+      18px 14px 0;
+
+    gap: 8px;
+  }
+
+  .chart-y-axis {
+    width: 22px;
+
+    flex-basis: 22px;
+  }
+
+  .chart-labels {
+    font-size: 7px;
   }
 
   .chart-summary {
     margin: 0 14px;
-  }
 
-  .chart-summary {
     grid-template-columns: 1fr;
+
     gap: 10px;
+
+    padding: 13px 0;
   }
 
   .chart-summary div + div {
     padding-left: 0;
+
     border-left: 0;
   }
+
+
+  /* AI */
+
+  .ai-content {
+    padding: 21px;
+  }
+
+  .ai-content h2 {
+    font-size: 20px;
+  }
+
+  .ai-content p {
+    font-size: 10px;
+  }
+
+  .ai-stat {
+    margin-top: 18px;
+
+    padding: 12px;
+  }
+
+
+  /* Applicants */
 
   .applicant-list,
   .jobs-list {
@@ -1057,32 +1702,1021 @@
   }
 
   .applicant-row {
-    grid-template-columns: 36px 1fr 48px;
-    gap: 9px;
+    grid-template-columns:
+      36px
+      minmax(0, 1fr)
+      48px;
+
+    min-height: 82px;
+
+    padding: 13px 0;
+
+    gap: 8px;
   }
 
   .candidate-meta {
     flex-direction: column;
+
     align-items: flex-start;
+
     gap: 3px;
   }
 
-  .candidate-arrow {
-    display: none;
+  .candidate-role {
+    max-width: 100%;
   }
+
+  .match-circle {
+    width: 31px;
+    height: 31px;
+
+    font-size: 7px;
+  }
+
+
+  /* Jobs */
+
+  .job-row {
+    min-height: 88px;
+
+    padding: 13px 0;
+
+    gap: 9px;
+  }
+
+  .job-info h3 {
+    font-size: 9px;
+  }
+
+  .job-meta {
+    gap: 7px;
+
+    font-size: 7px;
+  }
+
+  .job-status {
+    padding: 5px 6px;
+
+    font-size: 6.5px;
+  }
+
+
+  /* Quick actions */
 
   .quick-actions {
     align-items: flex-start;
+
     flex-direction: column;
+
+    gap: 14px;
+
+    padding: 15px;
+
+    border-radius: 12px;
+  }
+
+  .quick-action-intro {
+    width: 100%;
   }
 
   .quick-action-buttons {
     width: 100%;
+
     flex-direction: column;
+
+    gap: 7px;
   }
 
   .quick-action-buttons button {
     width: 100%;
+
+    min-height: 38px;
+
     justify-content: center;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — 420px
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .dashboard-header h1 {
+    font-size: 24px;
+  }
+
+  .dashboard-header p {
+    font-size: 11px;
+  }
+
+  .stat-card {
+    padding: 15px;
+  }
+
+  .stat-icon {
+    width: 35px;
+    height: 35px;
+
+    flex-basis: 35px;
+  }
+
+  .stat-value {
+    font-size: 24px;
+  }
+
+  .panel-header {
+    padding:
+      14px;
+  }
+
+  .panel-header p {
+    font-size: 9px;
+  }
+
+  .chart-container {
+    height: 215px;
+
+    padding:
+      16px 11px 0;
+  }
+
+  .chart-summary {
+    margin:
+      0 11px;
+  }
+
+  .ai-content {
+    padding: 18px;
+  }
+
+  .ai-content h2 {
+    font-size: 18px;
+  }
+
+  .ai-action {
+    min-height: 42px;
+  }
+
+  .applicant-list,
+  .jobs-list {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+
+  .applicant-row {
+    grid-template-columns:
+      34px
+      minmax(0, 1fr)
+      45px;
+
+    gap: 7px;
+  }
+
+  .candidate-avatar {
+    width: 34px;
+    height: 34px;
+
+    flex-basis: 34px;
+  }
+
+  .candidate-name {
+    font-size: 10px;
+  }
+
+  .candidate-role {
+    font-size: 8px;
+  }
+
+  .match-circle {
+    width: 29px;
+    height: 29px;
+
+    border-width: 2px;
+
+    font-size: 7px;
+  }
+
+  .job-row {
+    grid-template-columns:
+      34px
+      minmax(0, 1fr)
+      auto;
+
+    gap: 8px;
+  }
+
+  .job-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .job-info h3 {
+    white-space: normal;
+  }
+
+  .job-status {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.recruiter-dashboard button:focus-visible {
+  outline:
+    3px solid rgba(37, 99, 235, 0.18);
+
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .recruiter-dashboard *,
+  .recruiter-dashboard *::before,
+  .recruiter-dashboard *::after {
+    transition-duration: 0.01ms !important;
+
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================================
+   RECRUITER DASHBOARD — FINAL DESKTOP LAYOUT FIX
+   Fixes collision with CandidateLayout CSS
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   1. DASHBOARD MUST NOT STRETCH CHILDREN
+--------------------------------------------------------- */
+
+.recruiter-dashboard {
+  width: 100%;
+  max-width: 1440px;
+  min-width: 0;
+  margin: 0 auto;
+
+  box-sizing: border-box;
+}
+
+.recruiter-dashboard *,
+.recruiter-dashboard *::before,
+.recruiter-dashboard *::after {
+  box-sizing: border-box;
+}
+
+
+/* ---------------------------------------------------------
+   2. MAIN GRID
+--------------------------------------------------------- */
+
+.recruiter-dashboard .dashboard-main-grid,
+.recruiter-dashboard .dashboard-lower-grid {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+
+  align-items: start !important;
+}
+
+
+/* ---------------------------------------------------------
+   3. PANELS
+--------------------------------------------------------- */
+
+.recruiter-dashboard .dashboard-panel {
+  width: 100%;
+  min-width: 0;
+
+  height: auto !important;
+  min-height: 0 !important;
+
+  align-self: start !important;
+
+  overflow: hidden;
+
+  border: 1px solid #e5eaf1;
+  border-radius: 14px;
+
+  background: #ffffff;
+}
+
+
+/* =========================================================
+   TOP MATCHING CANDIDATES
+========================================================= */
+
+.recruiter-dashboard .applicants-panel {
+  height: auto !important;
+  min-height: 0 !important;
+
+  align-self: start !important;
+}
+
+
+/* Candidate list itself */
+.recruiter-dashboard .applicant-list {
+  width: 100%;
+
+  height: auto !important;
+  min-height: 0 !important;
+
+  padding: 4px 20px 8px !important;
+
+  overflow: visible;
+}
+
+
+/* ---------------------------------------------------------
+   IMPORTANT:
+   .candidate-main was being inherited from CandidateLayout.
+   Scope it ONLY to recruiter dashboard.
+--------------------------------------------------------- */
+
+.recruiter-dashboard .candidate-main {
+  position: static !important;
+
+  width: auto !important;
+  max-width: none !important;
+
+  height: auto !important;
+  min-height: 0 !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  overflow: visible !important;
+
+  background: transparent !important;
+
+  display: block !important;
+}
+
+
+/* Candidate row */
+.recruiter-dashboard .applicant-row {
+  width: 100%;
+
+  min-width: 0;
+
+  min-height: 82px !important;
+  height: auto !important;
+
+  padding: 14px 0 !important;
+
+  display: grid !important;
+
+  grid-template-columns:
+    40px
+    minmax(190px, 1.2fr)
+    minmax(150px, 0.8fr)
+    58px
+    24px !important;
+
+  align-items: center !important;
+
+  column-gap: 14px !important;
+  row-gap: 0 !important;
+
+  border-bottom: 1px solid #eef2f6;
+
+  background: transparent;
+
+  overflow: visible !important;
+}
+
+.recruiter-dashboard .applicant-row:last-child {
+  border-bottom: 0;
+}
+
+
+/* ---------------------------------------------------------
+   CANDIDATE AVATAR
+--------------------------------------------------------- */
+
+.recruiter-dashboard .candidate-avatar {
+  width: 38px !important;
+  height: 38px !important;
+
+  min-width: 38px !important;
+  min-height: 38px !important;
+
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  color: #4f46e5;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f1f5ff,
+      #eef2ff
+    );
+
+  border: 1px solid #dce5ff;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  line-height: 1;
+}
+
+
+/* ---------------------------------------------------------
+   CANDIDATE INFORMATION
+--------------------------------------------------------- */
+
+.recruiter-dashboard .candidate-name {
+  margin: 0 !important;
+
+  color: #111827;
+
+  font-size: 11px;
+  line-height: 1.3;
+
+  font-weight: 800;
+}
+
+.recruiter-dashboard .candidate-role {
+  margin: 4px 0 0 !important;
+
+  color: #64748b;
+
+  font-size: 9px;
+  line-height: 1.35;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recruiter-dashboard .candidate-meta {
+  margin: 6px 0 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+
+  gap: 12px;
+
+  color: #94a3b8;
+
+  font-size: 8px;
+  line-height: 1.2;
+}
+
+.recruiter-dashboard .candidate-meta span {
+  display: inline-flex !important;
+  align-items: center;
+
+  gap: 4px;
+
+  white-space: nowrap;
+}
+
+
+/* ---------------------------------------------------------
+   SKILLS
+--------------------------------------------------------- */
+
+.recruiter-dashboard .candidate-skills {
+  width: 100%;
+
+  min-width: 0;
+
+  height: auto !important;
+  min-height: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+
+  flex-wrap: wrap;
+
+  gap: 5px;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  overflow: visible !important;
+}
+
+.recruiter-dashboard .candidate-skills span {
+  display: inline-flex !important;
+  align-items: center;
+
+  max-width: 100%;
+
+  padding: 5px 7px;
+
+  color: #64748b;
+
+  background: #f8fafc;
+
+  border: 1px solid #e8edf3;
+
+  border-radius: 5px;
+
+  font-size: 7px;
+  line-height: 1;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+/* ---------------------------------------------------------
+   AI MATCH
+--------------------------------------------------------- */
+
+.recruiter-dashboard .match-score {
+  width: 58px;
+
+  display: flex !important;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.recruiter-dashboard .match-circle {
+  width: 34px !important;
+  height: 34px !important;
+
+  min-width: 34px !important;
+  min-height: 34px !important;
+
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: #047857;
+
+  background: #ecfdf5;
+
+  border: 3px solid #a7f3d0;
+
+  font-size: 8px;
+  line-height: 1;
+
+  font-weight: 850;
+}
+
+.recruiter-dashboard .match-score span {
+  color: #94a3b8;
+
+  font-size: 7px;
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+/* ---------------------------------------------------------
+   ARROW
+--------------------------------------------------------- */
+
+.recruiter-dashboard .candidate-arrow {
+  width: 24px !important;
+  height: 24px !important;
+
+  min-width: 24px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+
+  color: #94a3b8;
+
+  background: transparent;
+
+  border: 0;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+}
+
+.recruiter-dashboard .candidate-arrow:hover {
+  color: #2563eb;
+
+  background: #eff6ff;
+}
+
+
+/* =========================================================
+   ACTIVE JOBS
+========================================================= */
+
+.recruiter-dashboard .jobs-panel {
+  height: auto !important;
+  min-height: 0 !important;
+
+  align-self: start !important;
+}
+
+.recruiter-dashboard .jobs-list {
+  width: 100%;
+
+  height: auto !important;
+  min-height: 0 !important;
+
+  padding: 4px 20px 8px !important;
+
+  overflow: visible;
+}
+
+.recruiter-dashboard .job-row {
+  width: 100%;
+
+  min-width: 0;
+
+  min-height: 82px !important;
+  height: auto !important;
+
+  padding: 14px 0 !important;
+
+  display: grid !important;
+
+  grid-template-columns:
+    38px
+    minmax(0, 1fr)
+    auto !important;
+
+  align-items: center !important;
+
+  gap: 12px !important;
+
+  border-bottom: 1px solid #eef2f6;
+}
+
+.recruiter-dashboard .job-row:last-child {
+  border-bottom: 0;
+}
+
+.recruiter-dashboard .job-icon {
+  width: 38px !important;
+  height: 38px !important;
+
+  min-width: 38px !important;
+
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+
+  color: #2563eb;
+
+  background: #eff6ff;
+
+  border-radius: 10px;
+}
+
+.recruiter-dashboard .job-info {
+  min-width: 0;
+
+  height: auto !important;
+}
+
+.recruiter-dashboard .job-info h3 {
+  margin: 0 !important;
+
+  color: #111827;
+
+  font-size: 10px;
+  line-height: 1.35;
+
+  font-weight: 800;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+.recruiter-dashboard .job-meta {
+  margin-top: 7px !important;
+
+  display: flex !important;
+  align-items: center;
+
+  gap: 10px;
+
+  color: #94a3b8;
+
+  font-size: 8px;
+
+  white-space: nowrap;
+}
+
+.recruiter-dashboard .job-bottom {
+  margin-top: 8px !important;
+
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  color: #94a3b8;
+
+  font-size: 7px;
+}
+
+.recruiter-dashboard .job-status {
+  height: fit-content !important;
+
+  padding: 5px 7px;
+
+  color: #047857;
+
+  background: #ecfdf5;
+
+  border-radius: 5px;
+
+  font-size: 7px;
+
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   HEADER — LAST 30 DAYS
+========================================================= */
+
+.recruiter-dashboard .dashboard-header {
+  width: 100%;
+
+  min-width: 0;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 24px;
+}
+
+.recruiter-dashboard .dashboard-header-actions {
+  display: flex !important;
+  align-items: center;
+
+  gap: 10px;
+
+  flex: 0 0 auto;
+}
+
+.recruiter-dashboard .dashboard-secondary-btn {
+  min-height: 40px;
+
+  padding: 0 14px;
+
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  color: #475569;
+
+  background: #ffffff;
+
+  border: 1px solid #dfe6ef;
+
+  border-radius: 9px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+}
+
+.recruiter-dashboard .dashboard-secondary-btn:hover {
+  color: #334155;
+
+  border-color: #cbd5e1;
+
+  background: #f8fafc;
+}
+
+.recruiter-dashboard .dashboard-primary-btn {
+  min-height: 40px;
+
+  padding: 0 15px;
+
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  color: #ffffff;
+
+  background: #2563eb;
+
+  border: 1px solid #2563eb;
+
+  border-radius: 9px;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 18px rgba(37, 99, 235, 0.17);
+}
+
+.recruiter-dashboard .dashboard-primary-btn:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   BORDER + SPACING CLEANUP
+========================================================= */
+
+.recruiter-dashboard .panel-header {
+  min-height: 72px;
+
+  padding: 17px 20px;
+
+  border-bottom: 1px solid #edf1f5;
+
+  background: #ffffff;
+}
+
+.recruiter-dashboard .panel-header h2 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 14px;
+  line-height: 1.3;
+
+  font-weight: 800;
+}
+
+.recruiter-dashboard .panel-header p {
+  margin: 5px 0 0;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   DESKTOP WIDTH
+========================================================= */
+
+@media (min-width: 1201px) {
+  .recruiter-dashboard {
+    max-width: 1440px;
+  }
+
+  .recruiter-dashboard .dashboard-lower-grid {
+    grid-template-columns:
+      minmax(0, 1.65fr)
+      minmax(300px, 0.8fr);
+  }
+
+  .recruiter-dashboard .dashboard-main-grid {
+    grid-template-columns:
+      minmax(0, 1.65fr)
+      minmax(300px, 0.8fr);
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+  .recruiter-dashboard .applicant-row {
+    grid-template-columns:
+      38px
+      minmax(140px, 1fr)
+      minmax(120px, 0.8fr)
+      54px
+      22px !important;
+
+    column-gap: 10px !important;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 850px) {
+  .recruiter-dashboard .applicant-row {
+    grid-template-columns:
+      38px
+      minmax(0, 1fr)
+      52px
+      22px !important;
+  }
+
+  .recruiter-dashboard .candidate-skills {
+    display: none !important;
+  }
+
+  .recruiter-dashboard .candidate-arrow {
+    display: flex !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .recruiter-dashboard .dashboard-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    margin-bottom: 18px;
+  }
+
+  .recruiter-dashboard .dashboard-header-actions {
+    width: 100%;
+
+    flex-direction: column;
+  }
+
+  .recruiter-dashboard .dashboard-secondary-btn,
+  .recruiter-dashboard .dashboard-primary-btn {
+    width: 100%;
+  }
+
+  .recruiter-dashboard .applicant-list,
+  .recruiter-dashboard .jobs-list {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .recruiter-dashboard .applicant-row {
+    grid-template-columns:
+      36px
+      minmax(0, 1fr)
+      48px !important;
+
+    min-height: 76px !important;
+
+    column-gap: 9px !important;
+  }
+
+  .recruiter-dashboard .candidate-arrow {
+    display: none !important;
+  }
+
+  .recruiter-dashboard .candidate-meta {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 3px;
+  }
+
+  .recruiter-dashboard .job-row {
+    grid-template-columns:
+      36px
+      minmax(0, 1fr)
+      auto !important;
+
+    min-height: 80px !important;
   }
 }

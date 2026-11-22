@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   BriefcaseBusiness,
   Users,
@@ -13,11 +15,19 @@ import {
   CheckCircle2,
   TrendingUp,
   CalendarDays,
+  Check,
 } from "lucide-react";
 
 import "./Dashboard.css";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  const [dateRange, setDateRange] = useState("Last 30 days");
+  const [showDateMenu, setShowDateMenu] = useState(false);
+  const [openStatMenu, setOpenStatMenu] = useState(null);
+  const [openPanelMenu, setOpenPanelMenu] = useState(null);
+
   const stats = [
     {
       title: "Active Jobs",
@@ -26,6 +36,7 @@ const Dashboard = () => {
       description: "from last month",
       icon: BriefcaseBusiness,
       tone: "blue",
+      route: "/recruiter/manage-jobs",
     },
     {
       title: "Total Applicants",
@@ -34,6 +45,7 @@ const Dashboard = () => {
       description: "from last month",
       icon: Users,
       tone: "violet",
+      route: "/recruiter/applicants",
     },
     {
       title: "Shortlisted",
@@ -42,6 +54,7 @@ const Dashboard = () => {
       description: "from last month",
       icon: UserCheck,
       tone: "green",
+      route: "/recruiter/applicants",
     },
     {
       title: "Hired",
@@ -50,6 +63,7 @@ const Dashboard = () => {
       description: "this month",
       icon: UserPlus,
       tone: "orange",
+      route: "/recruiter/applicants",
     },
   ];
 
@@ -119,6 +133,42 @@ const Dashboard = () => {
     },
   ];
 
+  const dateOptions = [
+    "Last 7 days",
+    "Last 30 days",
+    "Last 90 days",
+    "This year",
+  ];
+
+  const handleDateChange = (range) => {
+    setDateRange(range);
+    setShowDateMenu(false);
+  };
+
+  const handleStatClick = (route) => {
+    navigate(route);
+  };
+
+  const handlePostJob = () => {
+    navigate("/recruiter/post-job");
+  };
+
+  const handleApplicants = () => {
+    navigate("/recruiter/applicants");
+  };
+
+  const handleManageJobs = () => {
+    navigate("/recruiter/manage-jobs");
+  };
+
+  const handleCandidateDetails = () => {
+    navigate("/recruiter/candidate-details");
+  };
+
+  const handleAIRecommendations = () => {
+    navigate("/recruiter/applicants");
+  };
+
   return (
     <div className="recruiter-dashboard">
 
@@ -146,12 +196,62 @@ const Dashboard = () => {
 
         <div className="dashboard-header-actions">
 
-          <button className="dashboard-secondary-btn">
-            <CalendarDays size={16} />
-            <span>Last 30 days</span>
-          </button>
+          {/* DATE FILTER */}
 
-          <button className="dashboard-primary-btn">
+          <div className="dashboard-date-wrapper">
+
+            <button
+              type="button"
+              className="dashboard-secondary-btn"
+              onClick={() => {
+                setShowDateMenu((prev) => !prev);
+                setOpenStatMenu(null);
+              }}
+            >
+              <CalendarDays size={16} />
+
+              <span>{dateRange}</span>
+
+              <ChevronRight
+                size={14}
+                className={`date-chevron ${
+                  showDateMenu ? "date-chevron-open" : ""
+                }`}
+              />
+            </button>
+
+            {showDateMenu && (
+              <div className="dashboard-date-menu">
+
+                {dateOptions.map((option) => (
+                  <button
+                    type="button"
+                    key={option}
+                    className={`dashboard-date-option ${
+                      dateRange === option ? "selected" : ""
+                    }`}
+                    onClick={() => handleDateChange(option)}
+                  >
+                    <span>{option}</span>
+
+                    {dateRange === option && (
+                      <Check size={15} />
+                    )}
+                  </button>
+                ))}
+
+              </div>
+            )}
+
+          </div>
+
+          {/* POST JOB */}
+
+          <button
+            type="button"
+            className="dashboard-primary-btn"
+            onClick={handlePostJob}
+          >
             <BriefcaseBusiness size={16} />
             Post a Job
           </button>
@@ -159,6 +259,7 @@ const Dashboard = () => {
         </div>
 
       </section>
+
 
       {/* =====================================================
           STAT CARDS
@@ -173,6 +274,14 @@ const Dashboard = () => {
             <div
               className={`stat-card stat-${stat.tone}`}
               key={stat.title}
+              onClick={() => handleStatClick(stat.route)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  handleStatClick(stat.route);
+                }
+              }}
             >
 
               <div className="stat-card-top">
@@ -181,7 +290,20 @@ const Dashboard = () => {
                   <Icon size={19} />
                 </div>
 
-                <button className="stat-more">
+                <button
+                  type="button"
+                  className="stat-more"
+                  aria-label={`Options for ${stat.title}`}
+                  onClick={(event) => {
+                    event.stopPropagation();
+
+                    setOpenStatMenu(
+                      openStatMenu === stat.title
+                        ? null
+                        : stat.title
+                    );
+                  }}
+                >
                   <MoreHorizontal size={17} />
                 </button>
 
@@ -208,11 +330,33 @@ const Dashboard = () => {
                 {stat.description}
               </div>
 
+              {openStatMenu === stat.title && (
+                <div
+                  className="stat-action-menu"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <button
+                    type="button"
+                    onClick={() => handleStatClick(stat.route)}
+                  >
+                    Open details
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setOpenStatMenu(null)}
+                  >
+                    Close
+                  </button>
+                </div>
+              )}
+
             </div>
           );
         })}
 
       </section>
+
 
       {/* =====================================================
           MAIN ANALYTICS
@@ -228,14 +372,46 @@ const Dashboard = () => {
 
             <div>
               <h2>Hiring overview</h2>
-              <p>Applications received over the last 30 days</p>
+
+              <p>
+                Applications received over the last 30 days
+              </p>
             </div>
 
-            <button className="panel-menu">
+            <button
+              type="button"
+              className="panel-menu"
+              aria-label="Hiring overview options"
+              onClick={() =>
+                setOpenPanelMenu(
+                  openPanelMenu === "hiring"
+                    ? null
+                    : "hiring"
+                )
+              }
+            >
               <MoreHorizontal size={18} />
             </button>
 
           </div>
+
+          {openPanelMenu === "hiring" && (
+            <div className="panel-action-menu">
+              <button
+                type="button"
+                onClick={() => setDateRange("Last 30 days")}
+              >
+                Last 30 days
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setDateRange("Last 90 days")}
+              >
+                Last 90 days
+              </button>
+            </div>
+          )}
 
           <div className="chart-container">
 
@@ -354,6 +530,7 @@ const Dashboard = () => {
 
         </div>
 
+
         {/* AI Insights */}
 
         <div className="dashboard-panel ai-panel">
@@ -395,7 +572,11 @@ const Dashboard = () => {
 
             </div>
 
-            <button className="ai-action">
+            <button
+              type="button"
+              className="ai-action"
+              onClick={handleAIRecommendations}
+            >
               View AI recommendations
               <ArrowUpRight size={16} />
             </button>
@@ -406,13 +587,14 @@ const Dashboard = () => {
 
       </section>
 
+
       {/* =====================================================
           LOWER GRID
       ===================================================== */}
 
       <section className="dashboard-lower-grid">
 
-        {/* Recent Applicants */}
+        {/* Top matching candidates */}
 
         <div className="dashboard-panel applicants-panel">
 
@@ -420,10 +602,17 @@ const Dashboard = () => {
 
             <div>
               <h2>Top matching candidates</h2>
-              <p>Recently evaluated by the AI matching engine</p>
+
+              <p>
+                Recently evaluated by the AI matching engine
+              </p>
             </div>
 
-            <button className="view-all-btn">
+            <button
+              type="button"
+              className="view-all-btn"
+              onClick={handleApplicants}
+            >
               View all
               <ChevronRight size={15} />
             </button>
@@ -453,6 +642,7 @@ const Dashboard = () => {
                   </div>
 
                   <div className="candidate-meta">
+
                     <span>
                       <MapPin size={12} />
                       {candidate.location}
@@ -462,16 +652,19 @@ const Dashboard = () => {
                       <Clock3 size={12} />
                       {candidate.experience}
                     </span>
+
                   </div>
 
                 </div>
 
                 <div className="candidate-skills">
+
                   {candidate.skills.map((skill) => (
                     <span key={skill}>
                       {skill}
                     </span>
                   ))}
+
                 </div>
 
                 <div className="match-score">
@@ -484,7 +677,12 @@ const Dashboard = () => {
 
                 </div>
 
-                <button className="candidate-arrow">
+                <button
+                  type="button"
+                  className="candidate-arrow"
+                  aria-label={`View ${candidate.name}`}
+                  onClick={handleCandidateDetails}
+                >
                   <ChevronRight size={17} />
                 </button>
 
@@ -495,6 +693,7 @@ const Dashboard = () => {
 
         </div>
 
+
         {/* Active Jobs */}
 
         <div className="dashboard-panel jobs-panel">
@@ -503,10 +702,17 @@ const Dashboard = () => {
 
             <div>
               <h2>Active jobs</h2>
-              <p>Currently accepting applications</p>
+
+              <p>
+                Currently accepting applications
+              </p>
             </div>
 
-            <button className="view-all-btn">
+            <button
+              type="button"
+              className="view-all-btn"
+              onClick={handleManageJobs}
+            >
               View all
               <ChevronRight size={15} />
             </button>
@@ -530,12 +736,16 @@ const Dashboard = () => {
                   <h3>{job.title}</h3>
 
                   <div className="job-meta">
+
                     <span>
                       <MapPin size={12} />
                       {job.location}
                     </span>
 
-                    <span>{job.type}</span>
+                    <span>
+                      {job.type}
+                    </span>
+
                   </div>
 
                   <div className="job-bottom">
@@ -567,6 +777,7 @@ const Dashboard = () => {
 
       </section>
 
+
       {/* =====================================================
           QUICK ACTIONS
       ===================================================== */}
@@ -574,6 +785,7 @@ const Dashboard = () => {
       <section className="quick-actions">
 
         <div className="quick-action-intro">
+
           <div className="quick-action-icon">
             <Sparkles size={18} />
           </div>
@@ -582,21 +794,31 @@ const Dashboard = () => {
             <h3>Ready to hire?</h3>
             <p>Move your next role forward.</p>
           </div>
+
         </div>
 
         <div className="quick-action-buttons">
 
-          <button>
+          <button
+            type="button"
+            onClick={handlePostJob}
+          >
             <BriefcaseBusiness size={16} />
             Create a job
           </button>
 
-          <button>
+          <button
+            type="button"
+            onClick={handleApplicants}
+          >
             <Users size={16} />
             Review applicants
           </button>
 
-          <button>
+          <button
+            type="button"
+            onClick={handleAIRecommendations}
+          >
             <Sparkles size={16} />
             Explore AI matches
           </button>
