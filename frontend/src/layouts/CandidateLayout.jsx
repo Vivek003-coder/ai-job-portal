@@ -50,12 +50,15 @@ function CandidateLayout() {
     },
   ];
 
+  const closeMobileMenu = () => {
+    setMobileMenu(false);
+  };
+
   return (
     <div className="candidate-layout">
 
       {/* MOBILE HEADER */}
       <div className="candidate-mobile-header">
-
         <Link to="/" className="dashboard-logo">
           <div className="dashboard-logo-icon">
             <Briefcase size={20} />
@@ -65,12 +68,14 @@ function CandidateLayout() {
         </Link>
 
         <button
+          type="button"
           className="mobile-menu-button"
-          onClick={() => setMobileMenu(!mobileMenu)}
+          onClick={() => setMobileMenu((prev) => !prev)}
+          aria-label="Toggle candidate menu"
+          aria-expanded={mobileMenu}
         >
           {mobileMenu ? <X size={21} /> : <Menu size={21} />}
         </button>
-
       </div>
 
       {/* SIDEBAR */}
@@ -79,7 +84,6 @@ function CandidateLayout() {
           mobileMenu ? "mobile-open" : ""
         }`}
       >
-
         <div className="sidebar-brand">
           <Link to="/" className="dashboard-logo">
             <div className="dashboard-logo-icon">
@@ -90,8 +94,8 @@ function CandidateLayout() {
           </Link>
         </div>
 
+        {/* PROFILE */}
         <div className="sidebar-profile">
-
           <div className="profile-avatar">
             VK
           </div>
@@ -100,11 +104,10 @@ function CandidateLayout() {
             <strong>Vivek Kumar</strong>
             <span>Candidate</span>
           </div>
-
         </div>
 
+        {/* NAVIGATION */}
         <nav className="candidate-nav">
-
           <p className="nav-section-title">
             WORKSPACE
           </p>
@@ -121,9 +124,9 @@ function CandidateLayout() {
                     isActive ? "active" : ""
                   }`
                 }
-                onClick={() => setMobileMenu(false)}
+                onClick={closeMobileMenu}
               >
-                <Icon size={18} />
+                <Icon size={18} strokeWidth={1.9} />
                 <span>{item.label}</span>
               </NavLink>
             );
@@ -140,17 +143,19 @@ function CandidateLayout() {
                 isActive ? "active" : ""
               }`
             }
-            onClick={() => setMobileMenu(false)}
+            onClick={closeMobileMenu}
           >
-            <Settings size={18} />
+            <Settings size={18} strokeWidth={1.9} />
             <span>Settings</span>
           </NavLink>
-
         </nav>
 
+        {/* SIDEBAR BOTTOM */}
         <div className="sidebar-bottom">
-
-          <button className="logout-button">
+          <button
+            type="button"
+            className="logout-button"
+          >
             <LogOut size={17} />
             <span>Logout</span>
           </button>
@@ -158,58 +163,62 @@ function CandidateLayout() {
           <div className="sidebar-version">
             AI Job Portal v1.0
           </div>
-
         </div>
-
       </aside>
 
-      {/* OVERLAY */}
+      {/* MOBILE OVERLAY */}
       {mobileMenu && (
         <div
           className="sidebar-overlay"
-          onClick={() => setMobileMenu(false)}
+          onClick={closeMobileMenu}
+          aria-hidden="true"
         />
       )}
 
-      {/* MAIN CONTENT */}
+      {/* MAIN */}
       <main className="candidate-main">
 
+        {/* TOPBAR */}
         <header className="candidate-topbar">
+          <button
+    type="button"
+    className="candidate-sidebar-toggle"
+    onClick={() => setMobileMenu(true)}
+    aria-label="Open candidate menu"
+  >
+    <Menu size={20} />
+  </button>
 
-          <div>
-            <p className="dashboard-eyebrow">
-              Candidate Workspace
-            </p>
-
-            <h1>
-              Welcome back, Vivek 👋
-            </h1>
+  <div className="candidate-welcome">
+    <p className="dashboard-eyebrow">
+      Candidate Workspace
+    </p>
           </div>
 
           <div className="topbar-actions">
-
             <Link
               to="/jobs"
               className="browse-jobs-button"
             >
               <Briefcase size={17} />
-              Browse Jobs
+              <span>Browse Jobs</span>
             </Link>
 
-            <div className="topbar-avatar">
+            <div
+              className="topbar-avatar"
+              title="Vivek Kumar"
+            >
               VK
             </div>
-
           </div>
-
         </header>
 
+        {/* PAGE CONTENT */}
         <section className="candidate-content">
           <Outlet />
         </section>
 
       </main>
-
     </div>
   );
 }
