@@ -42,6 +42,14 @@ import CandidateDetails from "./pages/recruiter/CandidateDetails";
 import Company from "./pages/recruiter/Company";
 import RecruiterSettings from "./pages/recruiter/Settings";
 
+
+
+import CandidateSettings from "./pages/candidate/Settings";
+import RecruiterSettings from "./pages/recruiter/Settings";
+import ProtectedRoute from "./components/common/ProtectedRoute";
+import { AuthProvider } from "./context/AuthContext";
+
+
 function App() {
   return (
     <div className="app">

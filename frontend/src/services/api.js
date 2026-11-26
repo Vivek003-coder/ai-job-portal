@@ -1,21 +1,17 @@
 import axios from "axios";
 
-/**
- * Central Axios instance for the AI Job Portal.
- *
- * All frontend API requests should use this instance.
- */
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
+
 const api = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
   timeout: 15000,
 });
 
-/**
- * Automatically attach JWT token to protected API requests.
- */
+// Automatically attach JWT token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -29,16 +25,23 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-/**
- * Handle common authentication errors.
- */
+// Handle authentication failures globally
 api.interceptors.response.use(
   (response) => response,
-
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+
+      // Don't redirect automatically from login/register requests
+      const requestUrl = error.config?.url || "";
+
+      if (
+        !requestUrl.includes("/users/login") &&
+        !requestUrl.includes("/users/register")
+      ) {
+        window.location.href = "/login";
+      }
     }
 
     return Promise.reject(error);
