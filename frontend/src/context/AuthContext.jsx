@@ -6,10 +6,10 @@ import React, {
 } from "react";
 
 import authService from "../services/authService";
+
 import {
   getUser,
   getToken,
-  clearAuth,
 } from "../utils/auth";
 
 const AuthContext = createContext(null);
@@ -20,11 +20,8 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = getUser();
-    const storedToken = getToken();
-
-    setUser(storedUser);
-    setToken(storedToken);
+    setUser(getUser());
+    setToken(getToken());
     setLoading(false);
   }, []);
 
@@ -43,26 +40,25 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     authService.logout();
-
     setUser(null);
     setToken(null);
   };
 
   const isAuthenticated = Boolean(token && user);
 
-  const value = {
-    user,
-    token,
-    loading,
-    isAuthenticated,
-    login,
-    register,
-    logout,
-    setUser,
-  };
-
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        loading,
+        isAuthenticated,
+        login,
+        register,
+        logout,
+        setUser,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -73,7 +69,7 @@ export const useAuth = () => {
 
   if (!context) {
     throw new Error(
-      "useAuth must be used inside an AuthProvider"
+      "useAuth must be used inside AuthProvider"
     );
   }
 

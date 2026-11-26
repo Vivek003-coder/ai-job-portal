@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
+  import.meta.env.VITE_API_BASE_URL ||
+  "http://localhost:8080/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -11,7 +12,6 @@ const api = axios.create({
   timeout: 15000,
 });
 
-// Automatically attach JWT token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -25,7 +25,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Handle authentication failures globally
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -33,7 +32,6 @@ api.interceptors.response.use(
       localStorage.removeItem("token");
       localStorage.removeItem("user");
 
-      // Don't redirect automatically from login/register requests
       const requestUrl = error.config?.url || "";
 
       if (

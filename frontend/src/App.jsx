@@ -42,21 +42,19 @@ import CandidateDetails from "./pages/recruiter/CandidateDetails";
 import Company from "./pages/recruiter/Company";
 import RecruiterSettings from "./pages/recruiter/Settings";
 
+// =====================================================
+// AUTHENTICATION
+// =====================================================
 
-
-import CandidateSettings from "./pages/candidate/Settings";
-import RecruiterSettings from "./pages/recruiter/Settings";
 import ProtectedRoute from "./components/common/ProtectedRoute";
-import { AuthProvider } from "./context/AuthContext";
-
 
 function App() {
   return (
     <div className="app">
 
-      {/* ===================================================
+      {/* =================================================
           GLOBAL NAVBAR
-      =================================================== */}
+      ================================================= */}
 
       <Navbar />
 
@@ -101,43 +99,51 @@ function App() {
         ================================================= */}
 
         <Route
-          path="/candidate"
-          element={<CandidateLayout />}
+          element={
+            <ProtectedRoute allowedRoles={["CANDIDATE"]} />
+          }
         >
           <Route
-            path="dashboard"
-            element={<Dashboard />}
-          />
+            path="/candidate"
+            element={<CandidateLayout />}
+          >
 
-          <Route
-            path="profile"
-            element={<Profile />}
-          />
+            <Route
+              path="dashboard"
+              element={<Dashboard />}
+            />
 
-          <Route
-            path="resume"
-            element={<Resume />}
-          />
+            <Route
+              path="profile"
+              element={<Profile />}
+            />
 
-          <Route
-            path="recommended-jobs"
-            element={<RecommendedJobs />}
-          />
+            <Route
+              path="resume"
+              element={<Resume />}
+            />
 
-          <Route
-            path="applications"
-            element={<Applications />}
-          />
+            <Route
+              path="recommended-jobs"
+              element={<RecommendedJobs />}
+            />
 
-          <Route
-            path="saved-jobs"
-            element={<SavedJobs />}
-          />
+            <Route
+              path="applications"
+              element={<Applications />}
+            />
 
-          <Route
-            path="settings"
-            element={<CandidateSettings />}
-          />
+            <Route
+              path="saved-jobs"
+              element={<SavedJobs />}
+            />
+
+            <Route
+              path="settings"
+              element={<CandidateSettings />}
+            />
+
+          </Route>
         </Route>
 
         {/* =================================================
@@ -145,60 +151,119 @@ function App() {
         ================================================= */}
 
         <Route
-          path="/recruiter"
-          element={<RecruiterLayout />}
+          element={
+            <ProtectedRoute allowedRoles={["RECRUITER"]} />
+          }
         >
           <Route
-            path="dashboard"
-            element={<RecruiterDashboard />}
-          />
+            path="/recruiter"
+            element={<RecruiterLayout />}
+          >
 
-          <Route
-            path="post-job"
-            element={<PostJob />}
-          />
+            <Route
+              path="dashboard"
+              element={<RecruiterDashboard />}
+            />
 
-          <Route
-            path="manage-jobs"
-            element={<ManageJobs />}
-          />
+            <Route
+              path="post-job"
+              element={<PostJob />}
+            />
 
-          <Route
-            path="applicants"
-            element={<Applicants />}
-          />
+            <Route
+              path="manage-jobs"
+              element={<ManageJobs />}
+            />
 
-          {/* ===============================================
-              CANDIDATE DETAILS
+            <Route
+              path="applicants"
+              element={<Applicants />}
+            />
 
-              Example:
-              /recruiter/candidate/1
-          =============================================== */}
+            <Route
+              path="candidate/:id"
+              element={<CandidateDetails />}
+            />
 
-          <Route
-            path="candidate/:id"
-            element={<CandidateDetails />}
-          />
+            <Route
+              path="company"
+              element={<Company />}
+            />
 
-          <Route
-            path="company"
-            element={<Company />}
-          />
+            <Route
+              path="settings"
+              element={<RecruiterSettings />}
+            />
 
-          <Route
-            path="settings"
-            element={<RecruiterSettings />}
-          />
+          </Route>
         </Route>
+
+        {/* =================================================
+            FALLBACK
+        ================================================= */}
+
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
 
       </Routes>
 
-      {/* ===================================================
+      {/* =================================================
           GLOBAL FOOTER
-      =================================================== */}
+      ================================================= */}
 
       <Footer />
 
+    </div>
+  );
+}
+
+// =====================================================
+// 404 PAGE
+// =====================================================
+
+function NotFound() {
+  return (
+    <div
+      style={{
+        minHeight: "60vh",
+        display: "grid",
+        placeItems: "center",
+        padding: "40px 20px",
+        textAlign: "center",
+      }}
+    >
+      <div>
+        <h1
+          style={{
+            fontSize: "64px",
+            lineHeight: 1,
+            margin: "0 0 14px",
+            color: "#0f172a",
+          }}
+        >
+          404
+        </h1>
+
+        <h2
+          style={{
+            margin: "0 0 10px",
+            color: "#1e293b",
+          }}
+        >
+          Page not found
+        </h2>
+
+        <p
+          style={{
+            margin: 0,
+            color: "#64748b",
+          }}
+        >
+          The page you're looking for doesn't exist.
+        </p>
+      </div>
     </div>
   );
 }
