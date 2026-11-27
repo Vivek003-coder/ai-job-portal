@@ -37,13 +37,21 @@ public class Job {
 
     private Integer salaryMax;
 
-    @Column(length = 10000)
+    /*
+     * TEXT is used instead of VARCHAR(10000)
+     * to avoid MySQL "Row size too large" errors.
+     */
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(length = 10000)
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String responsibilities;
 
-    @Column(length = 10000)
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String requirements;
 
     @Column(length = 2000)
@@ -61,6 +69,10 @@ public class Job {
 
     private LocalDateTime updatedAt;
 
+    // =========================
+    // Lifecycle Methods
+    // =========================
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -76,8 +88,16 @@ public class Job {
         updatedAt = LocalDateTime.now();
     }
 
+    // =========================
+    // Constructor
+    // =========================
+
     public Job() {
     }
+
+    // =========================
+    // Getters and Setters
+    // =========================
 
     public Long getId() {
         return id;
