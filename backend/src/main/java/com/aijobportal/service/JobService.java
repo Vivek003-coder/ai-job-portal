@@ -3,6 +3,7 @@ package com.aijobportal.service;
 import com.aijobportal.dto.job.JobRequest;
 import com.aijobportal.dto.job.JobResponse;
 import com.aijobportal.entity.Job;
+import com.aijobportal.exception.BadRequestException;
 import com.aijobportal.exception.ResourceNotFoundException;
 import com.aijobportal.repository.JobRepository;
 
@@ -33,6 +34,13 @@ public class JobService {
                 .toList();
     }
 
+    public List<JobResponse> getRecruiterJobs(Long recruiterId) {
+        return jobRepository.findByRecruiterId(recruiterId)
+                .stream()
+                .map(JobResponse::new)
+                .toList();
+    }
+
     public JobResponse getJobById(Long id) {
 
         Job job = jobRepository.findById(id)
@@ -56,17 +64,10 @@ public class JobService {
 
         job.setRecruiterId(recruiterId);
 
-        if (request.getStatus() == null ||
-                request.getStatus().isBlank()) {
-
-            job.setStatus("ACTIVE");
-
-        } else {
-
-            job.setStatus(
-                    request.getStatus().toUpperCase()
-            );
-        }
+        String status = request.getStatus() == null || request.getStatus().isBlank()
+                ? "ACTIVE"
+                : normalizeStatus(request.getStatus());
+        job.setStatus(status);
 
         return new JobResponse(
                 jobRepository.save(job)
@@ -87,7 +88,7 @@ public class JobService {
                 );
 
         if (!job.getRecruiterId().equals(recruiterId)) {
-            throw new RuntimeException(
+            throw new BadRequestException(
                     "You are not authorized to update this job"
             );
         }
@@ -96,10 +97,7 @@ public class JobService {
 
         if (request.getStatus() != null &&
                 !request.getStatus().isBlank()) {
-
-            job.setStatus(
-                    request.getStatus().toUpperCase()
-            );
+            job.setStatus(normalizeStatus(request.getStatus()));
         }
 
         return new JobResponse(
@@ -120,7 +118,7 @@ public class JobService {
                 );
 
         if (!job.getRecruiterId().equals(recruiterId)) {
-            throw new RuntimeException(
+            throw new BadRequestException(
                     "You are not authorized to delete this job"
             );
         }
@@ -142,18 +140,12 @@ public class JobService {
                 );
 
         if (!job.getRecruiterId().equals(recruiterId)) {
-            throw new RuntimeException(
+            throw new BadRequestException(
                     "You are not authorized to update this job"
             );
         }
 
-        if (status == null || status.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Status cannot be empty"
-            );
-        }
-
-        job.setStatus(status.toUpperCase());
+        job.setStatus(normalizeStatus(status));
 
         return new JobResponse(
                 jobRepository.save(job)
@@ -179,5 +171,17 @@ public class JobService {
         job.setRequirements(request.getRequirements());
         job.setSkills(request.getSkills());
         job.setDeadline(request.getDeadline());
+    }
+
+    private String normalizeStatus(String status) {
+        if (status == null || status.isBlank()) {
+            throw new BadRequestException("Status cannot be empty.");
+        }
+
+        String normalizedStatus = status.trim().toUpperCase();
+        if (!List.of("ACTIVE", "CLOSED", "DRAFT").contains(normalizedStatus)) {
+            throw new BadRequestException("Status must be ACTIVE, CLOSED, or DRAFT.");
+        }
+        return normalizedStatus;
     }
 }

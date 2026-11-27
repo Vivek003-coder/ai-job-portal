@@ -10,6 +10,11 @@ const jobService = {
     return response.data;
   },
 
+  async getMyJobs() {
+    const response = await api.get("/jobs/mine");
+    return response.data;
+  },
+
   // Get single job
   async getJobById(id) {
     const response = await api.get(`/jobs/${id}`);

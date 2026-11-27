@@ -61,9 +61,15 @@ function Register() {
         { replace: true }
       );
     } catch (requestError) {
+      const apiMessage = requestError.response?.data?.message;
+      const connectionFailed =
+        !requestError.response &&
+        ["ERR_NETWORK", "ECONNABORTED"].includes(requestError.code);
       setError(
-        requestError.response?.data?.message ||
-        "Unable to create your account."
+        apiMessage ||
+        (connectionFailed
+          ? "Cannot connect to the server. Start the backend and check its MySQL and JWT environment settings, then try again."
+          : "Unable to create your account. Please check your details and try again.")
       );
     } finally {
       setLoading(false);

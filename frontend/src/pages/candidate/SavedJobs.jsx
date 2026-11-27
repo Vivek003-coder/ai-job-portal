@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -10,51 +10,41 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-
-const initialSavedJobs = [
-  {
-    id: 1,
-    title: "Java Backend Developer",
-    company: "TechNova Solutions",
-    location: "Bangalore, India",
-    type: "Full Time",
-    experience: "0-2 Years",
-    salary: "₹6 - ₹10 LPA",
-    match: 94,
-    skills: ["Java", "Spring Boot", "MySQL", "REST API"],
-    savedDate: "Nov 18, 2026",
-  },
-  {
-    id: 2,
-    title: "Full Stack Java Developer",
-    company: "InnovateLabs",
-    location: "Hyderabad, India",
-    type: "Full Time",
-    experience: "0-2 Years",
-    salary: "₹7 - ₹12 LPA",
-    match: 91,
-    skills: ["Java", "Spring Boot", "React", "SQL"],
-    savedDate: "Nov 16, 2026",
-  },
-  {
-    id: 3,
-    title: "Software Engineer",
-    company: "CloudMatrix",
-    location: "Pune, India",
-    type: "Full Time",
-    experience: "0-1 Years",
-    salary: "₹5 - ₹9 LPA",
-    match: 87,
-    skills: ["Java", "DSA", "Git", "SQL"],
-    savedDate: "Nov 14, 2026",
-  },
-];
+import savedJobService from "../../services/savedJobService";
 
 function SavedJobs() {
-  const [savedJobs, setSavedJobs] = useState(initialSavedJobs);
+  const [savedJobs, setSavedJobs] = useState([]);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("match");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    savedJobService.getSavedJobs()
+      .then((jobs) => {
+        if (active) {
+          setSavedJobs(jobs.map((job) => ({
+            ...job,
+            company: job.companyName || "Company",
+            type: job.employmentType,
+            salary: job.salaryMin != null || job.salaryMax != null
+              ? `₹${job.salaryMin ?? 0} - ₹${job.salaryMax ?? job.salaryMin} LPA`
+              : "Salary not specified",
+            match: 0,
+            skills: (job.skills || "").split(",").map((skill) => skill.trim()).filter(Boolean),
+            savedDate: "",
+          })));
+        }
+      })
+      .catch((error) => {
+        if (active) showMessage(error.response?.data?.message || "Unable to load saved jobs.");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => { active = false; };
+  }, []);
 
   const showMessage = (text) => {
     setMessage(text);
@@ -66,12 +56,14 @@ function SavedJobs() {
     }, 2500);
   };
 
-  const removeJob = (jobId) => {
-    setSavedJobs((prev) =>
-      prev.filter((job) => job.id !== jobId)
-    );
-
-    showMessage("Job removed from saved jobs.");
+  const removeJob = async (jobId) => {
+    try {
+      await savedJobService.remove(jobId);
+      setSavedJobs((prev) => prev.filter((job) => job.id !== jobId));
+      showMessage("Job removed from saved jobs.");
+    } catch (error) {
+      showMessage(error.response?.data?.message || "Unable to remove the saved job.");
+    }
   };
 
   const clearAll = () => {
@@ -79,10 +71,13 @@ function SavedJobs() {
       return;
     }
 
-    setSavedJobs([]);
-    setSearch("");
-
-    showMessage("All saved jobs have been removed.");
+    Promise.all(savedJobs.map((job) => savedJobService.remove(job.id)))
+      .then(() => {
+        setSavedJobs([]);
+        setSearch("");
+        showMessage("All saved jobs have been removed.");
+      })
+      .catch((error) => showMessage(error.response?.data?.message || "Unable to clear saved jobs."));
   };
 
   const clearSearch = () => {
@@ -251,7 +246,9 @@ function SavedJobs() {
       {/* =====================================================
           RESULTS
       ===================================================== */}
-      {filteredJobs.length > 0 ? (
+      {loading ? (
+        <p role="status">Loading saved jobs...</p>
+      ) : filteredJobs.length > 0 ? (
 
         <div className="saved-jobs-list">
 

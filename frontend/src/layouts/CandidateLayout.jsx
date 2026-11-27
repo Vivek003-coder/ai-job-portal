@@ -1,4 +1,4 @@
-import { NavLink, Outlet, Link } from "react-router-dom";
+import { NavLink, Outlet, Link, useNavigate } from "react-router-dom";
 import {
   Briefcase,
   LayoutDashboard,
@@ -13,9 +13,13 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import NotificationCenter from "../components/common/NotificationCenter";
 
 function CandidateLayout() {
   const [mobileMenu, setMobileMenu] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const navItems = [
     {
@@ -97,11 +101,11 @@ function CandidateLayout() {
         {/* PROFILE */}
         <div className="sidebar-profile">
           <div className="profile-avatar">
-            VK
+            {(user?.fullName || "Candidate").split(/\s+/).map((part) => part[0]).join("").slice(0, 2).toUpperCase()}
           </div>
 
           <div className="sidebar-profile-info">
-            <strong>Vivek Kumar</strong>
+            <strong>{user?.fullName || "Candidate"}</strong>
             <span>Candidate</span>
           </div>
         </div>
@@ -155,6 +159,10 @@ function CandidateLayout() {
           <button
             type="button"
             className="logout-button"
+            onClick={() => {
+              logout();
+              navigate("/login");
+            }}
           >
             <LogOut size={17} />
             <span>Logout</span>
@@ -196,6 +204,7 @@ function CandidateLayout() {
           </div>
 
           <div className="topbar-actions">
+            <NotificationCenter />
             <Link
               to="/jobs"
               className="browse-jobs-button"
@@ -206,9 +215,9 @@ function CandidateLayout() {
 
             <div
               className="topbar-avatar"
-              title="Vivek Kumar"
+              title={user?.fullName || "Candidate"}
             >
-              VK
+              {(user?.fullName || "Candidate").split(/\s+/).map((part) => part[0]).join("").slice(0, 2).toUpperCase()}
             </div>
           </div>
         </header>

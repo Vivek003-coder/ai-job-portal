@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Search,
   Filter,
@@ -26,9 +26,11 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import jobService from "../../services/jobService";
+import applicationService from "../../services/applicationService";
 import "./Applicants.css";
 
-const jobs = [
+const demoJobs = [
   {
     id: 1,
     title: "Java Backend Developer",
@@ -51,7 +53,7 @@ const jobs = [
   },
 ];
 
-const initialApplicants = [
+const demoApplicants = [
   {
     id: 1,
     name: "Rahul Sharma",
@@ -177,20 +179,82 @@ const Applicants = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const jobId = Number(searchParams.get("jobId")) || 1;
-
-  const selectedJob =
-    jobs.find((job) => job.id === jobId) || jobs[0];
-
-  const [applicants, setApplicants] = useState(
-    initialApplicants
-  );
+  const requestedJobId = Number(searchParams.get("jobId")) || null;
+  const [jobs, setJobs] = useState([]);
+  const [applicants, setApplicants] = useState([]);
+  const [loadingJobs, setLoadingJobs] = useState(true);
+  const [loadingApplicants, setLoadingApplicants] = useState(false);
+  const [requestError, setRequestError] = useState("");
+  const selectedJob = jobs.find((job) => job.id === requestedJobId) || jobs[0] || null;
 
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
   const [sortBy, setSortBy] = useState("match");
   const [selectedApplicant, setSelectedApplicant] =
     useState(null);
+
+  useEffect(() => {
+    let active = true;
+    jobService.getMyJobs()
+      .then((records) => {
+        if (active) {
+          setJobs(records.map((job) => ({
+            ...job,
+            applicants: 0,
+            statusLabel: job.status === "ACTIVE" ? "Active" : "Closed",
+          })));
+        }
+      })
+      .catch((error) => {
+        if (active) setRequestError(error.response?.data?.message || "Unable to load jobs.");
+      })
+      .finally(() => {
+        if (active) setLoadingJobs(false);
+      });
+    return () => { active = false; };
+  }, []);
+
+  useEffect(() => {
+    if (!selectedJob) return undefined;
+    let active = true;
+    setLoadingApplicants(true);
+    applicationService.getApplicants(selectedJob.id)
+      .then((records) => {
+        if (active) {
+          setApplicants(records.map((record) => ({
+            ...record,
+            id: record.candidateId,
+            applicationId: record.id,
+            name: record.candidateName,
+            initials: (record.candidateName || "Candidate")
+              .split(/\s+/).map((part) => part[0]).join("").slice(0, 2).toUpperCase(),
+            role: record.jobTitle,
+            location: record.location || "Not specified",
+            experience: "Not provided",
+            skills: [],
+            match: 0,
+            status: record.status === "Under Review" || record.status === "Applied"
+              ? "Review"
+              : record.status,
+            applied: record.appliedAt ? new Date(record.appliedAt).toLocaleDateString() : "",
+            resume: "No resume uploaded",
+            education: "Not provided",
+            email: record.candidateEmail,
+            phone: "",
+            matchedSkills: 0,
+            totalSkills: 0,
+            summary: record.coverLetter || "No cover letter was provided.",
+          })));
+        }
+      })
+      .catch((error) => {
+        if (active) setRequestError(error.response?.data?.message || "Unable to load applicants.");
+      })
+      .finally(() => {
+        if (active) setLoadingApplicants(false);
+      });
+    return () => { active = false; };
+  }, [selectedJob?.id]);
 
   const filteredApplicants = useMemo(() => {
     let result = applicants.filter((candidate) => {
@@ -242,16 +306,19 @@ const Applicants = () => {
     ).length,
   };
 
-  const updateStatus = (id, status) => {
-    setApplicants((prev) =>
-      prev.map((candidate) =>
-        candidate.id === id
-          ? { ...candidate, status }
-          : candidate
-      )
-    );
-
-    setSelectedApplicant(null);
+  const updateStatus = async (id, status) => {
+    const applicant = applicants.find((candidate) => candidate.id === id);
+    if (!applicant) return;
+    try {
+      const apiStatus = status === "Review" ? "Under Review" : status;
+      await applicationService.updateStatus(applicant.applicationId, apiStatus);
+      setApplicants((prev) => prev.map((candidate) =>
+        candidate.id === id ? { ...candidate, status } : candidate
+      ));
+      setSelectedApplicant(null);
+    } catch (error) {
+      setRequestError(error.response?.data?.message || "Unable to update application status.");
+    }
   };
 
   const openCandidate = (candidate) => {
@@ -292,7 +359,7 @@ const Applicants = () => {
           <BriefcaseBusiness size={17} />
 
           <select
-            value={selectedJob.id}
+            value={selectedJob?.id || ""}
             onChange={(e) =>
               navigate(
                 `/recruiter/applicants?jobId=${e.target.value}`
@@ -331,13 +398,11 @@ const Applicants = () => {
 
             <div className="active-job-title-row">
 
-              <h2>
-                {selectedJob.title}
-              </h2>
+              <h2>{selectedJob?.title || "Select a job"}</h2>
 
               <span className="live-badge">
                 <span />
-                Active
+                {selectedJob?.statusLabel || "No jobs"}
               </span>
 
             </div>
@@ -346,7 +411,7 @@ const Applicants = () => {
 
               <span>
                 <UsersIcon />
-                {selectedJob.applicants} applicants
+                {applicants.length} applicants
               </span>
 
               <span>

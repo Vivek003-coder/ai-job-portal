@@ -18,8 +18,10 @@ E:\ai-job-portal\backend\src\main\java\com\aijobportal\dto\auth\RegisterRequest.
 E:\ai-job-portal\backend\src\main\java\com\aijobportal\dto\job\JobRequest.java
 E:\ai-job-portal\backend\src\main\java\com\aijobportal\dto\job\JobResponse.java
 E:\ai-job-portal\backend\src\main\java\com\aijobportal\dto\matching\MatchResponse.java
+E:\ai-job-portal\backend\src\main\java\com\aijobportal\dto\notification\NotificationResponse.java
 E:\ai-job-portal\backend\src\main\java\com\aijobportal\dto\resume\ResumeResponse.java
 E:\ai-job-portal\backend\src\main\java\com\aijobportal\dto\user\ChangePasswordRequest.java
+E:\ai-job-portal\backend\src\main\java\com\aijobportal\dto\user\ProfileResponse.java
 E:\ai-job-portal\backend\src\main\java\com\aijobportal\dto\user\UpdateProfileRequest.java
 E:\ai-job-portal\backend\src\main\java\com\aijobportal\entity\CandidateProfile.java
 E:\ai-job-portal\backend\src\main\java\com\aijobportal\entity\Company.java
@@ -51,5 +53,6 @@ E:\ai-job-portal\backend\src\main\java\com\aijobportal\service\AuthService.java
 E:\ai-job-portal\backend\src\main\java\com\aijobportal\service\JobService.java
 E:\ai-job-portal\backend\src\main\java\com\aijobportal\service\MatchingService.java
 E:\ai-job-portal\backend\src\main\java\com\aijobportal\service\NotificationService.java
+E:\ai-job-portal\backend\src\main\java\com\aijobportal\service\ResumeService.java
 E:\ai-job-portal\backend\src\main\java\com\aijobportal\service\SavedJobService.java
 E:\ai-job-portal\backend\src\main\java\com\aijobportal\service\UserService.java

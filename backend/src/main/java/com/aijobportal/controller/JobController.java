@@ -37,6 +37,13 @@ public class JobController {
         );
     }
 
+    @GetMapping("/mine")
+    public ResponseEntity<List<JobResponse>> getMyJobs(Authentication authentication) {
+        return ResponseEntity.ok(
+                jobService.getRecruiterJobs(getRecruiterId(authentication))
+        );
+    }
+
     /*
      * GET /api/jobs/{id}
      */
@@ -52,10 +59,6 @@ public class JobController {
 
     /*
      * POST /api/jobs
-     *
-     * Temporary recruiter ID = 1.
-     * We will replace this with the authenticated
-     * JWT recruiter ID when JWT security is connected.
      */
     @PostMapping
     public ResponseEntity<JobResponse> createJob(

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft,
@@ -15,6 +15,7 @@ import {
   RefreshCw,
   X,
 } from "lucide-react";
+import resumeService from "../../services/resumeService";
 
 function Resume() {
   const fileInputRef = useRef(null);
@@ -23,22 +24,32 @@ function Resume() {
   const [isDragging, setIsDragging] = useState(false);
   const [message, setMessage] = useState("");
   const [analyzing, setAnalyzing] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
-  const [analysis, setAnalysis] = useState({
-    score: 86,
-    skills: [
-      "Java",
-      "Spring Boot",
-      "React",
-      "JavaScript",
-      "MySQL",
-      "REST API",
-      "Git",
-      "DSA",
-    ],
-    experience: "1 internship detected",
-    education: "B.Tech Computer Science",
+  const [analysis] = useState({
+    score: 0,
+    skills: [],
+    experience: "Not analyzed",
+    education: "Not analyzed",
   });
+
+  useEffect(() => {
+    let active = true;
+    resumeService.getMyResume()
+      .then((metadata) => {
+        if (active) setResume({
+          name: metadata.fileName,
+          size: metadata.size,
+          type: metadata.contentType,
+        });
+      })
+      .catch((error) => {
+        if (active && error.response?.status !== 404) {
+          showMessage(error.response?.data?.message || "Unable to load your resume.");
+        }
+      });
+    return () => { active = false; };
+  }, []);
 
   /* =========================
      FILE VALIDATION
@@ -94,12 +105,23 @@ function Resume() {
      UPLOAD
   ========================= */
 
-  const handleFile = (file) => {
+  const handleFile = async (file) => {
     if (!validateFile(file)) return;
-
-    setResume(file);
-
-    showMessage("Resume uploaded successfully.");
+    setUploading(true);
+    try {
+      const metadata = await resumeService.upload(file);
+      setResume({
+        name: metadata.fileName,
+        size: metadata.size,
+        type: metadata.contentType,
+      });
+      showMessage("Resume uploaded successfully.");
+    } catch (error) {
+      showMessage(error.response?.data?.message || "Unable to upload your resume.");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
   };
 
   const handleInputChange = (e) => {
@@ -139,14 +161,15 @@ function Resume() {
      REMOVE RESUME
   ========================= */
 
-  const removeResume = () => {
-    setResume(null);
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+  const removeResume = async () => {
+    try {
+      await resumeService.remove();
+      setResume(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      showMessage("Resume removed.");
+    } catch (error) {
+      showMessage(error.response?.data?.message || "Unable to remove your resume.");
     }
-
-    showMessage("Resume removed.");
   };
 
   /* =========================
@@ -159,41 +182,29 @@ function Resume() {
       return;
     }
 
-    setAnalyzing(true);
-
-    setTimeout(() => {
-      setAnalyzing(false);
-
-      setAnalysis((prev) => ({
-        ...prev,
-        score: 91,
-      }));
-
-      showMessage("AI resume analysis completed.");
-    }, 1800);
+    setAnalyzing(false);
+    showMessage("Automated resume analysis is not configured yet.");
   };
 
   /* =========================
      DOWNLOAD
   ========================= */
 
-  const downloadResume = () => {
+  const downloadResume = async () => {
     if (!resume) return;
-
-    const url = URL.createObjectURL(resume);
-
-    const link = document.createElement("a");
-
-    link.href = url;
-    link.download = resume.name;
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    document.body.removeChild(link);
-
-    URL.revokeObjectURL(url);
+    try {
+      const file = await resumeService.download();
+      const url = URL.createObjectURL(file);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = resume.name;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      showMessage(error.response?.data?.message || "Unable to download your resume.");
+    }
   };
 
   /* =========================
@@ -349,13 +360,14 @@ function Resume() {
                 <button
                   type="button"
                   className="browse-resume-button"
+                  disabled={uploading}
                   onClick={(e) => {
                     e.stopPropagation();
                     fileInputRef.current?.click();
                   }}
                 >
                   <Upload size={16} />
-                  Choose Resume
+                  {uploading ? "Uploading..." : "Choose Resume"}
                 </button>
 
                 <input

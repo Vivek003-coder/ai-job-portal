@@ -1,0 +1,3 @@
+com\aijobportal\security\JwtServiceTest.class
+com\aijobportal\service\MatchingServiceTest.class
+com\aijobportal\service\ApplicationServiceTest.class

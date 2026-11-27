@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -14,6 +14,8 @@ import {
   TrendingUp,
   X,
 } from "lucide-react";
+import matchingService from "../../services/matchingService";
+import savedJobService from "../../services/savedJobService";
 
 const jobs = [
   {
@@ -88,11 +90,53 @@ const jobs = [
 ];
 
 function RecommendedJobs() {
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("match");
   const [selectedJob, setSelectedJob] = useState(null);
   const [savedJobs, setSavedJobs] = useState([]);
   const [toast, setToast] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    matchingService.getRecommendations()
+      .then((records) => {
+        if (active) {
+          setJobs(records.map((job) => {
+            const postedDays = job.createdAt
+              ? Math.max(0, Math.floor((Date.now() - new Date(job.createdAt).getTime()) / 86400000))
+              : 0;
+            return {
+              ...job,
+              salary: job.salaryMin != null || job.salaryMax != null
+                ? `₹${job.salaryMin ?? 0} - ₹${job.salaryMax ?? job.salaryMin} LPA`
+                : "Salary not specified",
+              salaryValue: job.salaryMax ?? job.salaryMin ?? 0,
+              posted: postedDays === 0 ? "Today" : `${postedDays} days ago`,
+              postedDays,
+            };
+          }));
+        }
+      })
+      .catch((error) => {
+        if (active) setLoadError(error.response?.data?.message || "Unable to load recommendations.");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    savedJobService.getSavedJobs()
+      .then((saved) => {
+        if (active) setSavedJobs(saved.map((job) => job.id));
+      })
+      .catch(() => {
+        if (active) setSavedJobs([]);
+      });
+
+    return () => { active = false; };
+  }, []);
 
   const showToast = (message) => {
     setToast(message);
@@ -142,22 +186,23 @@ function RecommendedJobs() {
     }
 
     return result;
-  }, [search, sort]);
+  }, [jobs, search, sort]);
 
-  const toggleSave = (jobId) => {
+  const toggleSave = async (jobId) => {
     const isSaved = savedJobs.includes(jobId);
-
-    setSavedJobs((prev) =>
-      isSaved
-        ? prev.filter((id) => id !== jobId)
-        : [...prev, jobId]
-    );
-
-    showToast(
-      isSaved
-        ? "Job removed from saved jobs."
-        : "Job saved successfully."
-    );
+    try {
+      if (isSaved) {
+        await savedJobService.remove(jobId);
+        setSavedJobs((prev) => prev.filter((id) => id !== jobId));
+        showToast("Job removed from saved jobs.");
+      } else {
+        await savedJobService.save(jobId);
+        setSavedJobs((prev) => [...prev, jobId]);
+        showToast("Job saved successfully.");
+      }
+    } catch (error) {
+      showToast(error.response?.data?.message || "Unable to update saved jobs.");
+    }
   };
 
   const closeModal = () => {
@@ -320,7 +365,10 @@ function RecommendedJobs() {
       {/* Job List */}
       <div className="recommended-job-list">
 
-        {filteredJobs.length > 0 ? (
+        {loadError && <p role="alert">{loadError}</p>}
+        {loading ? (
+          <p role="status">Loading recommendations...</p>
+        ) : filteredJobs.length > 0 ? (
           filteredJobs.map((job) => {
             const isSaved = savedJobs.includes(job.id);
 
@@ -480,9 +528,8 @@ function RecommendedJobs() {
           <h3>How your AI matching works</h3>
 
           <p>
-            Our matching engine compares your resume with job
-            descriptions using semantic similarity, extracted
-            skills and profile relevance.
+            Recommendations compare the skills saved in your
+            profile with the skills listed for each active job.
           </p>
 
           <div className="explanation-points">
@@ -498,7 +545,7 @@ function RecommendedJobs() {
 
             <span>
               <CheckCircle2 size={14} />
-              Semantic similarity
+              Profile skill overlap
             </span>
           </div>
         </div>

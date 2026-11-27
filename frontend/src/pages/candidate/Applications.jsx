@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   Briefcase,
@@ -12,69 +12,7 @@ import {
   X,
   XCircle,
 } from "lucide-react";
-
-const applications = [
-  {
-    id: 1,
-    jobTitle: "Java Backend Developer",
-    company: "TechNova Solutions",
-    location: "Bangalore, India",
-    type: "Full Time",
-    appliedDate: "Nov 18, 2026",
-    status: "Interview",
-    salary: "₹6 - ₹10 LPA",
-    match: 94,
-    nextStep: "Technical interview scheduled",
-  },
-  {
-    id: 2,
-    jobTitle: "Full Stack Java Developer",
-    company: "InnovateLabs",
-    location: "Hyderabad, India",
-    type: "Full Time",
-    appliedDate: "Nov 15, 2026",
-    status: "Shortlisted",
-    salary: "₹7 - ₹12 LPA",
-    match: 91,
-    nextStep: "Recruiter will contact you soon",
-  },
-  {
-    id: 3,
-    jobTitle: "Software Engineer",
-    company: "CloudMatrix",
-    location: "Pune, India",
-    type: "Full Time",
-    appliedDate: "Nov 12, 2026",
-    status: "Under Review",
-    salary: "₹5 - ₹9 LPA",
-    match: 87,
-    nextStep: "Application is being reviewed",
-  },
-  {
-    id: 4,
-    jobTitle: "Spring Boot Developer",
-    company: "DevSphere Technologies",
-    location: "Remote",
-    type: "Full Time",
-    appliedDate: "Nov 8, 2026",
-    status: "Applied",
-    salary: "₹8 - ₹13 LPA",
-    match: 84,
-    nextStep: "Application submitted successfully",
-  },
-  {
-    id: 5,
-    jobTitle: "Junior Java Developer",
-    company: "CodeWorks",
-    location: "Delhi, India",
-    type: "Full Time",
-    appliedDate: "Nov 2, 2026",
-    status: "Rejected",
-    salary: "₹4 - ₹7 LPA",
-    match: 72,
-    nextStep: "Application was not selected",
-  },
-];
+import applicationService from "../../services/applicationService";
 
 const statusConfig = {
   Applied: {
@@ -109,9 +47,43 @@ const statusConfig = {
 };
 
 function Applications() {
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [activeTab, setActiveTab] = useState("All");
   const [search, setSearch] = useState("");
   const [selectedApplication, setSelectedApplication] = useState(null);
+
+  useEffect(() => {
+    let active = true;
+    applicationService.getMyApplications()
+      .then((records) => {
+        if (!active) return;
+        setApplications(records.map((record) => ({
+          ...record,
+          title: record.jobTitle,
+          appliedDate: record.appliedAt ? new Date(record.appliedAt).toLocaleDateString() : "",
+          salary: record.salaryMin != null || record.salaryMax != null
+            ? `₹${record.salaryMin ?? 0} - ₹${record.salaryMax ?? record.salaryMin} LPA`
+            : "Salary not specified",
+          match: 0,
+          nextStep: record.status === "Rejected"
+            ? "This application was not selected."
+            : record.status === "Interview"
+              ? "Check your email for interview details."
+              : record.status === "Selected"
+                ? "The recruiter selected your application."
+                : "Your application is being reviewed.",
+        })));
+      })
+      .catch((error) => {
+        if (active) setLoadError(error.response?.data?.message || "Unable to load applications.");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => { active = false; };
+  }, []);
 
   const tabs = [
     "All",
@@ -159,7 +131,7 @@ function Applications() {
 
       return searchableText.includes(query);
     });
-  }, [activeTab, search]);
+  }, [applications, activeTab, search]);
 
   const getStatusIcon = (status) => {
     const Icon = statusConfig[status]?.icon || FileText;
@@ -211,7 +183,7 @@ function Applications() {
 
           <div>
             <span>Total Applied</span>
-            <strong>5</strong>
+            <strong>{applications.length}</strong>
           </div>
         </div>
 
@@ -223,7 +195,7 @@ function Applications() {
 
           <div>
             <span>Under Review</span>
-            <strong>1</strong>
+            <strong>{applications.filter((application) => application.status === "Under Review").length}</strong>
           </div>
         </div>
 
@@ -235,7 +207,7 @@ function Applications() {
 
           <div>
             <span>Shortlisted</span>
-            <strong>1</strong>
+            <strong>{applications.filter((application) => application.status === "Shortlisted").length}</strong>
           </div>
         </div>
 
@@ -247,7 +219,7 @@ function Applications() {
 
           <div>
             <span>Interviews</span>
-            <strong>1</strong>
+            <strong>{applications.filter((application) => application.status === "Interview").length}</strong>
           </div>
         </div>
 
@@ -322,7 +294,10 @@ function Applications() {
       ===================================================== */}
       <div className="applications-list">
 
-        {filteredApplications.length > 0 ? (
+        {loadError && <p role="alert">{loadError}</p>}
+        {loading ? (
+          <p role="status">Loading applications...</p>
+        ) : filteredApplications.length > 0 ? (
 
           filteredApplications.map((application) => {
             const status =

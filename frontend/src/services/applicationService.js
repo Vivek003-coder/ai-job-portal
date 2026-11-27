@@ -1,32 +1,25 @@
 import api from "./api";
-import { saveAuth, clearAuth } from "../utils/auth";
 
-const authService = {
-  async register(userData) {
-    const response = await api.post("/users/register", userData);
+const applicationService = {
+  async apply(jobId, coverLetter = "") {
+    const response = await api.post("/applications", { jobId, coverLetter });
     return response.data;
   },
 
-  async login(credentials) {
-    const response = await api.post("/users/login", credentials);
-
-    const data = response.data;
-
-    if (data?.token) {
-      saveAuth(data.token, data.user);
-    }
-
-    return data;
+  async getMyApplications() {
+    const response = await api.get("/applications");
+    return response.data;
   },
 
-  logout() {
-    clearAuth();
+  async getApplicants(jobId) {
+    const response = await api.get(`/applications/jobs/${jobId}`);
+    return response.data;
   },
 
-  async getCurrentUser() {
-    const response = await api.get("/users/me");
+  async updateStatus(applicationId, status) {
+    const response = await api.patch(`/applications/${applicationId}/status`, { status });
     return response.data;
   },
 };
 
-export default authService;
+export default applicationService;

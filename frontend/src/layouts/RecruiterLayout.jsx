@@ -10,17 +10,19 @@ import {
   LogOut,
   Menu,
   X,
-  Bell,
   Search,
   ChevronDown,
   Sparkles,
 } from "lucide-react";
 
 import "./RecruiterLayout.css";
+import { useAuth } from "../context/AuthContext";
+import NotificationCenter from "../components/common/NotificationCenter";
 
 const RecruiterLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const navigation = [
     {
@@ -73,9 +75,7 @@ const RecruiterLayout = () => {
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-
+    logout();
     navigate("/login");
   };
 
@@ -200,13 +200,13 @@ const RecruiterLayout = () => {
           <div className="recruiter-profile-mini">
 
             <div className="recruiter-avatar">
-              AK
+              {(user?.fullName || "Recruiter").split(/\s+/).map((part) => part[0]).join("").slice(0, 2).toUpperCase()}
             </div>
 
             <div className="recruiter-profile-info">
 
               <strong>
-                Alex Kumar
+                {user?.fullName || "Recruiter"}
               </strong>
 
               <span>
@@ -282,17 +282,7 @@ const RecruiterLayout = () => {
           <div className="recruiter-topbar-right">
 
             {/* Notification */}
-            <button
-              type="button"
-              className="recruiter-icon-button"
-              aria-label="Notifications"
-            >
-
-              <Bell size={19} />
-
-              <span className="notification-dot" />
-
-            </button>
+            <NotificationCenter className="recruiter-icon-button" />
 
             {/* User */}
             <div className="recruiter-user-menu">

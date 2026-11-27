@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -23,6 +23,9 @@ import {
 } from "lucide-react";
 
 import { Link, useNavigate, useParams } from "react-router-dom";
+import jobService from "../../services/jobService";
+import applicationService from "../../services/applicationService";
+import savedJobService from "../../services/savedJobService";
 
 /* =========================================================
    JOB DATA
@@ -827,10 +830,50 @@ function JobDetails() {
 
   const [saved, setSaved] = useState(false);
   const [applied, setApplied] = useState(false);
+  const [job, setJob] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [requestError, setRequestError] = useState("");
 
-  const job = jobs.find(
-    (item) => String(item.id) === String(id)
-  );
+  useEffect(() => {
+    let active = true;
+    setLoading(true);
+    setRequestError("");
+
+    jobService.getJobById(id)
+      .then((record) => {
+        if (!active) return;
+        const skills = (record.skills || "")
+          .split(",")
+          .map((skill) => skill.trim())
+          .filter(Boolean);
+        const salary = record.salaryMin != null || record.salaryMax != null
+          ? `₹${record.salaryMin ?? 0}–${record.salaryMax ?? record.salaryMin} LPA`
+          : "Salary not specified";
+        setJob({
+          ...record,
+          company: record.companyName,
+          logo: (record.companyName || "Company").slice(0, 2).toUpperCase(),
+          type: record.employmentType,
+          salary,
+          skills,
+          match: 0,
+          posted: record.createdAt
+            ? new Date(record.createdAt).toLocaleDateString()
+            : "Recently",
+        });
+      })
+      .catch((error) => {
+        if (!active) return;
+        setRequestError(error.response?.data?.message || "Unable to load this job.");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [id]);
 
   /* =======================================================
      JOB NOT FOUND
@@ -843,11 +886,12 @@ function JobDetails() {
           <BriefcaseBusiness size={28} />
         </div>
 
-        <h2>Job not found</h2>
+        <h2>{loading ? "Loading job..." : "Job not found"}</h2>
 
         <p>
-          The job you are looking for may have been removed
-          or is no longer available.
+          {requestError || (loading
+            ? "Please wait while we load the job details."
+            : "The job you are looking for may have been removed or is no longer available.")}
         </p>
 
         <Link
@@ -906,32 +950,32 @@ function JobDetails() {
      APPLY
   ======================================================= */
 
-  const handleApply = () => {
-    setApplied(true);
-
-    /*
-      Later connect this with Spring Boot:
-
-      await applicationService.apply({
-        jobId: job.id
-      });
-
-      navigate("/candidate/applications");
-    */
+  const handleApply = async () => {
+    setRequestError("");
+    try {
+      await applicationService.apply(job.id);
+      setApplied(true);
+    } catch (error) {
+      setRequestError(error.response?.data?.message || "Unable to apply for this job.");
+    }
   };
 
   /* =======================================================
      SAVE JOB
   ======================================================= */
 
-  const handleSave = () => {
-    setSaved((previous) => !previous);
-
-    /*
-      Later:
-
-      await jobService.saveJob(job.id);
-    */
+  const handleSave = async () => {
+    setRequestError("");
+    try {
+      if (saved) {
+        await savedJobService.remove(job.id);
+      } else {
+        await savedJobService.save(job.id);
+      }
+      setSaved((previous) => !previous);
+    } catch (error) {
+      setRequestError(error.response?.data?.message || "Unable to save this job.");
+    }
   };
 
   /* =======================================================
@@ -942,6 +986,11 @@ function JobDetails() {
 
   return (
     <div className="job-details-page">
+      {requestError && (
+        <p role="alert" className="job-request-error">
+          {requestError}
+        </p>
+      )}
 
       {/* ===================================================
           PAGE HEADER

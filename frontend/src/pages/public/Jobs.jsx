@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   BriefcaseBusiness,
@@ -14,142 +14,9 @@ import {
   X,
 } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
-
-/* =========================================================
-   MOCK JOB DATA
-   Later this will come from Spring Boot API
-========================================================= */
-
-const jobsData = [
-  {
-    id: 1,
-    company: "TechNova",
-    logo: "TN",
-    logoClass: "blue",
-    title: "Java Backend Developer",
-    location: "Bengaluru, India",
-    type: "Full-time",
-    experience: "1–3 Years",
-    salary: "₹8–14 LPA",
-    posted: "2 days ago",
-    skills: ["Java", "Spring Boot", "MySQL"],
-    match: 94,
-    description:
-      "Build scalable backend services and REST APIs using Java and Spring Boot.",
-  },
-  {
-    id: 2,
-    company: "CloudCore",
-    logo: "CC",
-    logoClass: "purple",
-    title: "Full Stack Developer",
-    location: "Hyderabad, India",
-    type: "Full-time",
-    experience: "2–4 Years",
-    salary: "₹10–18 LPA",
-    posted: "1 day ago",
-    skills: ["React", "Node.js", "MongoDB"],
-    match: 91,
-    description:
-      "Work across frontend and backend systems while building modern web applications.",
-  },
-  {
-    id: 3,
-    company: "DataForge",
-    logo: "DF",
-    logoClass: "green",
-    title: "Software Engineer",
-    location: "Pune, India",
-    type: "Full-time",
-    experience: "0–2 Years",
-    salary: "₹7–12 LPA",
-    posted: "3 days ago",
-    skills: ["Java", "DSA", "SQL"],
-    match: 88,
-    description:
-      "Join an engineering team building reliable software products and APIs.",
-  },
-  {
-    id: 4,
-    company: "DevSphere",
-    logo: "DS",
-    logoClass: "orange",
-    title: "React Frontend Developer",
-    location: "Remote, India",
-    type: "Remote",
-    experience: "1–3 Years",
-    salary: "₹7–13 LPA",
-    posted: "5 hours ago",
-    skills: ["React", "JavaScript", "Tailwind"],
-    match: 87,
-    description:
-      "Create fast, accessible and responsive interfaces for a growing product platform.",
-  },
-  {
-    id: 5,
-    company: "FinStack",
-    logo: "FS",
-    logoClass: "navy",
-    title: "Spring Boot Developer",
-    location: "Noida, India",
-    type: "Full-time",
-    experience: "2–5 Years",
-    salary: "₹12–20 LPA",
-    posted: "1 day ago",
-    skills: ["Java", "Spring Boot", "PostgreSQL"],
-    match: 96,
-    description:
-      "Develop secure financial APIs and backend services using Spring Boot.",
-  },
-  {
-    id: 6,
-    company: "AI Labs",
-    logo: "AI",
-    logoClass: "cyan",
-    title: "AI Software Engineer",
-    location: "Bengaluru, India",
-    type: "Full-time",
-    experience: "1–4 Years",
-    salary: "₹12–22 LPA",
-    posted: "4 days ago",
-    skills: ["Python", "AI", "FastAPI"],
-    match: 83,
-    description:
-      "Build intelligent applications combining software engineering and AI technologies.",
-  },
-  {
-    id: 7,
-    company: "NextStack",
-    logo: "NS",
-    logoClass: "indigo",
-    title: "Node.js Backend Developer",
-    location: "Gurugram, India",
-    type: "Hybrid",
-    experience: "1–3 Years",
-    salary: "₹8–15 LPA",
-    posted: "2 days ago",
-    skills: ["Node.js", "Express", "MongoDB"],
-    match: 89,
-    description:
-      "Design backend APIs and services for a high-growth technology platform.",
-  },
-  {
-    id: 8,
-    company: "CodeWorks",
-    logo: "CW",
-    logoClass: "rose",
-    title: "Software Development Engineer",
-    location: "Chennai, India",
-    type: "Full-time",
-    experience: "0–2 Years",
-    salary: "₹6–11 LPA",
-    posted: "6 days ago",
-    skills: ["Java", "DSA", "Git"],
-    match: 84,
-    description:
-      "Solve engineering problems and contribute to scalable production systems.",
-  },
-];
+import jobService from "../../services/jobService";
+import savedJobService from "../../services/savedJobService";
+import { getToken } from "../../utils/auth";
 
 /* =========================================================
    FILTER OPTIONS
@@ -196,6 +63,9 @@ const skillOptions = [
 
 function Jobs() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [jobs, setJobs] = useState([]);
+  const [jobsLoading, setJobsLoading] = useState(true);
+  const [jobsError, setJobsError] = useState("");
 
   /* =======================================================
      INITIAL SEARCH
@@ -215,6 +85,48 @@ function Jobs() {
   const [sortBy, setSortBy] = useState("relevance");
 
   const [savedJobs, setSavedJobs] = useState([]);
+
+  useEffect(() => {
+    let active = true;
+    jobService.getJobs()
+      .then((records) => {
+        if (!active) return;
+        setJobs(records.map((record) => ({
+          ...record,
+          company: record.companyName,
+          logo: (record.companyName || "Company").slice(0, 2).toUpperCase(),
+          logoClass: "blue",
+          type: record.employmentType,
+          workplace: record.workplace,
+          salary: record.salaryMin != null || record.salaryMax != null
+            ? `₹${record.salaryMin ?? 0}–${record.salaryMax ?? record.salaryMin} LPA`
+            : "Salary not specified",
+          skills: (record.skills || "").split(",").map((skill) => skill.trim()).filter(Boolean),
+          match: 0,
+          posted: record.createdAt ? new Date(record.createdAt).toLocaleDateString() : "Recently",
+        })));
+      })
+      .catch((error) => {
+        if (active) setJobsError(error.response?.data?.message || "Unable to load jobs.");
+      })
+      .finally(() => {
+        if (active) setJobsLoading(false);
+      });
+
+    if (getToken()) {
+      savedJobService.getSavedJobs()
+        .then((saved) => {
+          if (active) setSavedJobs(saved.map((job) => job.id));
+        })
+        .catch(() => {
+          if (active) setSavedJobs([]);
+        });
+    }
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const [mobileFiltersOpen, setMobileFiltersOpen] =
     useState(false);
@@ -271,12 +183,18 @@ function Jobs() {
      SAVE JOB
   ======================================================= */
 
-  const toggleSaveJob = (jobId) => {
-    setSavedJobs((previous) =>
-      previous.includes(jobId)
-        ? previous.filter((id) => id !== jobId)
-        : [...previous, jobId]
-    );
+  const toggleSaveJob = async (jobId) => {
+    try {
+      if (savedJobs.includes(jobId)) {
+        await savedJobService.remove(jobId);
+        setSavedJobs((previous) => previous.filter((id) => id !== jobId));
+      } else {
+        await savedJobService.save(jobId);
+        setSavedJobs((previous) => [...previous, jobId]);
+      }
+    } catch (error) {
+      setJobsError(error.response?.data?.message || "Sign in as a candidate to save jobs.");
+    }
   };
 
   /* =======================================================
@@ -284,7 +202,7 @@ function Jobs() {
   ======================================================= */
 
   const filteredJobs = useMemo(() => {
-    let result = [...jobsData];
+    let result = [...jobs];
 
     /* Keyword */
 
@@ -320,7 +238,8 @@ function Jobs() {
 
     if (selectedTypes.length > 0) {
       result = result.filter((job) =>
-        selectedTypes.includes(job.type)
+        selectedTypes.includes(job.type) ||
+        selectedTypes.includes(job.workplace)
       );
     }
 
@@ -410,6 +329,7 @@ function Jobs() {
 
     return result;
   }, [
+    jobs,
     keyword,
     location,
     selectedTypes,
@@ -859,7 +779,10 @@ function Jobs() {
                 JOB GRID
             ================================================= */}
 
-            {filteredJobs.length > 0 ? (
+            {jobsError && <p role="alert">{jobsError}</p>}
+            {jobsLoading ? (
+              <p role="status">Loading jobs...</p>
+            ) : filteredJobs.length > 0 ? (
 
               <div className="jobs-grid">
 

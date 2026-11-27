@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft,
@@ -17,6 +17,7 @@ import {
   User,
   X,
 } from "lucide-react";
+import profileService from "../../services/profileService";
 
 function Profile() {
   const [editing, setEditing] = useState(false);
@@ -24,31 +25,32 @@ function Profile() {
   const [message, setMessage] = useState("");
 
   const [profile, setProfile] = useState({
-    fullName: "Vivek Kumar",
-    headline: "Java Backend Developer | Spring Boot | React",
-    email: "vivek@example.com",
-    phone: "+91 98765 43210",
-    location: "Bihar, India",
-    about:
-      "BTech Computer Science student passionate about Java backend development, Spring Boot, REST APIs, databases and building scalable full-stack applications.",
-
-    skills: [
-      "Java",
-      "Spring Boot",
-      "React",
-      "JavaScript",
-      "MySQL",
-      "PostgreSQL",
-      "MongoDB",
-      "REST API",
-      "Git",
-      "DSA",
-    ],
-
-    github: "https://github.com/",
-    linkedin: "https://www.linkedin.com/",
-    portfolio: "https://example.com/",
+    fullName: "",
+    headline: "",
+    email: "",
+    phone: "",
+    location: "",
+    about: "",
+    skills: [],
+    github: "",
+    linkedin: "",
+    portfolio: "",
   });
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    profileService.getProfile()
+      .then((data) => {
+        if (active) {
+          setProfile((current) => ({ ...current, ...data }));
+        }
+      })
+      .catch((error) => {
+        if (active) setMessage(error.response?.data?.message || "Unable to load your profile.");
+      });
+    return () => { active = false; };
+  }, []);
 
   const [newSkill, setNewSkill] = useState("");
 
@@ -96,14 +98,19 @@ function Profile() {
     }));
   };
 
-  const saveProfile = () => {
-    setEditing(false);
-
-    setMessage("Profile changes saved successfully.");
-
-    setTimeout(() => {
-      setMessage("");
-    }, 3000);
+  const saveProfile = async () => {
+    setSaving(true);
+    try {
+      const updated = await profileService.updateProfile(profile);
+      setProfile((current) => ({ ...current, ...updated }));
+      setEditing(false);
+      setMessage("Profile changes saved successfully.");
+      setTimeout(() => setMessage(""), 3000);
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Unable to save profile changes.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   /* =========================
@@ -307,6 +314,7 @@ function Profile() {
         <button
           type="button"
           className="profile-edit-button"
+          disabled={saving}
           onClick={() => {
             if (editing) {
               saveProfile();
@@ -318,7 +326,7 @@ function Profile() {
           {editing ? (
             <>
               <Save size={16} />
-              Save changes
+              {saving ? "Saving..." : "Save changes"}
             </>
           ) : (
             <>

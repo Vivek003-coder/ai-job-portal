@@ -38,6 +38,8 @@ public class SecurityConfig {
                                 "/api/users/register",
                                 "/api/users/login"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/jobs/mine").hasRole("RECRUITER")
+                        .requestMatchers("/api/matching/**").hasRole("CANDIDATE")
                         .requestMatchers(HttpMethod.GET, "/api/jobs", "/api/jobs/**").permitAll()
                         .requestMatchers("/api/users/me").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/jobs").hasRole("RECRUITER")

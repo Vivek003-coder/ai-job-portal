@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Search,
   Plus,
@@ -22,6 +22,7 @@ import {
   Filter,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import jobService from "../../services/jobService";
 import "./ManageJobs.css";
 
 const initialJobs = [
@@ -113,12 +114,45 @@ const statusConfig = {
 function ManageJobs() {
   const navigate = useNavigate();
 
-  const [jobs, setJobs] = useState(initialJobs);
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("All");
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("recent");
   const [openMenu, setOpenMenu] = useState(null);
   const [toast, setToast] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    jobService.getMyJobs()
+      .then((records) => {
+        if (active) {
+          setJobs(records.map((job) => ({
+            ...job,
+            type: job.employmentType,
+            status: job.status === "ACTIVE"
+              ? "Active"
+              : job.status === "CLOSED" ? "Closed" : "Draft",
+            salary: job.salaryMin != null || job.salaryMax != null
+              ? `₹${job.salaryMin ?? 0}–${job.salaryMax ?? job.salaryMin} LPA`
+              : "Not specified",
+            applicants: 0,
+            shortlisted: 0,
+            interviews: 0,
+            aiMatches: 0,
+            views: 0,
+            posted: job.createdAt ? new Date(job.createdAt).toLocaleDateString() : "",
+          })));
+        }
+      })
+      .catch((error) => {
+        if (active) showToast(error.response?.data?.message || "Unable to load your jobs.");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => { active = false; };
+  }, []);
 
   const showToast = (message) => {
     setToast(message);
@@ -175,28 +209,29 @@ function ManageJobs() {
     0
   );
 
-  const handleDelete = (id) => {
-    setJobs((prev) => prev.filter((job) => job.id !== id));
-    setOpenMenu(null);
-    showToast("Job removed successfully.");
+  const handleDelete = async (id) => {
+    try {
+      await jobService.deleteJob(id);
+      setJobs((prev) => prev.filter((job) => job.id !== id));
+      setOpenMenu(null);
+      showToast("Job removed successfully.");
+    } catch (error) {
+      showToast(error.response?.data?.message || "Unable to delete this job.");
+    }
   };
 
-  const handleToggleStatus = (id) => {
-    setJobs((prev) =>
-      prev.map((job) => {
-        if (job.id !== id) return job;
-
-        if (job.status === "Active") {
-          return { ...job, status: "Closed" };
-        }
-
-        if (job.status === "Closed") {
-          return { ...job, status: "Active" };
-        }
-
-        return { ...job, status: "Active" };
-      })
-    );
+  const handleToggleStatus = async (id) => {
+    const currentJob = jobs.find((job) => job.id === id);
+    if (!currentJob) return;
+    const nextStatus = currentJob.status === "Active" ? "CLOSED" : "ACTIVE";
+    try {
+      const updated = await jobService.updateJobStatus(id, nextStatus);
+      setJobs((prev) => prev.map((job) => job.id === id
+        ? { ...job, status: updated.status === "ACTIVE" ? "Active" : "Closed" }
+        : job));
+    } catch (error) {
+      showToast(error.response?.data?.message || "Unable to update job status.");
+    }
 
     setOpenMenu(null);
     showToast("Job status updated successfully.");
@@ -363,7 +398,9 @@ function ManageJobs() {
         {/* Jobs */}
         <div className="jobs-list">
 
-          {filteredJobs.length === 0 ? (
+          {loading ? (
+            <p role="status">Loading your jobs...</p>
+          ) : filteredJobs.length === 0 ? (
             <div className="jobs-empty">
 
               <div className="empty-icon">
