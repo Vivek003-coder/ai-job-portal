@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import {
   ArrowRight,
   Briefcase,
@@ -17,6 +18,9 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const { register } = useAuth();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -32,21 +36,38 @@ function Register() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match.");
+      setError("Passwords do not match.");
       return;
     }
 
     setLoading(true);
+    setError("");
 
-    // Registration API will be connected later.
-    setTimeout(() => {
+    try {
+      await register({
+        fullName: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        role,
+      });
+      navigate(
+        role === "RECRUITER"
+          ? "/recruiter/dashboard"
+          : "/candidate/dashboard",
+        { replace: true }
+      );
+    } catch (requestError) {
+      setError(
+        requestError.response?.data?.message ||
+        "Unable to create your account."
+      );
+    } finally {
       setLoading(false);
-      alert("Registration API will be connected in the backend phase.");
-    }, 800);
+    }
   };
 
   return (
@@ -350,6 +371,11 @@ function Register() {
             </label>
 
             {/* SUBMIT */}
+            {error && (
+              <p role="alert" style={{ color: "#dc2626", margin: "0 0 12px" }}>
+                {error}
+              </p>
+            )}
             <button
               type="submit"
               className="auth-submit"

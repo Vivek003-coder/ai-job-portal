@@ -3,12 +3,14 @@ package com.aijobportal.controller;
 import com.aijobportal.dto.job.JobRequest;
 import com.aijobportal.dto.job.JobResponse;
 import com.aijobportal.service.JobService;
+import com.aijobportal.entity.User;
 
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -57,10 +59,10 @@ public class JobController {
      */
     @PostMapping
     public ResponseEntity<JobResponse> createJob(
-            @Valid @RequestBody JobRequest request
+            @Valid @RequestBody JobRequest request,
+            Authentication authentication
     ) {
-
-        Long recruiterId = 1L;
+        Long recruiterId = getRecruiterId(authentication);
 
         JobResponse response =
                 jobService.createJob(
@@ -79,10 +81,10 @@ public class JobController {
     @PutMapping("/{id}")
     public ResponseEntity<JobResponse> updateJob(
             @PathVariable Long id,
-            @Valid @RequestBody JobRequest request
+            @Valid @RequestBody JobRequest request,
+            Authentication authentication
     ) {
-
-        Long recruiterId = 1L;
+        Long recruiterId = getRecruiterId(authentication);
 
         return ResponseEntity.ok(
                 jobService.updateJob(
@@ -98,10 +100,10 @@ public class JobController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteJob(
-            @PathVariable Long id
+            @PathVariable Long id,
+            Authentication authentication
     ) {
-
-        Long recruiterId = 1L;
+        Long recruiterId = getRecruiterId(authentication);
 
         jobService.deleteJob(
                 id,
@@ -117,10 +119,10 @@ public class JobController {
     @PatchMapping("/{id}/status")
     public ResponseEntity<JobResponse> updateStatus(
             @PathVariable Long id,
-            @RequestBody StatusRequest request
+            @RequestBody StatusRequest request,
+            Authentication authentication
     ) {
-
-        Long recruiterId = 1L;
+        Long recruiterId = getRecruiterId(authentication);
 
         return ResponseEntity.ok(
                 jobService.updateStatus(
@@ -129,6 +131,13 @@ public class JobController {
                         recruiterId
                 )
         );
+    }
+
+    private Long getRecruiterId(Authentication authentication) {
+        if (authentication == null || !(authentication.getPrincipal() instanceof User user)) {
+            throw new IllegalArgumentException("Authentication is required.");
+        }
+        return user.getId();
     }
 
     public static class StatusRequest {

@@ -4,7 +4,13 @@ import { saveAuth, clearAuth } from "../utils/auth";
 const authService = {
   async register(userData) {
     const response = await api.post("/users/register", userData);
-    return response.data;
+    const data = response.data;
+
+    if (data?.token) {
+      saveAuth(data.token, data.user);
+    }
+
+    return data;
   },
 
   async login(credentials) {

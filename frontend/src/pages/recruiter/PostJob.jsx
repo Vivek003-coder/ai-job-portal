@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import { useNavigate } from "react-router-dom";
+import jobService from "../../services/jobService";
 import "./PostJob.css";
 
 const PostJob = () => {
@@ -44,6 +45,7 @@ const PostJob = () => {
   });
 
   const [published, setPublished] = useState(false);
+  const [publishError, setPublishError] = useState("");
 
   const handleChange = (e) => {
     setForm({
@@ -80,16 +82,35 @@ const PostJob = () => {
     }
   };
 
-  const handlePublish = (e) => {
+  const handlePublish = async (e) => {
     e.preventDefault();
+    setPublishError("");
 
-    // Temporary frontend behaviour.
-    // This will later become POST /api/jobs.
-    setPublished(true);
-
-    setTimeout(() => {
-      setPublished(false);
-    }, 3000);
+    try {
+      await jobService.createJob({
+        title: form.title,
+        companyName: form.company,
+        department: "General",
+        location: form.location,
+        workplace: form.workplace,
+        employmentType: form.jobType,
+        experience: form.experience,
+        salaryMin: form.salaryMin ? Number(form.salaryMin) : null,
+        salaryMax: form.salaryMax ? Number(form.salaryMax) : null,
+        description: form.description,
+        responsibilities: form.responsibilities,
+        requirements: form.requirements,
+        skills: skills.join(", "),
+        status: "ACTIVE",
+      });
+      setPublished(true);
+      setTimeout(() => setPublished(false), 3000);
+    } catch (error) {
+      setPublishError(
+        error.response?.data?.message ||
+        "Unable to publish this job. Please try again."
+      );
+    }
   };
 
   return (
@@ -157,6 +178,21 @@ const PostJob = () => {
               Your job is now ready to receive applications.
             </span>
           </div>
+        </div>
+      )}
+
+      {publishError && (
+        <div
+          role="alert"
+          style={{
+            margin: "16px",
+            padding: "12px 16px",
+            borderRadius: "8px",
+            background: "#fef2f2",
+            color: "#b91c1c",
+          }}
+        >
+          {publishError}
         </div>
       )}
 

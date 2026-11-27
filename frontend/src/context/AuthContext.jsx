@@ -35,7 +35,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (userData) => {
-    return await authService.register(userData);
+    const data = await authService.register(userData);
+    setUser(data.user);
+    setToken(data.token);
+    return data;
   };
 
   const logout = () => {

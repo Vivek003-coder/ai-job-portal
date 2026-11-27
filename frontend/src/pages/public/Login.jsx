@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import {
   ArrowRight,
   Briefcase,
@@ -16,17 +17,32 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
+    setError("");
 
-    // Backend/JWT authentication will be connected later.
-    setTimeout(() => {
+    try {
+      const data = await login(formData);
+      const requestedPath = location.state?.from?.pathname;
+      const defaultPath = data.user.role === "RECRUITER"
+        ? "/recruiter/dashboard"
+        : "/candidate/dashboard";
+      navigate(requestedPath || defaultPath, { replace: true });
+    } catch (requestError) {
+      setError(
+        requestError.response?.data?.message ||
+        "Unable to sign in. Please check your credentials."
+      );
+    } finally {
       setLoading(false);
-      alert("Login API will be connected in the backend phase.");
-    }, 800);
+    }
   };
 
   return (
@@ -114,6 +130,10 @@ function Login() {
                 <input
                   id="email"
                   type="email"
+                  value={formData.email}
+                  onChange={(event) =>
+                    setFormData({ ...formData, email: event.target.value })
+                  }
                   placeholder="you@example.com"
                   required
                 />
@@ -136,6 +156,10 @@ function Login() {
                 <input
                   id="password"
                   type={showPassword ? "text" : "password"}
+                  value={formData.password}
+                  onChange={(event) =>
+                    setFormData({ ...formData, password: event.target.value })
+                  }
                   placeholder="Enter your password"
                   required
                 />
@@ -173,6 +197,11 @@ function Login() {
             </div>
 
             {/* Submit */}
+            {error && (
+              <p role="alert" style={{ color: "#dc2626", margin: "0 0 12px" }}>
+                {error}
+              </p>
+            )}
             <button
               type="submit"
               className="auth-submit"
